@@ -19,7 +19,7 @@ ____manage.py
 
 _________TAREAS A SER COMPLETADAS._________
 
-
+tarea desde el computador
 
 
 _________TAREAS COMPLETADAS._________
