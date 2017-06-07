@@ -1,0 +1,37 @@
+sistemainformatico oara la gestion de las historias clinicas en los estudios 
+de imagenes medicas del laboratorio clinico Cedylabe durante el periodo 2017-2018
+
+
+*visor de versiones tipo github como segunda opcion de visualizacion aparte de seleccion de fechas
+tabla para cada apartado que se puede actualizar
+
+interfaz para cambiar o agreegar cambios a valores por defecto de los campos-> en pagina de configuracioon
+perfiles de usuario por roles
+reportes de varios campos
+
+
+interface para configurar y exportar respaldos de base de datos (caso extremo exportar como word)
+
+
+*visor de versiones tipo github
+* sacarlo a la internet para que los pacientes los vean utilizando una contraseña generada
+*tabla para cada apartado que se puede actualizar (para hacer estadistica "reportes " basado en los valores)
+
+*interface para programacion de respaldos
+*seguridad encriptacion (ssl)
+*enlazar estudios realizados(no disponible)
+
+*ingresar, modificar, eliminar agregar usuarios (de dos tipos admin, doctor, secretarios)
+*ingresar, modificar, eliminar a medicos que referencian los pacientes
+* crear estadisticas de la cantidad de paciente que envian los médicos de acuerdo a la fecha
+* checkboxes para habilitar los campos que saldrán 
+* marcar con estrellita favorito
+* la fecha se pondrá por defecto pero se podrá cambiar 
+
+
+
+
+
+agregar las versiones en antecedentes
+2 formular mas objespecificos
+3 resumen de web vs desktop
