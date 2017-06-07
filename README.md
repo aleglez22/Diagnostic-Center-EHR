@@ -5,6 +5,11 @@ __Dependencias -> contiene dos librerias necesarias para manipular archivos de w
 __Prototipos -> contiene codigo de pruebas y de spikes
 ____Spikes -> contiene posibles soluciones de codigo para los problemas
 
+__Proyecto ->
+____hcapp -> contiene la aplicacion
+____Proyecto -> los archivos de conf del proyecto django
+____db.sqlite3 -> la BD 
+____manage.py
 
 
 
