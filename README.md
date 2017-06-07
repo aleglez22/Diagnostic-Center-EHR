@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ********* ORGANIZACION DEL PROYECTO **********
 
 __Dependencias -> contiene dos librerias necesarias para manipular archivos de word (docx)
@@ -23,10 +23,3 @@ _________TAREAS COMPLETADAS._________
 utilizando libreria python-docx
 
 
-=======
-# Disertacion
-cambio en el color
-de fondo
-
-cambio desde la u
->>>>>>> 7af3cf4da3cca5f8120ed69b32ad36dadff1475b
