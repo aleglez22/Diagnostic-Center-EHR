@@ -22,7 +22,7 @@ _________TAREAS A SER COMPLETADAS._________
 
 tarea agregada desde la web
 tarea 2 agregada desde la web
-
+tarea 3 desde el pc
 
 
 _________TAREAS COMPLETADAS._________
