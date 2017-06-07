@@ -20,6 +20,7 @@ ____manage.py
 _________TAREAS A SER COMPLETADAS._________
 
 tarea agregada desde la web
+tarea 2 agregada desde la web
 
 
 _________TAREAS COMPLETADAS._________
