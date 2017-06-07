@@ -21,8 +21,14 @@ _________TAREAS A SER COMPLETADAS._________
 
 
 tarea agregada desde la web
+<<<<<<< HEAD
 tarea 2 agregada desde la web
 tarea 3 desde el pc
+=======
+tarea 2 agregada desde la web}
+tarea 3
+
+>>>>>>> 046540168e3fc20c1760ef68b1add4f35de3496d
 
 
 _________TAREAS COMPLETADAS._________
