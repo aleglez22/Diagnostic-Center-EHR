@@ -19,7 +19,9 @@ ____manage.py
 
 _________TAREAS A SER COMPLETADAS._________
 
-tarea desde el computador
+
+tarea agregada desde la web
+
 
 
 _________TAREAS COMPLETADAS._________
