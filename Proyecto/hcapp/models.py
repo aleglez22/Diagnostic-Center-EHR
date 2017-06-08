@@ -41,6 +41,8 @@ class Estudio(models.Model):
     Fecha = models.DateField(auto_now=True)
 
 
+##### CABEZA ######
+
 
 class CerebroSimple(models.Model):
     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
@@ -97,6 +99,100 @@ class CerebroSimple(models.Model):
     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
 
 
+##### ABDOMEN ######
 
 
+class AbdomenSupInfSimple(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class AbdomenSupInfContrastado(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class AbdomenTotalSimple(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class AbdomenTotalSimpleContrastado(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class Pelvis(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+##### ESPECIALES ######
+
+
+class Urotac(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+class Pielotac(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+##### Extremidades ######
+
+
+class Articulaciones(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+class ArticulacionesReconstruccion3d(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+class Escanograma(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+##### CUELLO ######
+
+
+class CuelloSimple(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+class CuelloContrastado(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+##### TORAX ######
+
+
+class ToraxSimple(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+class ToraxContrastado(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ToraxAltaResolucion(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+
+##### COLUMNA ######
+
+
+class ColumnaCervical(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaCervicalReconstruida3d(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaDorsal(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaDorsalReconstruida3d(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaLumbo(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaLumboReconstruida3d(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+    
+class ColumnaTotal(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
+class ColumnaTotalReconstruida3d(models.Model):
+    Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
 
