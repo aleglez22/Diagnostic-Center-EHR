@@ -34,6 +34,25 @@ con los campos y subirle la plantilla docx al servidor
 
 
 
+unmerged files -> git pull
+reemplazar los archivos en el local
+o hacer nuevo commit y luego pull
+luego ya puedes hacer push
+
+#idea tener un directorio con cada plantilla de examen en word (con sus identificadores de campos a ser reemplazados) y cuando se requiera llenar una plantilla se guardan los datos en la bd y se genera una hc (docx) con la plantilla solo para su impresion 
+
+historia de ultima prioridad
+#para ello se necesita crear un script para convertir el word en pdf (usando openofice tool), luego mostrar este ultimo archivo pdf para ser impreso
+
+# se puede crear una interfaz para generar un  nuevo estudio, deberia incluir :
+pagina crear con: nombre, campo, valor ER y tipo de dato ( integer o char), boton  de agregar campo, 
+
+para prototipear:
+-view para subir archivos al servidor
+-view para guardar archivo de word en el servidor
+-view para convertir un archivo docx del servidor en pdf
+-view para mostrar el pdf en una nueva pestaña listo para imprimir
+
+
+
 agregar las versiones en antecedentes
-2 formular mas objespecificos
-3 resumen de web vs desktop
