@@ -19,7 +19,7 @@ ____manage.py
 
 _________TAREAS A SER COMPLETADAS._________
 
-
+cambio desde pc juan
 tarea agregada desde la web
 tarea 2 agregada desde la web
 tarea 3 desde el pc
