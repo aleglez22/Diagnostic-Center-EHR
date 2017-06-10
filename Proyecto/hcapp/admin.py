@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Paciente, Categoria, Estudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
 
-# Register your models here.
+
+admin.site.register(Paciente)

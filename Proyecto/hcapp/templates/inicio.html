@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Gestor de HC</title>
+</head>
+<body>
+<h1>Bienvenido al SGHC </h1>
+
+pacientes:
+
+{% for paciente in pacientes %}
+	<li>paciente {{ paciente.pk }} {{paciente.Nombre}} </li>
+{% endfor %}
+
+</body>
+</html>
