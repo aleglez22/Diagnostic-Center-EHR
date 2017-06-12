@@ -22,11 +22,25 @@ class Radiologo (models.Model):
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
 
+class Medico (models.Model):
+    Nombre = models.CharField(max_length=128, null=False, blank=False)
+    Apellido = models.CharField(max_length=128, null=False, blank=False)
+    Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
+    Fecha_creacion = models.DateField(auto_now=True)
+
+class Secretario (models.Model):
+    Nombre = models.CharField(max_length=128, null=False, blank=False)
+    Apellido = models.CharField(max_length=128, null=False, blank=False)
+    Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
+    Fecha_creacion = models.DateField(auto_now=True)
+
+
 class Pedido(models.Model):
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha = models.DateField(auto_now=True) # auto_add será valido ???
+
 
 class Categoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)

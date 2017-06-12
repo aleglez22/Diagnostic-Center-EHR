@@ -7,16 +7,16 @@ tabla para cada apartado que se puede actualizar
 
 interfaz para cambiar o agreegar cambios a valores por defecto de los campos-> en pagina de configuracioon
 perfiles de usuario por roles
-reportes de varios campos
 
 
+*reportes de varios campos
 interface para configurar y exportar respaldos de base de datos (caso extremo exportar como word)
 
 *interface para agregar un nuevo tipo de estudio (con su categoria, subcategoria, nombre), crear una tabla
 con los campos y subirle la plantilla docx al servidor
 
 *visor de versiones tipo github
-* sacarlo a la internet para que los pacientes los vean utilizando una contraseña generada
+*sacarlo a la internet para que los pacientes los vean utilizando una contraseña generada
 *tabla para cada apartado que se puede actualizar (para hacer estadistica "reportes " basado en los valores)
 
 *interface para programacion de respaldos
