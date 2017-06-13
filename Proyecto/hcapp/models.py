@@ -39,8 +39,10 @@ class Pedido(models.Model):
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
-    Fecha = models.DateField(auto_now=True) # auto_add será valido ???
+    Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
 
+class Estudio(models.Model):
+    Fecha_creacion = models.DateField(auto_now=True)
 
 class Categoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
@@ -51,14 +53,21 @@ class Subcategoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
 #   Descripcion
 
-class Estudio(models.Model):
+class Subcategoria(models.Model):
+    Categoria= models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
+    Nombre = models.CharField(max_length=255, null=True, blank=True)
+
+class TipoEstudio(models.Model):
+    Nombre = models.CharField(max_length=255, null=True, blank=True)
     Subcategoria= models.CharField(max_length=255, null=True, blank=True)
     Fecha_creacion = models.DateField(auto_now=True)
 
 
+
+
 ##### CABEZA ######
 
-
+#
 # class CerebroSimple(models.Model):
 #     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
 #

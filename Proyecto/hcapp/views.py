@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect , get_object_or_404
-from .models import Paciente, Secretario, Medico, Categoria, Estudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
+from .models import Paciente, Secretario, Medico, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
 from django.views import generic
+from django.apps import apps
+from . import models as m
 from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
@@ -14,14 +16,12 @@ def Inicio(request):
 
 ##CONTROLADORES DE PACIENTES##
 
+#vista para Home_pacientes
+
 class CrearPaciente(generic.CreateView):
     model = Paciente
     fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
 
-
-class DetallePaciente(generic.DetailView):
-    model=Paciente
-    template_name = 'hcapp/detalle_paciente.html'
 
 class ListaPaciente(generic.ListView):
     template_name = 'hcapp/pacientes.html'
@@ -59,16 +59,31 @@ class ListaPedidos(generic.ListView):
         return Pedido.objects.all().order_by('-Fecha')
 
 
+class FactoryHistoria():
+    def getTipo(self,nombreEstudio):
+        return apps.get_model(app_label="hcapp",model_name=nombreEstudio)
+
+
+
+class ListaHistoria(generic.ListView):
+    template_name = 'hcapp/historias.html'
+    context_object_name='historias'
+
+    # @Override devuelve los objetos que serán renderizados
+    def get_queryset(self):
+        return m.Estudio.objects.all().order_by('-Fecha_ingreso')
+
+
+
 #pasarle como parametro el nombre de la tabla a modificar utilizando factory
 
-
-class CrearEstudio(generic.CreateView):
-    model = #tabla
-    pass
-
-class DetalleEstudio(generic.DetailView):
-    model= #tabla
-    template_name = 'hcapp/detalle_estudio.html'
+# class CrearEstudio(generic.CreateView):
+#     model = #tabla
+#     pass
+#
+# class DetalleEstudio(generic.DetailView):
+#     model= #tabla
+#     template_name = 'hcapp/detalle_estudio.html'
 
 class ListaEstudio(generic.ListView):
     template_name = 'hcapp/estudios.html'
