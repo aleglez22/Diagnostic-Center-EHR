@@ -21,6 +21,7 @@ def Inicio(request):
 class CrearPaciente(generic.CreateView):
     model = Paciente
     fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
+    
 
 
 class ListaPaciente(generic.ListView):
