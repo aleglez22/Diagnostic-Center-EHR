@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .models import Paciente
+from . import models
 from .views import FactoryHistoria
 
 # Create your tests here.
@@ -14,3 +15,8 @@ class FactoryHistoriaTest(TestCase):
 
         self.assertEqual(Paciente, FactoryHistoria.getTipo(self, Paciente.__name__))
 
+class ModelsTest(TestCase):
+    def OnetoOneTest(self):
+        estudio1= models.Estudio.objects.create()
+        cerebro1=models.CerebroSimple.objects.create(Estudio=estudio1,Campo= "Estructuras del cerebelo, tallo ",Conclusion=" todo esta bien")
+        print (estudio1.Cerebrosimple.objects.all())

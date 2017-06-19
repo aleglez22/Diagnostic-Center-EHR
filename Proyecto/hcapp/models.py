@@ -35,14 +35,26 @@ class Secretario (models.Model):
     Fecha_creacion = models.DateField(auto_now=True)
 
 
+class Historia(models.Model):
+    TipoEstudio= models.CharField(max_length=200)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.TextField()  # charfield
+
+class Plantilla(models.Model):
+    TipoEstudio = models.CharField(max_length=200)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.TextField()
+
 class Pedido(models.Model):
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
+    Historia=models.ForeignKey(Historia, on_delete=models.DO_NOTHING)
+    Fecha = models.DateField(auto_now=True)
 
-class Estudio(models.Model):
-    Fecha_creacion = models.DateField(auto_now=True)
 
 class Categoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
@@ -68,8 +80,7 @@ class TipoEstudio(models.Model):
 ##### CABEZA ######
 
 #
-# class CerebroSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
+
 #
 # class CerebroSimpleContrastado(models.Model):
 #     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
