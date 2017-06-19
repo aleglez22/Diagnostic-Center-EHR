@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <!-- Meta Tag -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Index</title>
+
+
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/estilo_distribucion_cntenido.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="images/favicon/apple-touch-icon.png">
+    
+   
+ </head>
+
+  <body>
+        <div id="contenedor">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><span class="color1"><i class="icon icon-home3" ></i></span> Inicio</a></li>
+                        <li><a href="paciente.html"><span class="color2"><i class="icon icon-man" ></i></span> Paciente</a></li>
+                        <li><a href="pedido.html"><span class="color3"><i class="icon file-text2" ></i></span> Pedido</a></li>
+                        <li><a href="historias.html"><span class="color4"><i class="icon icon-profile" ></i> </span> Historias</a></li>
+                        <li><a href="estudios.html"><span class="color5"><i class="icon icon-clipboard" ></i> </span> Estudios</a></li>
+                        <li><a href="reportes.html"><span class="color6"><i class="icon icon-folder-download" ></i> </span> Reportes</a></li>
+                    </ul>
+                </nav> 
+            </header>  
+
+            
+
+
+
+            <!-- CREAR PACIENTE -->
+            <div id="formulario">
+                <form action="" class="formulario" name="form_registro_pacientes" method="post">
+
+                    <table>
+                        <tr>
+                            <td class="titulo_tablas">Crear Nuevo Paciente </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas">Formulario para crear Paciente</td>
+                        </tr>
+
+                        <tr>
+                            <td>Nombres Paciente: </td>
+                            <td>
+                                <input type="text" name="txt_nombre_paciente" placeholder="Escriba el Nombre">
+                            </td>
+                            <td>Cédula: </td>
+                            <td>
+                                <input type="text" name="txt_cedula" maxlength="10" size="8" placeholder="Cedula">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Médico Solicitante: </td>
+                            <td>
+                                <input type="text" name="txt_medico_solicitante" placeholder="Escriba el Nombre">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Fecha: </td>
+                            <td>
+                                <input type="text" name="txt_fecha">
+                            </td>
+                            <td>teléfono: </td>
+                            <td>
+                                <input type="text" name="txt_telefono" placeholder="teléfono">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" name="btn_crear" value="Crear">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>    
+        <!-- FIN CREAR PACIENTE -->
+
+    <!-- All Javascript Plugins  -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/plugin.js"></script>
+    
+    <!-- Main Javascript File  -->
+    <script type="text/javascript" src="js/scripts.js"></script>
+  
+  
+  </body>
+ </html>
