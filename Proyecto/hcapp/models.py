@@ -34,17 +34,26 @@ class Secretario (models.Model):
     Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
     Fecha_creacion = models.DateField(auto_now=True)
 
-class CerebroSimple(models.Model):
-    Campo= models.TextField()
-    Conclusion = models.TextField() #charfield
 
+class Historia(models.Model):
+    TipoEstudio= models.CharField(max_length=200)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.TextField()  # charfield
+
+class Plantilla(models.Model):
+    TipoEstudio = models.CharField(max_length=200)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.TextField()
 
 class Pedido(models.Model):
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
-    CerebroSimple=models.ForeignKey(CerebroSimple, on_delete=models.DO_NOTHING, default='SOME STRING')
+    Historia=models.ForeignKey(Historia, on_delete=models.DO_NOTHING)
+    Fecha = models.DateField(auto_now=True)
 
 
 class Categoria(models.Model):
