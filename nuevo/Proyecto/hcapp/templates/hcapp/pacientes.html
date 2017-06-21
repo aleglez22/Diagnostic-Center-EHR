@@ -1,0 +1,71 @@
+
+{% extends "index.html" %}
+{% load staticfiles %}
+
+
+                {% block contenido %}
+
+                <!-- CREAR PACIENTE -->
+            <div id="formulario">
+                <form action="" class="formulario" name="form_registro_pacientes" method="post">
+
+                    <table>
+                        <tr>
+                            <td class="titulo_tablas">Crear Nuevo Paciente </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas">Formulario para crear Paciente</td>
+                        </tr>
+
+                        <tr>
+                            <td>Nombres Paciente: </td>
+                            <td>
+                                <input type="text" name="txt_nombre_paciente" placeholder="Escriba el Nombre">
+                            </td>
+                            <td>Cédula: </td>
+                            <td>
+                                <input type="text" name="txt_cedula" maxlength="10" size="8" placeholder="Cedula">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Médico Solicitante: </td>
+                            <td>
+                                <input type="text" name="txt_medico_solicitante" placeholder="Escriba el Nombre">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Fecha: </td>
+                            <td>
+                                <input type="text" name="txt_fecha">
+                            </td>
+                            <td>teléfono: </td>
+                            <td>
+                                <input type="text" name="txt_telefono" placeholder="teléfono">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" name="btn_crear" value="Crear">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>    
+        <!-- FIN CREAR PACIENTE -->
+                    
+
+
+                {% endblock contenido %}
+
+
+            
+
+  
+  

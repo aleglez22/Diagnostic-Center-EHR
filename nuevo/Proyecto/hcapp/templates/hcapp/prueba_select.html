@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+https://stackoverflow.com/questions/14121132/how-to-get-interdependent-dropdowns-in-django-using-modelform-and-jquery
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script !src="">
+
+$(document).ready(function(){
+    $('select[name=Categoria]').change(function(){
+        categoria_id = $(this).val();
+        request_url = '/GetSubcategoria/' + categoria_id + '/';
+        $.ajax({
+            url: request_url,
+            success: function(data){
+                $.each(data, function(index, text){
+                    $('select[name=Subcategoria]').append(
+                         $('<option></option>').val(index).html(text)
+                     );
+                });
+            }
+        });
+        return false;
+    })
+});
+
+</script>
+
+
+
+</body>
+</html>

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
 from django.http import HttpResponse
-from .forms import EstudioForm
+from .forms import EstudioForm, TipoEstudioForm
 import json
 
 #ejemplo de funcion que retorna varios pacientes
@@ -15,9 +15,17 @@ def Inicio(request):
     pacientes=Paciente.objects.all()
     return render(request,"inicio.html",{ 'pacientes': pacientes})
 
+def Pruebaselect(request):
+    form=TipoEstudioForm()
+    return render(request,"hcapp/prueba_select.html",{ 'form': form})
+
 ##CONTROLADORES DE PACIENTES##
 
 #vista para Home_pacientes
+def PacienteHome(request):
+    ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
+    context={'ultimos_pacientes':ultimos}
+    return  render(request, "pacientes.html", context )
 
 class CrearPaciente(generic.CreateView):
     model = Paciente
@@ -25,7 +33,7 @@ class CrearPaciente(generic.CreateView):
     #needs paciente_form.html
 
 class ListaPaciente(generic.ListView):
-    template_name = 'hcapp/pacientes.html'
+    template_name = 'hcapp/lista_pacientes.html'
     context_object_name='pacientes'
 
     # @Override devuelve los objetos que serán renderizados
@@ -46,7 +54,6 @@ class EditarPaciente (generic.UpdateView):
 
 def PedidosHome(request):
     return render(request, "pedidos_home.html")
-
 
 
 def CrearPedido(request):
@@ -91,7 +98,7 @@ def CrearPedido(request):
 
 ##como obtener el contexto de otra vista
 
-def GuardarHistoria(request,estudio):
+'''def GuardarHistoria(request,estudio):
     if request.method == "POST":
         form = EstudioForm(request.POST)
         if form.is_valid():
@@ -127,7 +134,8 @@ def GuardarHistoria(request,estudio):
         form = EstudioForm()
     return render(request, 'crear_historia.html', {'form': form})
 
-
+'''
+'''
 def GuardarOtraHistoria(request,estudio):
     if request.method == "POST":
         form = EstudioForm(request.POST)
@@ -163,7 +171,7 @@ def GuardarOtraHistoria(request,estudio):
     else:
         form = EstudioForm()
     return render(request, 'crear_historia', {'form': form})
-
+'''
 
 class DetallePedido(generic.DetailView):
     model=Pedido
@@ -189,12 +197,12 @@ class FactoryHistoria():
     def getTipo(self,nombreEstudio):
         return apps.get_model(app_label="hcapp",model_name=nombreEstudio)
 
-
+'''
 class EditarHistoria(generic.UpdateView):
     model = m.Historia.CerebroSimple
     fields = '__all__'
     #jodido buscar solucu¿ion
-
+'''
 
 
 def AutocompletarPaciente(request):
@@ -258,6 +266,7 @@ def AutocompletarTipoEstudio(request):
 
 '''  utilizando funcion onchange y tomando el valor del field se llena el nuevo select options'''
 
+import simplejson
 
 def GetSubcategoria(request, categoria_id):
     categoria = Categoria.objects.get(pk=categoria_id)
@@ -265,7 +274,7 @@ def GetSubcategoria(request, categoria_id):
     contexto = {}
     for subcategoria in subcategorias:
         contexto[subcategoria.id] = subcategoria.Nombre
-    return HttpResponse(json.dumps(contexto), mimetype="application/json")
+    return HttpResponse(simplejson.dumps(contexto), content_type="application/json")
 
 def GetEstudio(request, subcategoria_id):
     subcategoria = Subcategoria.objects.get(pk=subcategoria_id)
@@ -273,7 +282,7 @@ def GetEstudio(request, subcategoria_id):
     contexto = {}
     for estudio in estudios:
         contexto[estudio.id] = estudio.Nombre
-    return HttpResponse(json.dumps(contexto), mimetype="application/json")
+    return HttpResponse(simplejson.dumps(contexto), content_type="application/json")
 ## en caso de que no funcione
 '''
 contexto = []

@@ -1,0 +1,154 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background: #444;
+	color: #fff;
+}
+
+#contenedor{
+	width: 100%;
+	margin: auto;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	background: #000;
+}
+
+header{
+	height: 100%;
+}
+
+header h1{
+	font-size: 50px;
+	text-align: center;
+	line-height: 150px;
+}
+
+
+nav{
+	margin: 0px auto;
+	width: 90%;
+	max-width: 1000px;
+}
+
+nav ul{
+	list-style: none;
+}
+
+nav > ul{
+	display: table;
+	overflow: hidden;
+	width: 100%;
+	background:#000;
+	position: relative;
+}
+
+nav > ul > li{
+	display: table-cell;
+}
+
+nav > ul li a{
+	color: #fff;
+	display: block;
+	line-height: 20px;
+	padding: 20px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease
+}
+
+nav > ul > li > a span{
+	background: #174459;
+	display: block;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	position: absolute;
+	top: -55px;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease
+}
+
+nav > ul > li > a span .icon{
+	display: block;
+	line-height: 50px;
+}
+
+nav > ul > li > a:hover > span{
+	top: 0;
+}
+
+/*colores*/
+
+nav ul li a .color1{
+	background: #630910;
+}
+nav ul li a .color2{
+	background:orange;
+}
+nav ul li a .color3{
+	background: #360B6D;
+}
+nav ul li a .color4{
+	background: #6D1E0B;
+}
+nav ul li a .color5{
+	background: #0F8639;
+}
+nav ul li a .color6{
+	background: #1218A4;
+}
+
+div #formulario {
+	width: 100%;
+	height: 100%;
+}
+
+#formulario{
+	background: #000;
+	margin-top: 1px;
+	margin-left: 1px;
+	margin-right: 1px;
+	float: right;
+}
+
+table{
+	margin-left: 60px;
+	margin-right: 40px;
+	margin-top: 10px;
+}
+
+.titulo_tablas{
+	font-family:verdana;
+	font-size:30px;
+	text-align: center;
+}
+.subtitulo_tablas{
+	font-family:verdana;
+	font-size:20px;
+	text-align: left;
+}
+
+aside{
+	width: 30%;
+	height: 50%;
+	background: green;
+	margin-right: 2px;
+	float: right;
+}
+
+
+footer{
+	width: 100%;
+}
+

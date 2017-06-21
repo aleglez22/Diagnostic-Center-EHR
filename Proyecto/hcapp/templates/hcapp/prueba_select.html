@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+https://stackoverflow.com/questions/14121132/how-to-get-interdependent-dropdowns-in-django-using-modelform-and-jquery
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+como le hago debug
+como lanzar error en formulario
+como enviar el valor del actual por un form
+como depurar para saber los valores de los formularios
+
+<script !src="">
+
+$(document).ready(function(){
+    $('select[name=categoria]').change(function(){
+        categoria_id = $(this).val();
+        request_url = '/GetSubcategoria/' + categoria_id + '/';
+        $.ajax({
+            url: request_url,
+            success: function(data){
+                $.each(data, function(index, text){
+                    $('select[name=subcategoria]').append(
+                         $('<option></option>').val(index).html(text)
+                     );
+                });
+            }
+        });
+        return false;
+    })
+});
+
+
+$(document).ready(function(){
+    $('select[name=subcategoria]').change(function(){
+        subcategoria_id = $(this).val();
+        request_url = '/GetEstudio/' + subcategoria_id + '/';
+        $.ajax({
+            url: request_url,
+            success: function(data){
+                $.each(data, function(index, text){
+                    $('select[name=estudio]').append(
+                         $('<option></option>').val(index).html(text)
+                     );
+                });
+            }
+        });
+        return false;
+    })
+});
+
+</script>
+
+<form> 
+{% csrf_token %}
+{{form.as_p}}
+
+<input type="submit" name="enviar">
+</form>
+
+
+
+</body>
+</html>

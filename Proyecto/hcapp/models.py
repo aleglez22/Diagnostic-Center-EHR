@@ -58,21 +58,27 @@ class Pedido(models.Model):
 
 class Categoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
-#   Descripcion
+
+    def __str__(self):
+        return ("cat: "+str(self.Nombre))
+
 
 class Subcategoria(models.Model):
     Categoria= models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
     Nombre = models.CharField(max_length=255, null=True, blank=True)
-#   Descripcion
 
-class Subcategoria(models.Model):
-    Categoria= models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
-    Nombre = models.CharField(max_length=255, null=True, blank=True)
+    def __str__(self):
+        return ("sub: "+str(self.Nombre))
+
+
 
 class TipoEstudio(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
-    Subcategoria= models.CharField(max_length=255, null=True, blank=True)
+    Subcategoria= models.ForeignKey(Subcategoria, on_delete=models.DO_NOTHING)
     Fecha_creacion = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return ("est: "+str(self.Nombre))
 
 
 

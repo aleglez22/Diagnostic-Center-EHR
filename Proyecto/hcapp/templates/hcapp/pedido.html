@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <!-- Meta Tag -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Index</title>
+
+
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/estilo_distribucion_cntenido.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="images/favicon/apple-touch-icon.png">
+    
+   
+ </head>
+
+  <body>
+        <div id="contenedor">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><span class="color1"><i class="icon icon-home3" ></i></span> Inicio</a></li>
+                        <li><a href="paciente.html"><span class="color2"><i class="icon icon-man" ></i></span> Paciente</a></li>
+                        <li><a href="pedido.html"><span class="color3"><i class="icon file-text2" ></i></span> Pedido</a></li>
+                        <li><a href="historias.html"><span class="color4"><i class="icon icon-profile" ></i> </span> Historias</a></li>
+                        <li><a href="estudios.html"><span class="color5"><i class="icon icon-clipboard" ></i> </span> Estudios</a></li>
+                        <li><a href="reportes.html"><span class="color6"><i class="icon icon-folder-download" ></i> </span> Reportes</a></li>
+                    </ul>
+                </nav> 
+            </header>  
+
+        <!-- CREAR PEDIDO -->
+        <div id="formulario">
+                <form action="" class="formulario" name="form_pedidos" method="post">
+                    <table>
+                        <tr>
+                            <td class="titulo_tablas">Crear Nuevo Pedido </td>
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas">Formulario para crear Pedidos</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas">Tomografía Multicorte 3D</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas">Cabeza</td>
+                        </tr>
+
+                        <tr>
+                            <td class="subtitulo_tablas"></td>
+                        </tr>
+
+                        <tr><td><input type="checkbox" name="op_cabeza" value="1"> Cerebro Simple</td></tr>
+                        <tr><td><input type="checkbox" name="op_cabeza" value="2"> Cerebro simple y contrastado</td></tr>
+                        <tr><td><input type="checkbox" name="op_cabeza" value="3"> Cerebro simple con ventana osea</td></tr>
+                        <tr><td><input type="checkbox" name="op_cabeza" value="4"> Hipófisis o silla turca</td></tr>
+                        <tr><td><input type="checkbox" name="op_cabeza" value="5"> Hipófisis o silla turca contrastada</td></tr>
+                        <tr><td><input type="checkbox" name="op_cabeza" value="6"> Macizo facial / huesos nasales</td></tr>
+
+                        <tr>
+                            <td>Plantilla:</td>
+                            <td>
+                                <input type="File" name="plantilla">
+                                <input type="submit" name="btn_enviar_pedido" value="  Enviar  " >
+                            </td>
+                        </tr>
+
+                         <tr>
+                            <td>
+                                <input type="submit" name="btn_enviar_pedido" value="Guardar" > 
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>    
+        <!-- FIN CREAR PEDIDO -->
+    
+    <!-- All Javascript Plugins  -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/plugin.js"></script>
+    
+    <!-- Main Javascript File  -->
+    <script type="text/javascript" src="js/scripts.js"></script>
+  
+  
+  </body>
+ </html>
