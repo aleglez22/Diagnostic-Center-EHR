@@ -7,3 +7,8 @@ admin.site.register(models.Pedido)
 admin.site.register(models.Categoria)
 admin.site.register(models.Subcategoria)
 admin.site.register(models.TipoEstudio)
+
+admin.site.register(models.Historia)
+admin.site.register(models.Plantilla)
+admin.site.register(models.MedicoSolicitante)
+

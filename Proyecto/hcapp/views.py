@@ -19,6 +19,31 @@ def Pruebaselect(request):
     form=TipoEstudioForm()
     return render(request,"hcapp/prueba_select.html",{ 'form': form})
 
+
+
+from docx import Document
+from . import filler
+
+def DescargarDoc(request,historia_id, nombre_estudio):
+    historia= m.Historia.objects.get(pk=historia_id)
+    campo=str(historia.Campo)
+    plantilla = m.Plantilla.objects.get(TipoEstudio=nombre_estudio)
+    dir_doc=str(plantilla.NombreDoc)
+    print(dir_doc)
+    document = filler.reemplaza('hola',campo,dir_doc)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=download.docx'
+    document.save(response)
+
+    return HttpResponse('hola mundo')
+
+
+
+
+
+
+
 ##CONTROLADORES DE PACIENTES##
 
 #vista para Home_pacientes
@@ -70,19 +95,19 @@ def CrearPedido(request):
 
         if request.POST.get('f_medico'):
             if MedicoSolicitante.objects.get(pk=request.POST.get('f_medico')):
-                medico =request.POST.get('f_medico')
+                request.session['medico'] =request.POST.get('f_medico')
             else:
                 print("error")
         else:
             print("error")
         if request.POST.get('f_paciente'):
             if MedicoSolicitante.objects.get(pk=request.POST.get('f_paciente')):
-                paciente = request.POST.get('f_paciente')
+                request.session['paciente'] = request.POST.get('f_paciente')
             else:
                 print("error")
         else:
             print("error")
-        diagnostico=request.POST.get('f_diagnostico')
+        request.session ['diagnostico']=request.POST.get('f_diagnostico')
         plantilla=m.Plantilla.objects.get(TipoEstudio=estudio)
         campo=plantilla.Campo
         conclusion=plantilla.Conclusion
@@ -90,28 +115,28 @@ def CrearPedido(request):
         form.Campo = campo
         form.Conclusion = conclusion
 
-        datos={ 'medico': medico, 'paciente':paciente,
-                'diagnostico':diagnostico, 'estudio': estudio,
+        datos={ 'estudio': estudio,
                 'campo':campo, 'conclusion':conclusion, 'form':form}
 
     return render(request, "crear_historia.html", datos)
 
 ##como obtener el contexto de otra vista
 
-'''def GuardarHistoria(request,estudio):
+def GuardarHistoria(request,estudio):
     if request.method == "POST":
         form = EstudioForm(request.POST)
         if form.is_valid():
             campos = form.save(commit=False)
             historia= m.Historia(TipoEstudio=estudio, Campo=campos.Campo, Conclusion=campos.Conclusion)
-            pedido = Pedido(Paciente= kwargs['paciente'], Medico= kwargs['medico'],
-            Diagnostico_presuntivo= kwargs['diagnostico'], Historia=historia)
+            pedido = Pedido(Paciente= request.session['paciente'], Medico= request.session['medico'],
+            Diagnostico_presuntivo= request.session['diagnostico'], Historia=historia)
 
             if request.POST.get("boton_guardarysalir"):
                 pedido.save()
                 return redirect("PedidosHome")
             elif request.POST.get("boton_guardar2"):
                 pedido.save()
+                request.session['pedido']=pedido
                 if request.POST.get('f_estudio'):
                     estudio = request.POST.get('f_estudio')
                 elif request.POST.get('f_estudio_auto'):
@@ -134,15 +159,15 @@ def CrearPedido(request):
         form = EstudioForm()
     return render(request, 'crear_historia.html', {'form': form})
 
-'''
-'''
+
+
 def GuardarOtraHistoria(request,estudio):
     if request.method == "POST":
         form = EstudioForm(request.POST)
         if form.is_valid():
             campos = form.save(commit=False)
             historia= m.Historia(TipoEstudio=estudio, Campo=campos.Campo, Conclusion=campos.Conclusion)
-            pedido = kwargs['pedido']
+            pedido = request.session['pedido']
             pedido.historia=historia
 
             if request.POST.get("boton_guardarysalir"):
@@ -150,6 +175,7 @@ def GuardarOtraHistoria(request,estudio):
                 return redirect("PedidosHome")
             elif request.POST.get("boton_guardar2"):
                 pedido.save()
+                request.session['pedido']=pedido
                 if request.POST.get('f_estudio'):
                     estudio = request.POST.get('f_estudio')
                 elif request.POST.get('f_estudio_auto'):
@@ -165,13 +191,13 @@ def GuardarOtraHistoria(request,estudio):
                 form = EstudioForm()
                 form.Campo=campo
                 form.Conclusion=conclusion
-                datos={'pedido':pedido,'campo':campo, 'conclusion':conclusion, 'form':form}
 
+                datos={'pedido':pedido,'campo':campo, 'conclusion':conclusion, 'form':form}
                 return render(request, "crear_otra_historia.html", datos)
     else:
         form = EstudioForm()
     return render(request, 'crear_historia', {'form': form})
-'''
+
 
 class DetallePedido(generic.DetailView):
     model=Pedido
@@ -264,9 +290,7 @@ def AutocompletarTipoEstudio(request):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
-'''  utilizando funcion onchange y tomando el valor del field se llena el nuevo select options'''
 
-import simplejson
 
 def GetSubcategoria(request, categoria_id):
     categoria = Categoria.objects.get(pk=categoria_id)
@@ -274,7 +298,7 @@ def GetSubcategoria(request, categoria_id):
     contexto = {}
     for subcategoria in subcategorias:
         contexto[subcategoria.id] = subcategoria.Nombre
-    return HttpResponse(simplejson.dumps(contexto), content_type="application/json")
+    return HttpResponse(json.dumps(contexto), content_type="application/json")
 
 def GetEstudio(request, subcategoria_id):
     subcategoria = Subcategoria.objects.get(pk=subcategoria_id)
@@ -282,16 +306,8 @@ def GetEstudio(request, subcategoria_id):
     contexto = {}
     for estudio in estudios:
         contexto[estudio.id] = estudio.Nombre
-    return HttpResponse(simplejson.dumps(contexto), content_type="application/json")
-## en caso de que no funcione
-'''
-contexto = []
-for estudio in estudios:
-    fila_json = {}
-    fila_json['id'] = estudio.Nombre
-    contexto.append(fila_json)
-data = json.dumps(results)
-'''
+    return HttpResponse(json.dumps(contexto), content_type="application/json")
+
 
 
 #pasarle como parametro el nombre de la tabla a modificar utilizando factory

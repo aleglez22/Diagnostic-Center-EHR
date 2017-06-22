@@ -46,6 +46,7 @@ class Plantilla(models.Model):
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
     Conclusion = models.TextField()
+    NombreDoc= models.CharField(max_length=200)
 
 class Pedido(models.Model):
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)

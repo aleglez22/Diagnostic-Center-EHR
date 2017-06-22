@@ -19,15 +19,17 @@ def docx_replace_regex(doc_obj, regex , replace):
                 docx_replace_regex(cell, regex , replace)
 
 
-a_reemplazar='hola'
-reemplazo='adios'
-regex1 = re.compile(r"{0}".format(str(a_reemplazar)))
-replace1 = r"{0}".format(str(reemplazo))
-filename = "test.docx"
-module_dir=os.path.dirname(__file__)
-file_path =os.path.join(module_dir, filename)
-doc = Document(file_path)
-print(file_path)
-docx_replace_regex(doc, regex1 , replace1)
-doc.save('test.docx')
+def reemplaza(a_reemplazar,reemplazo,doc_name ):
+    regex1 = re.compile(r"{0}".format(str(a_reemplazar)))
+    replace1 = r"{0}".format(str(reemplazo))
+    filename = doc_name
+    module_dir=os.path.dirname(__file__)
+    file_path =os.path.join(module_dir, filename)
+    doc = Document(file_path)
+    docx_replace_regex(doc, regex1, replace1)
+    return doc
+
+
+
+
 
