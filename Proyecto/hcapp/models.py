@@ -7,7 +7,7 @@ class Paciente (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
-    Edad= models.IntegerField(validators=[MaxValueValidator(200)], null=True, blank=True)
+    Edad= models.IntegerField(validators=[MaxValueValidator(200)], null=True, blank=True) #>>>>automatizar calculo
     Fecha_nacimiento= models.DateField(null= True, blank=True)
     Fecha_ingreso= models.DateField(auto_now=True, auto_now_add=False)
 
@@ -42,7 +42,7 @@ class Historia(models.Model):
     Conclusion = models.TextField()  # charfield
 
 class Plantilla(models.Model):
-    TipoEstudio = models.CharField(max_length=200)
+    TipoEstudio = models.CharField(max_length=200) #>>>>unique
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
     Conclusion = models.TextField()

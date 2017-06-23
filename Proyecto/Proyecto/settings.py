@@ -124,3 +124,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/hcapp/static/',
 ]
+
+MEDIA_ROOT='/media/'

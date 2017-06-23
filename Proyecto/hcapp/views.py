@@ -26,21 +26,25 @@ from . import filler
 
 def DescargarDoc(request,historia_id, nombre_estudio):
     historia= m.Historia.objects.get(pk=historia_id)
-    campo=str(historia.Campo)
+    campo_nuevo=str(historia.Campo)
     plantilla = m.Plantilla.objects.get(TipoEstudio=nombre_estudio)
-    dir_doc=str(plantilla.NombreDoc)
-    print(dir_doc)
-    document = filler.reemplaza('hola',campo,dir_doc)
+    nombre_doc=str(plantilla.NombreDoc)
+    campo_viejo=str(plantilla.Campo)
+    print (campo_viejo)
+
+    pedido=Pedido.objects.get(Historia=historia)
+    nombre_paciente=str(pedido.Paciente.Nombre) +' '+ str(pedido.Paciente.Apellido)
+    medico_solicitante= str(pedido.Medico.Nombre) +' '+ str(pedido.Medico.Apellido)
+    fecha=historia.Fecha_creacion
+    edad_paciente=pedido.Paciente.Edad
+
+    document=filler.reemplaza('realizan',campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
+        fecha,nombre_doc )
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     response['Content-Disposition'] = 'attachment; filename=download.docx'
     document.save(response)
-
-    return HttpResponse('hola mundo')
-
-
-
-
+    return response
 
 
 
