@@ -1,0 +1,17 @@
+
+{% for field in form%}
+{% load staticfiles %}
+
+	<label>  {{field.label_tag}} </label>
+  		
+		{% if field.errors %}
+			<div class="alert alert-danger">
+  				<label >{{ field.errors|escape }} </label>
+			</div>
+		{% endif %}
+
+
+		<div class="form-control"> {{ field }} </div>
+
+{% endfor %}
+

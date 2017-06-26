@@ -4,29 +4,26 @@
 
 {% block contenido %}
 
-      <form action="" method="post" enctype="multipart/form-data" role="form">
-	{% csrf_token %}	
-
-{% include 'hcapp/form_template.html' %}	
-
-	
-
-				
-				<button type="submit" class="btn btn-info">
-						Agregar
-					</button>
-</form>
 
 
 
 
 
-         <!-- CREAR PACIENTE -->
 
-          <div class="container">
+         <div class="container">
             <div class="row">
               <div class="col-md-4">
-                
+                <form name="formulario_pacientes" ">
+                  <div class="form-group row">
+                      <h1>Formulario para Registro de pacientes</h1>
+
+                          
+                          {% include 'hcapp/form_template.html' %}
+
+                          <button class="btn btn-default" type="su"> Crear </button>
+        
+                  </div>
+                </form>
               </div>
 
               <div class="col-md-2">
@@ -47,37 +44,34 @@
                                 <th>Cédula</th>
                                 <th>Edad</th>
                                 <th>Paciente</th>
+                              
                                 <th>Fecha</th>
                             </tr>
                         
+                              {% for paciente in ultimos %}
+                           <tr>
 
-                           <tr id="primera_fila_registro">
-                           {% for paciente in ultimos  %}
-
-                            <td>
+                                <td>
                                     {{paciente.Cedula}}
                                 </td>
                                 <td>
-                                    {{paciente.edad}}
+                                    {{paciente.Edad}}
                                 </td>
                                 <td>
-                                    {{paciente.Nombre}} {{paciente.Apellido}}
+                                    {{paciente.Nombre }}  {{paciente.Apellido}}
+                                </td>
+                  
+                                <td>
+                                  {{paciente.Fecha}}
                                 </td>
                                 <td>
-                                    {{paciente.Fecha}}
+                                    <button class="btn btn-default" type="button" id="ver_paciente" > Ver </button>
+                                    <button class="btn btn-default" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
+                                    <button class="btn btn-default" type="button" id="eliminar_paciente"> Eliminar </button>
                                 </td>
-                                <td>
-                                    <button class="btn btn-default" type="button" id="ver_paciente" onclick="window.location.href='/editar/paciente/{{paciente.pk}}' "> Ver </button>
-
-                                    <button class="btn btn-default" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{paciente.pk}}' "> Modificar </button>
-
-                                    <button class="btn btn-default" type="button" id="eliminar_paciente" onclick="window.location.href='/eliminar/paciente/{{paciente.pk}}' "
-                                    > Eliminar </button>
-                                </td>
-                             
-                           {% endfor %}
-                               
                             </tr>
+
+                            {% endfor %}
 
                         
                     </table>                   
@@ -85,16 +79,6 @@
               </div>
             </div>
           </div>
-
-      
-
-    <!-- All Javascript Plugins  -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/plugin.js"></script>
-    
-    <!-- Main Javascript File  -->
-    <script type="text/javascript" src="js/scripts.js"></script>
-  
 
 
 
