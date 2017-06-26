@@ -55,10 +55,20 @@ def PacienteHome(request):
     context={'ultimos_pacientes':ultimos}
     return  render(request, "pacientes.html", context )
 
+from django import forms
+from django.contrib.admin.widgets import AdminDateWidget 
+
 class CrearPaciente(generic.CreateView):
     model = Paciente
     fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
     #needs paciente_form.html
+
+    success_url =reverse_lazy('hcapp:Crear-Paciente')
+
+    def get_form(self ):
+        form = super(CrearPaciente, self).get_form()
+        form.fields['Fecha_nacimiento'].widget.attrs.update({'class': 'datepicker'})
+        return form
 
     def get_context_data(self, **kwargs):
         ctx = super(CrearPaciente, self).get_context_data(**kwargs)
