@@ -11,16 +11,24 @@ class Paciente (models.Model):
     Fecha_nacimiento= models.DateField(null= True, blank=True)
     Fecha_ingreso= models.DateField(auto_now=True, auto_now_add=False)
 
+    def __str__(self):
+        return ("pcte: "+str(self.Nombre)+str(self.Apellido))
+
 
 class MedicoSolicitante (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
+    def __str__(self):
+        return ("solic: "+str(self.Nombre)+str(self.Apellido))
+
 
 class Radiologo (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
+    def __str__(self):
+            return ("radiol: "+str(self.Nombre)+str(self.Apellido))
 
 class Medico (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
@@ -28,11 +36,18 @@ class Medico (models.Model):
     Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
     Fecha_creacion = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return ("medic: "+str(self.Nombre)+str(self.Apellido))
+
 class Secretario (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
     Fecha_creacion = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return ("hist: "+str(self.Nombre)+str(self.Apellido))
+
 
 
 class Historia(models.Model):
@@ -40,6 +55,9 @@ class Historia(models.Model):
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
     Conclusion = models.TextField()  # charfield
+
+     def __str__(self):
+        return ("hist: "+str(self.TipoEstudio))
 
 class Plantilla(models.Model):
     TipoEstudio = models.CharField(max_length=200) #>>>>unique
@@ -55,6 +73,9 @@ class Pedido(models.Model):
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
     Historia=models.ForeignKey(Historia, on_delete=models.DO_NOTHING)
     Fecha = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return ("pedido: "+str(self.Paciente)+str(self.Diagnostico_presuntivo))
 
 
 class Categoria(models.Model):
