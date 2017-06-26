@@ -1,6 +1,6 @@
 
 {% for field in form%}
-
+{% load staticfiles %}
 
 	<label>  {{field.label_tag}} </label>
 
@@ -10,7 +10,7 @@
 			</div>
 		{% endif %}
 
-		<div> {{ field }} </div>
+		<div class="form-control"> {{ field }} </div>
 
 {% endfor %}
 

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?olxnzb');
-  src:  url('fonts/icomoon.eot?olxnzb#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?olxnzb') format('truetype'),
-    url('fonts/icomoon.woff?olxnzb') format('woff'),
-    url('fonts/icomoon.svg?olxnzb#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?had5lg');
+  src:  url('fonts/icomoon.eot?had5lg#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?had5lg') format('truetype'),
+    url('fonts/icomoon.woff?had5lg') format('woff'),
+    url('fonts/icomoon.svg?had5lg#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,20 +24,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-home3:before {
-  content: "\e902";
+.icon-home:before {
+  content: "\e900";
 }
 .icon-profile:before {
   content: "\e923";
 }
+.icon-files-empty:before {
+  content: "\e925";
+}
 .icon-file-text2:before {
   content: "\e926";
 }
-.icon-folder-download:before {
-  content: "\e933";
-}
-.icon-clipboard:before {
-  content: "\e9b8";
+.icon-folder-open:before {
+  content: "\e930";
 }
 .icon-man:before {
   content: "\e9dc";

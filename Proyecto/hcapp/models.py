@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
+from django.core.urlresolvers import reverse
+
 
 # Create your models here.
 class Paciente (models.Model):
@@ -10,6 +12,9 @@ class Paciente (models.Model):
     Edad= models.IntegerField(validators=[MaxValueValidator(200)], null=True, blank=True) #>>>>automatizar calculo
     Fecha_nacimiento= models.DateField(null= True, blank=True)
     Fecha_ingreso= models.DateField(auto_now=True, auto_now_add=False)
+
+    def get_absolute_url(self):
+        return reverse('hcapp:Crear-Paciente')
 
     def __str__(self):
         return ("pcte: "+str(self.Nombre)+str(self.Apellido))
@@ -56,7 +61,7 @@ class Historia(models.Model):
     Campo = models.TextField()
     Conclusion = models.TextField()  # charfield
 
-     def __str__(self):
+    def __str__(self):
         return ("hist: "+str(self.TipoEstudio))
 
 class Plantilla(models.Model):

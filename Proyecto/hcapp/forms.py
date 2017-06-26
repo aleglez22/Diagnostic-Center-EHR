@@ -11,6 +11,10 @@ class TipoEstudioForm(forms.ModelForm):
         model = m.TipoEstudio
         fields = ('categoria', 'subcategoria', 'estudio')
 
-class EstudioForm(forms.Form):
-    Campo = models.TextField()
-    Conclusion = models.TextField()  # charfield
+class PedidoForm(forms.Form):
+
+	
+    class Meta:
+        model = m.Pedido
+        fields = ('Paciente', 'Medico', 'Diagnostico_presuntivo', 'Fecha_pedido')
+       

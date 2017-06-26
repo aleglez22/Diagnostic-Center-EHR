@@ -5,9 +5,9 @@ from . import  views
 app_name ='hcapp'
 
 urlpatterns = [
-url(r'^$',views.Inicio ,name="Inicio"),
+url(r'^home/$',views.Inicio ,name="Inicio"),
 
-url(r'^imp/(?P<historia_id>[0-9]+)/(?P<nombre_estudio>[\w\-]+)/$',views.DescargarDoc,name="Descargar"),
+url(r'^imprimir/(?P<historia_id>[0-9]+)/(?P<nombre_estudio>[\w\-]+)/$',views.DescargarDoc,name="Descargar"),
 
 
     ###PACIENTES###

@@ -7,22 +7,21 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
 from django.http import HttpResponse
-from .forms import EstudioForm, TipoEstudioForm
+from .forms import  TipoEstudioForm
 import json
+from docx import Document
+from . import filler  
 
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
     pacientes=Paciente.objects.all()
-    return render(request,"inicio.html",{ 'pacientes': pacientes})
+    return render(request,"hcapp/home.html",{})
 
 def Pruebaselect(request):
     form=TipoEstudioForm()
     return render(request,"hcapp/prueba_select.html",{ 'form': form})
 
 
-
-from docx import Document
-from . import filler
 
 def DescargarDoc(request,historia_id, nombre_estudio):
     historia= m.Historia.objects.get(pk=historia_id)
@@ -60,6 +59,12 @@ class CrearPaciente(generic.CreateView):
     model = Paciente
     fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
     #needs paciente_form.html
+
+    def get_context_data(self, **kwargs):
+        ctx = super(CrearPaciente, self).get_context_data(**kwargs)
+        ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
+        ctx['ultimos'] = ultimos
+        return ctx
 
 class ListaPaciente(generic.ListView):
     template_name = 'hcapp/lista_pacientes.html'
