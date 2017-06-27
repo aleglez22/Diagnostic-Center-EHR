@@ -13,14 +13,14 @@
          <div class="container">
             <div class="row">
               <div class="col-md-4">
-                <form name="formulario_pacientes" ">
+                <form name="formulario_pacientes" method="post">
                   <div class="form-group row">
                       <h1>Formulario para Registro de pacientes</h1>
 
-                          
+                          {% csrf_token %}
                           {% include 'hcapp/form_template.html' %}
 
-                          <button class="btn btn-default" type="su"> Crear </button>
+                          <button class="btn btn-default" type="submit"> Crear </button>
         
                   </div>
                 </form>
