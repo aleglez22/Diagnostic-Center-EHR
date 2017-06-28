@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
 from django.http import HttpResponse
-from .forms import  TipoEstudioForm
+from .forms import  TipoEstudioForm, PacienteForm
 import json
 from docx import Document
 from . import filler  
@@ -55,18 +55,28 @@ def PacienteHome(request):
     context={'ultimos_pacientes':ultimos}
     return  render(request, "pacientes.html", context )
 
-from django import forms
-from django.contrib.admin.widgets import AdminDateWidget 
+
 
 class CrearPaciente(generic.CreateView):
     model = Paciente
     fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
     template_name_suffix ='_form'
+    #form_class= PacienteForm
     success_url =reverse_lazy('hcapp:Crear-Paciente')
 
+
+    ##se puede utilizar el form_class o el metodo get_form para modificar el formulario
     def get_form(self, form_class=None ):
         form = super(CrearPaciente, self).get_form(form_class)
-        form.fields['Fecha_nacimiento'].id_for_label="fecha"
+        #form.fields['Apellido'].label= "Apellido" #edita los atributos del form >>ref/forms/fields/
+        #form.fields['Apellido'].widget.attrs.update({'value': 'pppppp'}) #actualiza los valores del html
+        #form.fields['Nombre'].widget.attrs['value']='form-control' #otra forma
+        #form.fields['Apellido'].widget.attrs.update({'placeholder': 'Apellido','size': 10})
+        #form.fields['Apellido'].widget.attrs.update({'class': 'form-control'})
+        
+        for x, y in form.fields.items():
+            form.fields[x].widget.attrs.update({'class': 'form-control'})
+    
         return form
 
     def get_context_data(self, **kwargs):

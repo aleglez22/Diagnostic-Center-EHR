@@ -18,3 +18,11 @@ class PedidoForm(forms.Form):
         model = m.Pedido
         fields = ('Paciente', 'Medico', 'Diagnostico_presuntivo', 'Fecha_pedido')
        
+class PacienteForm(forms.ModelForm):
+    
+
+    class Meta:
+        model = m.Paciente
+        fields = '__all__'
+
+    
