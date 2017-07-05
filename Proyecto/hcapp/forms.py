@@ -11,18 +11,45 @@ class TipoEstudioForm(forms.ModelForm):
         model = m.TipoEstudio
         fields = ('categoria', 'subcategoria', 'estudio')
 
-class PedidoForm(forms.Form):
 
-	
-    class Meta:
-        model = m.Pedido
-        fields = ('Paciente', 'Medico', 'Diagnostico_presuntivo', 'Fecha_pedido')
+
+from django.core.exceptions import ValidationError
+
+def validar_cliente_existe(value):
+    cliente = m.Paciente.objects.filter(Cedula=value)
+    if not cliente: # check if any object exists
+        raise ValidationError('paciente no existe, por favor registrelo') 
+
+def validar_estudio_existe(value):
+    estudio = m.TipoEstudio.objects.filter(Nombre=value)
+    if not estudio: # check if any object exists
+        raise ValidationError('estudio no existe') 
+
+
+class PedidoForm(forms.Form):
+    Paciente = forms.CharField(label='Paciente',validators=[validar_cliente_existe])
+    Medico= forms.CharField(label='Médico solicitante',required=False)
+    Fecha= forms.DateField(label='Fecha Pedido',required=False)
+    Estudio=forms.CharField(label='Tipo de estudio',validators=[validar_estudio_existe])
+    Diagnostico=forms.CharField(label='Diagnostico',required=False)
+
+class NombreEstudioForm(forms.Form):
+    Estudio=forms.CharField(label='Tipo de estudio',validators=[validar_estudio_existe],required=False)
+
        
+class EstudioForm(forms.Form):
+    Campo = forms.CharField(label ='Historia', widget=forms.Textarea,required=False)
+    Conclusion=forms.CharField(label='Conclusión',required=False)
+
+
 class PacienteForm(forms.ModelForm):
     
-
     class Meta:
         model = m.Paciente
         fields = '__all__'
 
+    #se le añade  linea al constructor para modificar campo
+    def __init__(self, *args, **kwargs):
+        super(PacienteForm, self).__init__(*args, **kwargs)
+        self.fields['Apellido'].widget.attrs['value'] = 'gonza'
     

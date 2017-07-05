@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
 from django.http import HttpResponse
-from .forms import  TipoEstudioForm, PacienteForm
+from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm, EstudioForm
 import json
 from docx import Document
 from . import filler  
@@ -72,7 +72,7 @@ class CrearPaciente(generic.CreateView):
         #form.fields['Apellido'].widget.attrs.update({'value': 'pppppp'}) #actualiza los valores del html
         #form.fields['Nombre'].widget.attrs['value']='form-control' #otra forma
         #form.fields['Apellido'].widget.attrs.update({'placeholder': 'Apellido','size': 10})
-        #form.fields['Apellido'].widget.attrs.update({'class': 'form-control'})
+        #form.fields['Apellido'].widget.attrs.update({'id': 'juan'})
         
         for x, y in form.fields.items():
             form.fields[x].widget.attrs.update({'class': 'form-control'})
@@ -106,125 +106,149 @@ class EditarPaciente (generic.UpdateView):
 ##CONTROLADORES DE HISTORIAS##
 
 def PedidosHome(request):
-    return render(request, "pedidos_home.html")
+    nform=NombreEstudioForm()
+    form=PedidoForm()
+    drop=TipoEstudioForm()
+    return render(request, "hcapp/pedidos_home.html", {'form':form, 'nombre_estudio_form':nform,'drop_form':drop})
 
 
-def CrearPedido(request):
+def CrearPedido1(request):
+    form=PedidoForm()  
+    nform=NombreEstudioForm()
+    drop=TipoEstudioForm()
 
-    if request.method== "POST":
-        if request.POST.get('f_estudio'):
-            estudio=request.POST.get('f_estudio')
-        elif request.POST.get('f_estudio_auto'):
-            estudio = request.POST.get('f_estudio_auto')
-        else:
-            print("error")
-        if TipoEstudio.objects.get(pk =estudio) ==False:#######ojoooo
-            print("error")
-
-        if request.POST.get('f_medico'):
-            if MedicoSolicitante.objects.get(pk=request.POST.get('f_medico')):
-                request.session['medico'] =request.POST.get('f_medico')
+    if request.method=="POST":
+        form=PedidoForm(request.POST)
+        if form.is_valid():
+            estudio=form.cleaned_data['Estudio']
+            request.session['paciente']=form.cleaned_data['Paciente']
+            request.session['diagnostico']=form.cleaned_data['Diagnostico']
+            import datetime
+            if form.cleaned_data['Fecha']=='':
+                request.session['fecha']=datetime.datetime.now().date()
             else:
-                print("error")
-        else:
-            print("error")
-        if request.POST.get('f_paciente'):
-            if MedicoSolicitante.objects.get(pk=request.POST.get('f_paciente')):
-                request.session['paciente'] = request.POST.get('f_paciente')
+                request.session['fecha']=form.cleaned_data['Fecha']
+
+
+             #es el pk porq no puedo verificar el nombre y apell
+            if MedicoSolicitante.objects.get(pk=form.cleaned_data['Medico']): 
+                request.session['medico']=form.cleaned_data['Medico']
             else:
-                print("error")
-        else:
-            print("error")
-        request.session ['diagnostico']=request.POST.get('f_diagnostico')
-        plantilla=m.Plantilla.objects.get(TipoEstudio=estudio)
-        campo=plantilla.Campo
-        conclusion=plantilla.Conclusion
-        form = EstudioForm()
-        form.Campo = campo
-        form.Conclusion = conclusion
+                request.session['medico']=MedicoSolicitante.objects.get(pk=1)
 
-        datos={ 'estudio': estudio,
-                'campo':campo, 'conclusion':conclusion, 'form':form}
+            plantilla=m.Plantilla.objects.get(TipoEstudio=estudio)
+            campo=plantilla.Campo
+            conclusion=plantilla.Conclusion
+            data={'Campo':campo, 'Conclusion':conclusion}
+            form_historia = EstudioForm(data)
+            nform=NombreEstudioForm()
+            request.session['estudio']=estudio
 
-    return render(request, "crear_historia.html", datos)
+            datos={'campo':campo, 'conclusion':conclusion, 'form':form_historia, 'nombre_estudio_form':nform, 'drop_form':drop}
+            return render(request, "hcapp/crear_historia.html", datos)
 
-##como obtener el contexto de otra vista
+ 
+    else:        
+        return render(request, 'hcapp/pedidos_home.html', {'form': form,'nombre_estudio_form':nform, 'drop_form':drop})
+    return render(request, 'hcapp/pedidos_home.html', {'form': form,'nombre_estudio_form':nform, 'drop_form':drop})
 
-def GuardarHistoria(request,estudio):
+
+def GuardarHistoria(request):
+    drop=TipoEstudioForm()
+    form = EstudioForm()
+    nform=NombreEstudioForm()
     if request.method == "POST":
         form = EstudioForm(request.POST)
         if form.is_valid():
-            campos = form.save(commit=False)
-            historia= m.Historia(TipoEstudio=estudio, Campo=campos.Campo, Conclusion=campos.Conclusion)
-            pedido = Pedido(Paciente= request.session['paciente'], Medico= request.session['medico'],
-            Diagnostico_presuntivo= request.session['diagnostico'], Historia=historia)
+            
+            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'])
+            historia.save()
+            pedido = Pedido(Paciente= Paciente.objects.get(Cedula=request.session['paciente']), Medico= MedicoSolicitante.objects.get(pk=request.session['medico']),
+            Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'], Historia=historia)
 
             if request.POST.get("boton_guardarysalir"):
                 pedido.save()
-                return redirect("PedidosHome")
+                
+                return redirect (reverse_lazy("hcapp:Home-Pedidos"))
             elif request.POST.get("boton_guardar2"):
+                
                 pedido.save()
-                request.session['pedido']=pedido
-                if request.POST.get('f_estudio'):
-                    estudio = request.POST.get('f_estudio')
-                elif request.POST.get('f_estudio_auto'):
-                    estudio = request.POST.get('f_estudio_auto')
+                request.session['pedido']=pedido.pk
+                nform= NombreEstudioForm(request.POST)
+                estudio=request.POST.get('Estudio')
+                
+                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
+                    plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+                    campo = plantilla.Campo
+                    conclusion = plantilla.Conclusion
+                    data={'Campo':campo, 'Conclusion':conclusion}
+                    form = EstudioForm(data)
+                    nform=NombreEstudioForm()
+                    datos={'campo':campo, 'conclusion':conclusion, 'form':form, 'nombre_estudio_form':nform, 'drop_form':drop}
+                    return render(request, "hcapp/crear_otra_historia.html", datos)
                 else:
-                    print("error")
-                if TipoEstudio.objects.get(pk=estudio) == False:
-                    print("error")
-
-                plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
-                campo = plantilla.Campo
-                conclusion = plantilla.Conclusion
-                form = EstudioForm()
-                form.Campo=campo
-                form.Conclusion=conclusion
-                datos={'pedido':pedido,'campo':campo, 'conclusion':conclusion, 'form':form}
-
-                return render(request, "crear_otra_historia.html", datos)
-    else:
-        form = EstudioForm()
-    return render(request, 'crear_historia.html', {'form': form})
+                    nform=NombreEstudioForm()
+                    return render(request, "hcapp/error_estudio.html", {'nombre_estudio_form':nform, 'drop_form':drop})
+    return render(request, 'hcapp/crear_historia.html', {'form': form,'nombre_estudio_form':nform ,'drop_form':drop })
 
 
-
-def GuardarOtraHistoria(request,estudio):
+def GuardarOtraHistoria(request):
+    form = EstudioForm()
+    nform=NombreEstudioForm()
+    drop=TipoEstudioForm()
+    
     if request.method == "POST":
         form = EstudioForm(request.POST)
         if form.is_valid():
-            campos = form.save(commit=False)
-            historia= m.Historia(TipoEstudio=estudio, Campo=campos.Campo, Conclusion=campos.Conclusion)
-            pedido = request.session['pedido']
-            pedido.historia=historia
+            pedido= Pedido.objects.get(pk=request.session['pedido'])
+            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'])       
+            historia.save()
+            pedido.Historia=historia
 
             if request.POST.get("boton_guardarysalir"):
                 pedido.save()
-                return redirect("PedidosHome")
+                del request.session['pedido']
+                return redirect (reverse_lazy("hcapp:Home-Pedidos"))
             elif request.POST.get("boton_guardar2"):
                 pedido.save()
-                request.session['pedido']=pedido
-                if request.POST.get('f_estudio'):
-                    estudio = request.POST.get('f_estudio')
-                elif request.POST.get('f_estudio_auto'):
-                    estudio = request.POST.get('f_estudio_auto')
+                request.session['pedido']=pedido.pk
+                nform= NombreEstudioForm(request.POST)            
+                estudio=request.POST.get('Estudio')
+                
+                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
+                    plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+                    campo = plantilla.Campo
+                    conclusion = plantilla.Conclusion
+                    data={'Campo':campo, 'Conclusion':conclusion}
+                    form = EstudioForm(data)
+                    nform=NombreEstudioForm()
+                    datos={'campo':campo, 'conclusion':conclusion, 'form':form, 'nombre_estudio_form':nform, 'drop_form':drop}
+                    return render(request, "hcapp/crear_otra_historia.html", datos)
                 else:
-                    print("error")
-                if TipoEstudio.objects.get(pk=estudio) == False:
-                    print("error")
+                    nform=NombreEstudioForm()
+                    return render(request, "hcapp/error_estudio.html", {'nombre_estudio_form':nform, 'drop_form':drop})
 
-                plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
-                campo = plantilla.Campo
-                conclusion = plantilla.Conclusion
-                form = EstudioForm()
-                form.Campo=campo
-                form.Conclusion=conclusion
+    return render(request, 'hcapp/crear_historia.html', {'form': form,'nombre_estudio_form':nform, 'drop_form':drop })
 
-                datos={'pedido':pedido,'campo':campo, 'conclusion':conclusion, 'form':form}
-                return render(request, "crear_otra_historia.html", datos)
-    else:
-        form = EstudioForm()
-    return render(request, 'crear_historia', {'form': form})
+
+def CasoErrorNestudio(request):
+    nform=NombreEstudioForm(request.POST)
+    estudio=request.POST.get('Estudio')
+    if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
+        plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+        campo = plantilla.Campo
+        conclusion = plantilla.Conclusion
+        data={'Campo':campo, 'Conclusion':conclusion}
+        form = EstudioForm(data)
+        nform=NombreEstudioForm()
+        datos={'campo':campo, 'conclusion':conclusion, 'form':form, 'nombre_estudio_form':nform}
+        return render(request, "hcapp/crear_otra_historia.html", datos)
+    
+    return render(request, "hcapp/error_estudio.html", {'nombre_estudio_form':nform})
+
+
+
+
 
 
 class DetallePedido(generic.DetailView):
@@ -262,7 +286,7 @@ class EditarHistoria(generic.UpdateView):
 def AutocompletarPaciente(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        lista = Paciente.objects.filter(Apellido = q )[:20]
+        lista = Paciente.objects.filter(Apellido__startswith = q ).order_by('Apellido')[:20]
         results = []
         for fila in lista:
             fila_json = {}
@@ -270,7 +294,6 @@ def AutocompletarPaciente(request):
             fila_json['label'] = str(fila.Apellido) +" "+ str(fila.Nombre)
             fila_json['value'] = fila.Cedula
             results.append(fila_json)
-        print (results)
         data = json.dumps(results)
     else:
         data = 'fail'
@@ -282,15 +305,14 @@ def AutocompletarPaciente(request):
 def AutocompletarMedicoSolicitante(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        lista = MedicoSolicitante.objects.filter(Apellido = q )[:20]
+        lista = MedicoSolicitante.objects.filter(Apellido__startswith = q ).order_by('Apellido')[:20]
         results = []
         for fila in lista:
             fila_json = {}
             fila_json['id'] = fila.pk
             fila_json['label'] = str(fila.Apellido) +" "+ str(fila.Nombre)
-            fila_json['value'] = fila.Apellido
+            fila_json['value'] = fila.pk
             results.append(fila_json)
-        print (results)
         data = json.dumps(results)
     else:
         data = 'fail'
@@ -303,15 +325,14 @@ def AutocompletarMedicoSolicitante(request):
 def AutocompletarTipoEstudio(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        lista = TipoEstudio.objects.filter(Nombre = q )[:20]
+        lista = TipoEstudio.objects.filter(Nombre__startswith = q ).order_by('Nombre')[:20]
         results = []
         for fila in lista:
             fila_json = {}
             fila_json['id'] = fila.pk
             fila_json['label'] = str(fila.Nombre)
-            fila_json['value'] = fila.pk
+            fila_json['value'] = str(fila.Nombre)
             results.append(fila_json)
-        print (results)
         data = json.dumps(results)
     else:
         data = 'fail'
