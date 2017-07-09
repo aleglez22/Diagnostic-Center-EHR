@@ -7,7 +7,8 @@ app_name ='hcapp'
 urlpatterns = [
 url(r'^home/$',views.Inicio ,name="Inicio"),
 
-url(r'^imprimir/(?P<historia_id>[0-9]+)/(?P<nombre_estudio>[\w\-]+)/$',views.DescargarDoc,name="Descargar"),
+#url(r'^imprimir/(?P<historia_id>[0-9]+)/(?P<nombre_estudio>[\w\-]+)/$',views.DescargarDoc,name="Descargar"),
+url(r'^imprimir/(?P<historia_id>[0-9]+)/$',views.DescargarDoc,name="Descargar"),
 
 
     ###PACIENTES###
@@ -45,6 +46,8 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 url(r'^api/medico-solicitante/$', views.AutocompletarMedicoSolicitante, name= "Api-MedicoSolicitante"),
 url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio"),
 url(r'^api/paciente/$', views.AutocompletarPaciente, name= "Api-Paciente"),
+url(r'^api/tabla/$', views.Tabla, name= "Api-Tabla"),
+url(r'^pruebatabla/$', views.PruebaTabla, name= "Prueba-Tabla"),
 
 ]
 

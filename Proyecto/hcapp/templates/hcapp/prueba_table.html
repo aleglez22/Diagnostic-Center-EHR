@@ -1,0 +1,54 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Datatable</title>
+</head>
+
+<body>
+<link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
+ 
+<script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
+
+
+<table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pedido</th>
+                <th>Médico</th>
+                <th>Paciente</th>
+                <th>Tipo estudio.</th>
+                <th>Fecha Estudio</th>
+                <th>Fecha Pedido</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Pedido</th>
+                <th>Médico</th>
+                <th>Paciente</th>
+                <th>Tipo estudio.</th>
+                <th>Fecha Estudio</th>
+                <th>Fecha Pedido</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+<script type="text/javascript">
+    
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "ajax": '/api/tabla/'
+    } );
+} );
+
+</script>
+
+
+</body>
+</html>
