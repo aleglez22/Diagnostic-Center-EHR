@@ -4,14 +4,26 @@ from django.core.urlresolvers import reverse
 
 
 # Create your models here.
+from datetime import date
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
 class Paciente (models.Model):
     Cedula = models.IntegerField(null=False, blank=False, unique=True) # es necesaria?
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
-    Edad= models.IntegerField(validators=[MaxValueValidator(200)], null=True, blank=True) #>>>>automatizar calculo
     Fecha_nacimiento= models.DateField(null= True, blank=True)
     Fecha_ingreso= models.DateField(auto_now=True, auto_now_add=False)
+    Edad= models.IntegerField(null=True, blank=True) #>>>>automatizar calculo
+
+    def save(self, *args, **kwargs):
+        if not self.Edad:
+            self.Edad = calculate_age(self.Fecha_nacimiento)
+        super(Paciente, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('hcapp:Crear-Paciente')
@@ -55,14 +67,7 @@ class Secretario (models.Model):
 
 
 
-class Historia(models.Model):
-    TipoEstudio= models.CharField(max_length=200)
-    Fecha_creacion = models.DateField(auto_now=True)
-    Campo = models.TextField()
-    Conclusion = models.TextField()  # charfield
 
-    def __str__(self):
-        return ("hist: "+str(self.TipoEstudio))
 
 class Plantilla(models.Model):
     TipoEstudio = models.CharField(max_length=200) #>>>>unique
@@ -76,11 +81,21 @@ class Pedido(models.Model):
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
-    Historia=models.ForeignKey(Historia, on_delete=models.DO_NOTHING)
     Fecha = models.DateField(auto_now=True)
 
     def __str__(self):
         return ("pedido: "+str(self.Paciente)+str(self.Diagnostico_presuntivo))
+
+class Historia(models.Model):
+    p1=Pedido(Paciente=Paciente.objects.get(Cedula=111),Medico=MedicoSolicitante.objects.get(pk=1),Diagnostico_presuntivo="nada")
+    Pedido=models.ForeignKey(Pedido, on_delete=models.DO_NOTHING, default= 1)
+    TipoEstudio= models.CharField(max_length=200)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.TextField()  # charfield
+
+    def __str__(self):
+        return ("hist: "+str(self.TipoEstudio))
 
 
 class Categoria(models.Model):

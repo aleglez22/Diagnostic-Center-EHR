@@ -35,6 +35,9 @@ def reemplaza(a_reemplazar,reemplazo,pacient_name,age,doct,date,doc_name ):
 
     c_fecha = re.compile(r"{0}".format('##fecha##'))
     fecha = r"{0}".format(str(date))
+
+    c_espacio = re.compile(r"{0}".format(''))
+    espacio = r"{0}".format(' ')
     
 
     filename =str(doc_name)
@@ -47,6 +50,7 @@ def reemplaza(a_reemplazar,reemplazo,pacient_name,age,doct,date,doc_name ):
     docx_replace_regex(doc, c_edad, edad)
     docx_replace_regex(doc, c_doctor, doctor)
     docx_replace_regex(doc, c_fecha, fecha)
+   #docx_replace_regex(doc, c_espacio, espacio)
 
     return doc
 

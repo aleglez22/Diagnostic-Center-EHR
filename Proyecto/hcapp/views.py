@@ -21,23 +21,53 @@ def Pruebaselect(request):
     form=TipoEstudioForm()
     return render(request,"hcapp/prueba_select.html",{ 'form': form})
 
+def PruebaTabla(request):
+    return render(request,"hcapp/prueba_table.html",{})
+
+def Tabla(request):
+    
+    historias= m.Historia.objects.all()
+    lista=[]
+    listaDatos=[]
+    print (historias)
+
+    for historia in historias:
+        pk=historia.pk
+        pedido= historia.Pedido
+        p=pedido.pk
+        medico= pedido.Medico.Nombre
+        paciente=pedido.Paciente.Cedula
+        tipo_estudio=historia.TipoEstudio
+        fecha_historia= historia.Fecha_creacion
+        fecha_pedido= pedido.Fecha_pedido
+
+        lista=[str(pk),str(p),str(medico),str(paciente),str(tipo_estudio),str(fecha_historia),
+        str(fecha_pedido)]
+        listaDatos.append(lista)
+    
+    dic={"data":listaDatos}
+
+    
+    mimetype = 'application/json'
+    return HttpResponse(json.dumps(dic), mimetype)
 
 
-def DescargarDoc(request,historia_id, nombre_estudio):
+
+def DescargarDoc(request,historia_id):
     historia= m.Historia.objects.get(pk=historia_id)
     campo_nuevo=str(historia.Campo)
-    plantilla = m.Plantilla.objects.get(TipoEstudio=nombre_estudio)
+    plantilla = m.Plantilla.objects.get(TipoEstudio=historia.TipoEstudio)
     nombre_doc=str(plantilla.NombreDoc)
     campo_viejo=str(plantilla.Campo)
     print (campo_viejo)
 
-    pedido=Pedido.objects.get(Historia=historia)
+    pedido=historia.Pedido #---cambio
     nombre_paciente=str(pedido.Paciente.Nombre) +' '+ str(pedido.Paciente.Apellido)
     medico_solicitante= str(pedido.Medico.Nombre) +' '+ str(pedido.Medico.Apellido)
     fecha=historia.Fecha_creacion
     edad_paciente=pedido.Paciente.Edad
 
-    document=filler.reemplaza('realizan',campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
+    document=filler.reemplaza('##campo##',campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
         fecha,nombre_doc )
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
@@ -53,13 +83,13 @@ def DescargarDoc(request,historia_id, nombre_estudio):
 def PacienteHome(request):
     ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
     context={'ultimos_pacientes':ultimos}
-    return  render(request, "pacientes.html", context )
+    return  render(request, "hcapp/paciente_form.html", context )
 
 
 
 class CrearPaciente(generic.CreateView):
     model = Paciente
-    fields = ['Cedula','Nombre','Apellido','Telefono','Edad','Fecha_nacimiento']
+    fields = ['Cedula','Nombre','Apellido','Telefono','Fecha_nacimiento']
     template_name_suffix ='_form'
     #form_class= PacienteForm
     success_url =reverse_lazy('hcapp:Crear-Paciente')
@@ -109,7 +139,10 @@ def PedidosHome(request):
     nform=NombreEstudioForm()
     form=PedidoForm()
     drop=TipoEstudioForm()
-    return render(request, "hcapp/pedidos_home.html", {'form':form, 'nombre_estudio_form':nform,'drop_form':drop})
+    ultimos_pedidos= Pedido.objects.order_by('-Fecha')[:10]
+    context={'form':form, 'nombre_estudio_form':nform,
+    'drop_form':drop, 'ultimos_pedidos':ultimos_pedidos}
+    return render(request, "hcapp/pedidos_home.html",context )
 
 
 def CrearPedido1(request):
@@ -161,18 +194,20 @@ def GuardarHistoria(request):
         form = EstudioForm(request.POST)
         if form.is_valid():
             
-            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'])
-            historia.save()
+            
             pedido = Pedido(Paciente= Paciente.objects.get(Cedula=request.session['paciente']), Medico= MedicoSolicitante.objects.get(pk=request.session['medico']),
-            Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'], Historia=historia)
+            Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'])
+            pedido.save()
+            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)
+            
 
             if request.POST.get("boton_guardarysalir"):
-                pedido.save()
+                historia.save()
                 
                 return redirect (reverse_lazy("hcapp:Home-Pedidos"))
             elif request.POST.get("boton_guardar2"):
                 
-                pedido.save()
+                historia.save()
                 request.session['pedido']=pedido.pk
                 nform= NombreEstudioForm(request.POST)
                 estudio=request.POST.get('Estudio')
@@ -201,16 +236,14 @@ def GuardarOtraHistoria(request):
         form = EstudioForm(request.POST)
         if form.is_valid():
             pedido= Pedido.objects.get(pk=request.session['pedido'])
-            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'])       
-            historia.save()
-            pedido.Historia=historia
-
+            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)       
+            
             if request.POST.get("boton_guardarysalir"):
-                pedido.save()
+                historia.save()
                 del request.session['pedido']
                 return redirect (reverse_lazy("hcapp:Home-Pedidos"))
             elif request.POST.get("boton_guardar2"):
-                pedido.save()
+                historia.save()
                 request.session['pedido']=pedido.pk
                 nform= NombreEstudioForm(request.POST)            
                 estudio=request.POST.get('Estudio')
@@ -283,6 +316,10 @@ class EditarHistoria(generic.UpdateView):
 '''
 
 
+import unicodedata
+def elimina_tildes(s):
+   return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
+
 def AutocompletarPaciente(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
@@ -291,7 +328,7 @@ def AutocompletarPaciente(request):
         for fila in lista:
             fila_json = {}
             fila_json['id'] = fila.pk
-            fila_json['label'] = str(fila.Apellido) +" "+ str(fila.Nombre)
+            fila_json['label'] = elimina_tildes(str(fila.Apellido)) +" "+ elimina_tildes(str(fila.Nombre))
             fila_json['value'] = fila.Cedula
             results.append(fila_json)
         data = json.dumps(results)
@@ -310,7 +347,7 @@ def AutocompletarMedicoSolicitante(request):
         for fila in lista:
             fila_json = {}
             fila_json['id'] = fila.pk
-            fila_json['label'] = str(fila.Apellido) +" "+ str(fila.Nombre)
+            fila_json['label'] = elimina_tildes(str(fila.Apellido)) +" "+ elimina_tildes(str(fila.Nombre))
             fila_json['value'] = fila.pk
             results.append(fila_json)
         data = json.dumps(results)
@@ -330,7 +367,7 @@ def AutocompletarTipoEstudio(request):
         for fila in lista:
             fila_json = {}
             fila_json['id'] = fila.pk
-            fila_json['label'] = str(fila.Nombre)
+            fila_json['label'] = elimina_tildes(str(fila.Nombre))
             fila_json['value'] = str(fila.Nombre)
             results.append(fila_json)
         data = json.dumps(results)
