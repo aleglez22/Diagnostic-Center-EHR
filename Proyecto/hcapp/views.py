@@ -52,6 +52,12 @@ def Tabla(request):
     return HttpResponse(json.dumps(dic), mimetype)
 
 
+class DetalleHistoria(generic.DetailView):
+    model=m.Historia
+    template_name = 'hcapp/detalle_historia.html'
+
+
+
 
 def DescargarDoc(request,historia_id):
     historia= m.Historia.objects.get(pk=historia_id)
