@@ -30,7 +30,7 @@ url(r'^crear/historia/$',views.GuardarHistoria ,name="Crear-Historia"),
 url(r'^historias/$',views.ListaHistorias.as_view() ,name="Home-Historias"),
 url(r'^crear/otrahistoria/$',views.GuardarOtraHistoria ,name="Crear-Otra-Historia"),
 url(r'^crear/selecciona-estudio/$',views.CasoErrorNestudio ,name="Selecciona-Estudio"),
-url(r'^/historia/(?P<pk>[0-9]+)/$',views.DetalleHistoria.as_view() ,name="Detalle-Historia"),
+url(r'^historia/(?P<pk>[0-9]+)/$',views.DetalleHistoria.as_view() ,name="Detalle-Historia"),
 
 #url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="Editar-Historia"),
 #url(r'^eliminar/historia/(?P<pk>[0-9]+)$',views.EliminarHistoria.as_view() ,name="Eliminar-Pacientes"),

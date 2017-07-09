@@ -33,6 +33,7 @@ def Tabla(request):
 
     for historia in historias:
         pk=historia.pk
+        pk="<a href='/historia/{0}'> {1} </a>".format(pk, pk)
         pedido= historia.Pedido
         p=pedido.pk
         medico= pedido.Medico.Nombre
@@ -67,13 +68,13 @@ def DescargarDoc(request,historia_id):
     campo_viejo=str(plantilla.Campo)
     print (campo_viejo)
 
-    pedido=historia.Pedido #---cambio
+    pedido=historia.Pedido 
     nombre_paciente=str(pedido.Paciente.Nombre) +' '+ str(pedido.Paciente.Apellido)
     medico_solicitante= str(pedido.Medico.Nombre) +' '+ str(pedido.Medico.Apellido)
     fecha=historia.Fecha_creacion
     edad_paciente=pedido.Paciente.Edad
 
-    document=filler.reemplaza('##campo##',campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
+    document=filler.reemplaza(campo_viejo,campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
         fecha,nombre_doc )
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
@@ -163,10 +164,7 @@ def CrearPedido1(request):
             request.session['paciente']=form.cleaned_data['Paciente']
             request.session['diagnostico']=form.cleaned_data['Diagnostico']
             import datetime
-            if form.cleaned_data['Fecha']=='':
-                request.session['fecha']=datetime.datetime.now().date()
-            else:
-                request.session['fecha']=form.cleaned_data['Fecha']
+            request.session['fecha']=str(form.cleaned_data['Fecha'])
 
 
              #es el pk porq no puedo verificar el nombre y apell
