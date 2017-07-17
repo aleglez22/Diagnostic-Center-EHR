@@ -1,0 +1,81 @@
+
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+         <div class="container">
+            <div class="row">
+              <div class="col-md-3 col-xs-8 col-sm-6">
+                <form name="formulario_pacientes" method="post">
+                  <div class="form-group row">
+                      <h1>Registro de pacientes</h1>
+                        <div>
+                              <h5>
+                                {% csrf_token %}
+                                {% include 'hcapp/form_template.html' %}
+                              </h5>
+                        </div>
+                          <button class="btn btn-primary btn-block"> Crear </button>
+        
+                  </div>
+                </form>
+              </div>
+<div>
+  <div class="col-md-1 col-xs-4 col-sm-6">
+    
+  </div>
+</div>
+              
+              <div class="col-md-9 col-xs-8 col-sm-6">
+                <div class="table-responsive" align="center">
+                    <table class="table Contextual Classes" >
+                          <thead>
+                              <tr colspan="5" align="center"><h2>Ultimos Paciente</h2></tr>                       
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Edad</th>
+                                <th>Paciente</th>
+                                <th>Fecha</th>
+                                <th>Teléfono</th>
+                            </tr>
+                          </thead>
+                              {% for paciente in ultimos %}
+                          <tbody>
+                           <tr>                  
+                                <td class="warning">
+                                    {{paciente.Cedula}}
+                                </td>
+
+                                <td class="danger">
+                                    {{paciente.Edad}}
+                                </td>
+                                
+                                <td class="success">
+                                    {{paciente.Nombre }}  {{paciente.Apellido}}
+                                </td>
+                  
+                                <td class="info">
+                                  {{paciente.Fecha}}
+                                </td>
+
+                                <td class="warning">
+                                  {{paciente.Telefono}}
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-primary btn-block" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
+                                 </td> 
+                                 <td>  
+                                    <button class="btn btn-primary btn-block" type="button" id="eliminar_paciente"> Eliminar </button>
+                                </td>
+                              
+                              </tr>
+                            </tbody>
+                            {% endfor %}
+                    </table>                   
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock contenido %}
