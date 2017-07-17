@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect , get_object_or_404
-from .models import Paciente, Secretario, Medico, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
+from .models import Paciente, Historia, Secretario, Medico, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
 from django.views import generic
 from django.apps import apps
 from . import models as m
@@ -11,6 +11,10 @@ from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm
 import json
 from docx import Document
 from . import filler  
+
+
+
+
 
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
@@ -53,9 +57,28 @@ def Tabla(request):
     return HttpResponse(json.dumps(dic), mimetype)
 
 
+
+
 class DetalleHistoria(generic.DetailView):
     model=m.Historia
     template_name = 'hcapp/detalle_historia.html'
+
+    def get_context_data(self, **kwargs):
+        contexto=super(DetalleHistoria, self).get_context_data(**kwargs)
+        historia_actual= Historia.objects.get(pk=self.kwargs['pk'])
+        print('historia_actual '+str(historia_actual.pk))
+        estudio_actual= historia_actual.TipoEstudio
+
+        pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
+        print('pedido actual '+str(pedido_actual.pk))
+
+        pedidos=Pedido.objects.filter(Paciente= pedido_actual.Paciente)
+        print('pedidos '+str(pedidos)) #pedidos en los que esta el paciente actual
+
+        historias= Historia.objects.filter(Pedido=pedidos, TipoEstudio=estudio_actual)
+        print('historias  '+str(historias)) #pedidos en los que esta el paciente actual
+        contexto['historias_paciente']= historias
+        return contexto
 
 
 
@@ -398,6 +421,86 @@ def GetEstudio(request, subcategoria_id):
         contexto[estudio.id] = estudio.Nombre
     return HttpResponse(json.dumps(contexto), content_type="application/json")
 
+
+
+
+
+
+
+'''class RegistrarPlaca(generic.CreateView):
+    model = Placa
+    fields = '__all__'
+    template_name_suffix ='_form'
+    #form_class= PacienteForm
+    success_url =reverse_lazy('hcapp:Registrar-Placa')
+
+def ObtenerPlacas(request):
+    if request.POST:
+        f_ini = request.POST['fecha_inicial']
+        f_fin = request.POST['fecha_final']
+        if f_ini and f_fin:
+            a = Placa.objects.filter(Fecha__range=(f_ini, f_fin))
+        else:
+            a = Placa.objects.all()
+        return render(request,'reportes.html',{'placas':a})
+
+    return (redirect (reverse_lazy("hcapp:Reportes")))
+'''
+
+def ReporteEstudios(request):
+    if request.POST:
+        f_ini = request.POST['fecha_inicial']
+        f_fin = request.POST['fecha_final']
+        if f_ini and f_fin:
+            a = Historia.objects.filter(Fecha__range=(f_ini, f_fin))
+        else:
+            a = Historia.objects.all()
+        return render(request,'reportes.html', {'estudios':a})
+    return redirect (reverse_lazy("hcapp:Reportes"))
+
+    #{{ sec.books_set.count }}
+
+def ReporteMedicos(request):
+    if request.POST:
+        f_ini = request.POST['fecha_inicial']
+        f_fin = request.POST['fecha_final']
+        if f_ini and f_fin:
+            a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin))
+        else:
+            a = Pedido.objects.all()
+        return render(request,'reporte_estudio.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Reportes"))
+
+
+def ReportePacientes(request):
+    if request.POST:
+        f_ini = request.POST['fecha_inicial']
+        f_fin = request.POST['fecha_final']
+        if f_ini and f_fin:
+            a = Paciente.objects.filter(Fecha__range=(f_ini, f_fin))
+        else:
+            a = Paciente.objects.all()
+        return render(request,'reporte_estudio.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Reportes"))
+
+
+def RegistrarCortecia(request):
+    if request.POST:
+        f_ini = request.POST['fecha_inicial']
+        f_fin = request.POST['fecha_final']
+        if f_ini and f_fin:
+            a = Paciente.objects.filter(Fecha__range=(f_ini, f_fin))
+        else:
+            a = Paciente.objects.all()
+        return render(request,'reporte_estudio.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Reportes"))
+
+    
+'''
+$("form input[name='my_field_name']").click(function () { 
+    // Handle the click event here
+});
+'''
 
 
 #pasarle como parametro el nombre de la tabla a modificar utilizando factory

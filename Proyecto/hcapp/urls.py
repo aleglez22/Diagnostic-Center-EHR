@@ -49,6 +49,6 @@ url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio")
 url(r'^api/paciente/$', views.AutocompletarPaciente, name= "Api-Paciente"),
 url(r'^api/tabla/$', views.Tabla, name= "Api-Tabla"),
 url(r'^pruebatabla/$', views.PruebaTabla, name= "Prueba-Tabla"),
-
+url(r'^reportes/$', views.PruebaTabla, name= "Reportes"),
 ]
 

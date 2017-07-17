@@ -6,9 +6,12 @@
 
 
 
-
-
-
+  <script type="text/javascript" src=" {% static 'js/jquery-1.9.1.js' %}" > </script>
+  <script type="text/javascript" src=" {% static 'js/ruc_jquery_validator.min.js' %}"> </script>
+  
+<div id="mensaje">
+  click aqui
+</div>
 
          <div class="container">
             <div class="row">
@@ -80,6 +83,27 @@
             </div>
           </div>
 
+<script type="text/javascript">
+      $("#id_Cedula").validarCedulaEC({
+        the_classes: "color_blue",
+        events: "blur"
+      });
 
+    </script>
+
+<script type="text/javascript">
+  
+$( "#mensaje" ).click(function() {
+
+var cedulas=[];
+
+{% for paciente in ultimos %}
+cedulas.push({{paciente.Cedula}});
+{% endfor %}
+
+  alert( cedulas[1]);
+});
+
+</script>
 
 {% endblock contenido %}

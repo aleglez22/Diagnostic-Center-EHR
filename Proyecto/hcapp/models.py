@@ -67,8 +67,6 @@ class Secretario (models.Model):
 
 
 
-
-
 class Plantilla(models.Model):
     TipoEstudio = models.CharField(max_length=200) #>>>>unique
     Fecha_creacion = models.DateField(auto_now=True)
@@ -123,6 +121,16 @@ class TipoEstudio(models.Model):
         return ("est: "+str(self.Nombre))
 
 
+
+class Placa(models.Model):
+    tipos=(('AGFA','8 X 10'), ('AGFA','10 X 14'),('AGFA','14 X 17'), ('FUJI','8 X 10'),
+    ('FUJI','10 X 14'),('FUJI','14 X 17'))
+    Tipo = models.CharField(max_length=255, null=True, blank=True, choices=tipos)
+    Fecha= models.DateField(auto_now=True)
+
+
+    def __str__(self):
+        return ("cat: "+str(self.Nombre))
 
 
 ##### CABEZA ######
