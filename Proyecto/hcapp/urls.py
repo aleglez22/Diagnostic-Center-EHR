@@ -20,17 +20,17 @@ url(r'^GetEstudio/(?P<subcategoria_id>[0-9]+)/$',views.GetEstudio,name="estudio"
 
 
 url(r'^crear/paciente/$',views.CrearPaciente.as_view() ,name="Crear-Paciente"),
-url(r'^pacientes/$',views.ListaPaciente.as_view() ,name="Home-Pacientes"),
+url(r'^pacientes/$',views.TablaPacientes ,name="Tabla-Pacientes"),
 url(r'^editar/paciente/(?P<pk>[0-9]+)/$',views.EditarPaciente.as_view() ,name="Editar-Pacientes"),
 url(r'^eliminar/paciente/(?P<pk>[0-9]+)$',views.EliminarPaciente.as_view() ,name="Eliminar-Pacientes"),
 
 
     ###HISTORIAS###
 url(r'^crear/historia/$',views.GuardarHistoria ,name="Crear-Historia"),
-url(r'^historias/$',views.ListaHistorias.as_view() ,name="Home-Historias"),
 url(r'^crear/otrahistoria/$',views.GuardarOtraHistoria ,name="Crear-Otra-Historia"),
 url(r'^crear/selecciona-estudio/$',views.CasoErrorNestudio ,name="Selecciona-Estudio"),
 url(r'^historia/(?P<pk>[0-9]+)/$',views.DetalleHistoria.as_view() ,name="Detalle-Historia"),
+url(r'^historias/$', views.Historias, name= "Tabla-Historias"),
 
 #url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="Editar-Historia"),
 #url(r'^eliminar/historia/(?P<pk>[0-9]+)$',views.EliminarHistoria.as_view() ,name="Eliminar-Pacientes"),
@@ -47,8 +47,8 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 url(r'^api/medico-solicitante/$', views.AutocompletarMedicoSolicitante, name= "Api-MedicoSolicitante"),
 url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio"),
 url(r'^api/paciente/$', views.AutocompletarPaciente, name= "Api-Paciente"),
-url(r'^api/tabla/$', views.Tabla, name= "Api-Tabla"),
-url(r'^pruebatabla/$', views.PruebaTabla, name= "Prueba-Tabla"),
-url(r'^reportes/$', views.PruebaTabla, name= "Reportes"),
+url(r'^api/historias/$', views.TablaHistorias, name= "Api-Historias"),
+url(r'^api/pacientes/$', views.TablaPacientes, name= "Api-Pacientes"),
+#url(r'^reportes/$', views.PruebaTabla, name= "Reportes"),
 ]
 

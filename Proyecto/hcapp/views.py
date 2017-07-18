@@ -25,10 +25,28 @@ def Pruebaselect(request):
     form=TipoEstudioForm()
     return render(request,"hcapp/prueba_select.html",{ 'form': form})
 
-def PruebaTabla(request):
+def Historias(request):
     return render(request,"hcapp/prueba_table.html",{})
 
-def Tabla(request):
+
+def TablaPacientes(request):
+    
+    pacientes= Paciente.objects.all()
+    lista=[]
+    listaDatos=[]
+
+    for p in pacientes:
+
+        lista=[str(p.Cedula),str(p.Nombre)+' '+str(p.Apellido),str(p.Telefono),str(p.Edad),str(p.Fecha_nacimiento),
+        str(p.Fecha_ingreso)]
+        listaDatos.append(lista)
+    
+    dic={"data":listaDatos}
+    mimetype = 'application/json'
+    return HttpResponse(json.dumps(dic), mimetype)
+
+
+def TablaHistorias(request):
     
     historias= m.Historia.objects.all()
     lista=[]
@@ -55,7 +73,6 @@ def Tabla(request):
     
     mimetype = 'application/json'
     return HttpResponse(json.dumps(dic), mimetype)
-
 
 
 
@@ -145,13 +162,7 @@ class CrearPaciente(generic.CreateView):
         ctx['ultimos'] = ultimos
         return ctx
 
-class ListaPaciente(generic.ListView):
-    template_name = 'hcapp/lista_pacientes.html'
-    context_object_name='pacientes'
 
-    # @Override devuelve los objetos que serán renderizados
-    def get_queryset(self):
-        return Paciente.objects.all().order_by('-Fecha_ingreso')
 
 class EliminarPaciente(generic.DeleteView):
     model= Paciente
@@ -323,13 +334,6 @@ class ListaPedidos(generic.ListView):
     def get_queryset(self):
         return Pedido.objects.all().order_by('-Fecha')
 
-class ListaHistorias(generic.ListView):
-    template_name = 'hcapp/historias.html'
-    context_object_name='historias'
-
-    # @Override devuelve los objetos que serán renderizados
-    def get_queryset(self):
-        return Pedido.objects.all().order_by('-Fecha')
 
 class FactoryHistoria():
     def getTipo(self,nombreEstudio):
