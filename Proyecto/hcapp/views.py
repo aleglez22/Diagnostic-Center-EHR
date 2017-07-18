@@ -13,9 +13,6 @@ from docx import Document
 from . import filler  
 
 
-
-
-
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
     pacientes=Paciente.objects.all()

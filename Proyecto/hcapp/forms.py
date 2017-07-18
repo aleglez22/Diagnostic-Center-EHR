@@ -27,14 +27,19 @@ def validar_estudio_existe(value):
 
 
 class PedidoForm(forms.Form):
-    Paciente = forms.CharField(label='Paciente',validators=[validar_cliente_existe])
+    Paciente = forms.CharField(validators=[validar_cliente_existe], widget=forms.TextInput(attrs={'class': 'form-control'}))
     Medico= forms.CharField(label='Médico solicitante',required=False)
     Fecha= forms.DateField(label='Fecha Pedido',required=False)
     Estudio=forms.CharField(label='Tipo de estudio',validators=[validar_estudio_existe])
-    Diagnostico=forms.CharField(label='Diagnostico',required=False)
+    Diagnostico=forms.CharField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(PedidoForm, self).__init__(*args, **kwargs)
+        for x, y in self.fields.items():
+            self.fields[x].widget.attrs.update({'class': 'form-control'})
 
 class NombreEstudioForm(forms.Form):
-    Estudio=forms.CharField(label='Tipo de estudio',validators=[validar_estudio_existe],required=False)
+    Estudio=forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Tipo de estudio',validators=[validar_estudio_existe],required=False)
 
        
 class EstudioForm(forms.Form):
