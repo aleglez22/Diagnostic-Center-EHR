@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 from django.core.urlresolvers import reverse
 
+## Cuando se elimina un campo con relaciones 
+## poner default=1 
 
 # Create your models here.
 from datetime import date
@@ -74,12 +76,16 @@ class Plantilla(models.Model):
     Conclusion = models.TextField()
     NombreDoc= models.CharField(max_length=200)
 
+
 class Pedido(models.Model):
+    TRUE_FALSE_CHOICE = ((True, "Yes"),(False, "No"))
     Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
     Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
     Fecha = models.DateField(auto_now=True)
+    Cortecia = models.BooleanField(choices=TRUE_FALSE_CHOICE)
+
 
     def __str__(self):
         return ("pedido: "+str(self.Paciente)+str(self.Diagnostico_presuntivo))
@@ -111,7 +117,6 @@ class Subcategoria(models.Model):
         return ("sub: "+str(self.Nombre))
 
 
-
 class TipoEstudio(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
     Subcategoria= models.ForeignKey(Subcategoria, on_delete=models.DO_NOTHING)
@@ -128,9 +133,8 @@ class Placa(models.Model):
     Tipo = models.CharField(max_length=255, null=True, blank=True, choices=tipos)
     Fecha= models.DateField(auto_now=True)
 
-
     def __str__(self):
-        return ("cat: "+str(self.Nombre))
+        return ("placa: "+str(self.Tipo))
 
 
 ##### CABEZA ######

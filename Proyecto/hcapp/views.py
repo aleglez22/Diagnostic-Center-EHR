@@ -194,6 +194,7 @@ def CrearPedido1(request):
             estudio=form.cleaned_data['Estudio']
             request.session['paciente']=form.cleaned_data['Paciente']
             request.session['diagnostico']=form.cleaned_data['Diagnostico']
+            request.session['cortecia']=form.cleaned_data['Cortecia']
             import datetime
             request.session['fecha']=str(form.cleaned_data['Fecha'])
 
@@ -231,7 +232,7 @@ def GuardarHistoria(request):
             
             
             pedido = Pedido(Paciente= Paciente.objects.get(Cedula=request.session['paciente']), Medico= MedicoSolicitante.objects.get(pk=request.session['medico']),
-            Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'])
+            Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'], Cortecia=request.session['cortecia'])
             pedido.save()
             historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)
             
@@ -424,12 +425,8 @@ def GetEstudio(request, subcategoria_id):
 
 
 
-
-
-
-
-'''class RegistrarPlaca(generic.CreateView):
-    model = Placa
+class RegistrarPlaca(generic.CreateView):
+    model = m.Placa
     fields = '__all__'
     template_name_suffix ='_form'
     #form_class= PacienteForm
@@ -440,13 +437,13 @@ def ObtenerPlacas(request):
         f_ini = request.POST['fecha_inicial']
         f_fin = request.POST['fecha_final']
         if f_ini and f_fin:
-            a = Placa.objects.filter(Fecha__range=(f_ini, f_fin))
+            a = m.Placa.objects.filter(Fecha__range=(f_ini, f_fin))
         else:
-            a = Placa.objects.all()
+            a = m.Placa.objects.all()
         return render(request,'reportes.html',{'placas':a})
 
     return (redirect (reverse_lazy("hcapp:Reportes")))
-'''
+
 
 def ReporteEstudios(request):
     if request.POST:

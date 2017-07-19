@@ -3,7 +3,43 @@
 {% extends "hcapp/index.html" %}
 {% load staticfiles %}
 
+
+
 {% block contenido %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="container">
+  <h2>Small Modal</h2>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Crear Nuevo Paciente </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Crear pacientes</h4>
+        </div>
+        <div class="modal-body">
+        <form method="post">
+          {% csrf_token %}
+          {{form.as_p}}
+          <input type="submit" name="guardar">
+        </form>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
          <div class="container">
             <div class="row">
@@ -95,6 +131,64 @@ cedulas.push({{paciente.Cedula}});
   alert( cedulas[1]);
 });
 
+</script>
+
+
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form name="formulario_pacientes" method="post">
+                  <div class="form-group row">
+                      <h1>Registro de pacientes</h1>
+                        <div>
+                              <h5>
+                                {% csrf_token %}
+                                {% include 'hcapp/form_template.html' %}
+                              </h5>
+                        </div>
+                          <button class="btn btn-primary btn-block"> Crear </button>
+        
+                  </div>
+                </form>
+    
+
+
+  </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+  var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 </script>
 
 {% endblock contenido %}
