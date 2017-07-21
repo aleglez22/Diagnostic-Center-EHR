@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect , get_object_or_404
 from .models import Paciente, Historia, Secretario, Medico, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
-from django.views import generic
+from django.views import generic, View
 from django.apps import apps
 from . import models as m
 from django.core.urlresolvers import reverse_lazy
@@ -336,13 +336,6 @@ class FactoryHistoria():
     def getTipo(self,nombreEstudio):
         return apps.get_model(app_label="hcapp",model_name=nombreEstudio)
 
-'''
-class EditarHistoria(generic.UpdateView):
-    model = m.Historia.CerebroSimple
-    fields = '__all__'
-    #jodido buscar solucu¿ion
-'''
-
 
 import unicodedata
 def elimina_tildes(s):
@@ -437,53 +430,6 @@ class RegistrarPlaca(generic.CreateView):
     template_name_suffix ='_form'
     success_url =reverse_lazy('hcapp:Registrar-Placa')
 
-def ReportePlacas(request):
-    if request.POST:
-        f_ini = request.POST.get('fecha_inicial')
-        f_fin = request.POST.get('fecha_final')
-        if f_ini and f_fin:
-            a = m.Placa.objects.filter(Fecha__range=(f_ini, f_fin))
-        else:
-            a = m.Placa.objects.all()
-        return render(request,'hcapp/reportes.html',{'placas':a})
-    return (redirect (reverse_lazy("hcapp:Home-Reportes")))
-
-
-def ReporteEstudios(request):
-    if request.POST:
-        f_ini = request.POST.get('fecha_inicial')
-        f_fin = request.POST.get('fecha_final')
-        if f_ini and f_fin:
-            a = Historia.objects.filter(Fecha__range=(f_ini, f_fin))
-        else:
-            a = Historia.objects.all()
-        return render(request,'hcapp/reportes.html', {'estudios':a})
-    return redirect (reverse_lazy("hcapp:Home-Reportes"))
-
-    #{{ sec.books_set.count }}
-
-def ReporteMedicos(request):
-    if request.POST:
-        f_ini = request.POST.get('fecha_inicial')
-        f_fin = request.POST.get('fecha_final')
-        if f_ini and f_fin:
-            a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin))
-        else:
-            a = Pedido.objects.all()
-        return render(request,'hcapp/reportes.html', {'pedidos':a})
-    return redirect (reverse_lazy("hcapp:Home-Reportes"))
-
-
-def ReportePacientes(request):
-    if request.POST:
-        f_ini = request.POST.get('fecha_inicial')
-        f_fin = request.POST.get('fecha_final')
-        if f_ini and f_fin:
-            a = Paciente.objects.filter(Fecha__range=(f_ini, f_fin))
-        else:
-            a = Paciente.objects.all()
-        return render(request,'hcapp/reportes.html', {'pedidos':a})
-    return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 from datetime import date
 
@@ -509,12 +455,62 @@ def ReporteCortecias(request):
             return render(request,'hcapp/reportes.html', {'pedidos':a})
     return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
+
+
+class Reporte(View):
+    today = date.today()
+    model=Pedido
+    template='hcapp/reportes.html'
+    date_field_name = 'Fecha__range'
+    context_name='pedidos'
+
     
-'''
-$("form input[name='my_field_name']").click(function () { 
-    // Handle the click event here
-});
-'''
+    def post(self, request, *args, **kwargs): 
+        form=RangoFechasForm(request.POST) 
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                
+                context =self.model.objects.filter(**{self.date_field_name: (f_ini,f_fin)}) 
+                print("ambas")
+            elif (f_ini != None):
+                context = self.model.objects.filter(**{self.date_field_name: (f_ini,self.today)}) 
+                print("inicial")
+            else:
+                context = self.model.objects.all()
+                print("ninguna")
+                
+            return render(request,self.template, {self.context_name:context})
+        return redirect (reverse_lazy("hcapp:Home-Reportes"))
+
+
+class ReportePacientes(Reporte):
+    model=Paciente
+    date_field_name='Fecha_ingreso__range'
+    context_name='pacientes'
+
+class ReportePlacas(Reporte):
+    model=m.Placa
+    date_field_name='Fecha__range'
+    context_name='placas'
+
+class ReporteEstudios(Reporte):
+    model=Historias
+    date_field_name='Fecha_creacion__range'
+    context_name='historias'
+
+class ReporteMedicos(Reporte):
+    model=Pedido
+    date_field_name='Fecha__range'
+    context_name='pedidos'
+
+
+
+
+    
 
 
 #pasarle como parametro el nombre de la tabla a modificar utilizando factory
