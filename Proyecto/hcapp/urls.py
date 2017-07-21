@@ -43,6 +43,16 @@ url(r'^pedido/(?P<pk>[0-9]+)/$',views.DetallePedido.as_view() ,name="Detalle-Ped
 url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 
 
+	###REPORTES###
+url(r'^registrar-placas/$',views.RegistrarPlaca ,name="Registrar-Placa"),
+url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
+url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
+url(r'^reportes/reporte-pacientes/$',views.ReportePacientes ,name="Reporte-Paciente"),
+url(r'^reportes/reporte-estudios/$',views.ReporteEstudios ,name="Reporte-Estudios"),
+url(r'^reportes/reporte-medicos/$',views.ReporteMedicos ,name="Reporte-Medicos"),
+
+
+
     ### REST API JSON ###
 url(r'^api/medico-solicitante/$', views.AutocompletarMedicoSolicitante, name= "Api-MedicoSolicitante"),
 url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio"),

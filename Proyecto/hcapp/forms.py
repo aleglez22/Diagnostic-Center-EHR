@@ -44,6 +44,10 @@ class PedidoForm(forms.Form):
         for x, y in self.fields.items():
             self.fields[x].widget.attrs.update({'class': 'form-control'})
 
+class RangoFechasForm(forms.Form):
+    Fecha_inicial= forms.DateField(label='Fecha Inicial',required=False)
+    Fecha_final= forms.DateField(label='Fecha Final',required=False)
+
 class NombreEstudioForm(forms.Form):
     Estudio=forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Tipo de estudio',validators=[validar_estudio_existe],required=False)
 
