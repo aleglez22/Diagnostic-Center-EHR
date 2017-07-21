@@ -1,0 +1,45 @@
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-4 col-sm-6">
+        	<button type="button" id="Estudios" class="btn btn-default">Estudios</button>
+			<button type="button" id="Médico" class="btn btn-primary">Médico</button>
+			<button type="button" id="Pacientes" class="btn btn-success">Pacientes</button>
+			<button type="button" id="Placas" class="btn btn-info">Placas</button>
+			<button type="button" id="Cortesias" class="btn btn-warning">Cortesias</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="col-md-6 col-xs-4 col-sm-6">
+		<form class="form-horizontal">
+		  <div class="input-group">
+	    	<input type="text" class="form-control" placeholder="Fecha Inicio">
+	    		<div class="input-group-btn">
+	      			<button class="btn btn-default" type="submit">enviar</button>
+	        			<i class="glyphicon glyphicon-search"></i>
+	      			</button>
+	    		</div>
+	  	  </div>
+		</form>
+	</div>
+
+	<div class="col-md-6 col-xs-4 col-sm-6">
+		<form class="form-horizontal">
+		  <div class="input-group">
+	    	<input type="text" class="form-control" placeholder="Fecha Final">
+	    		<div class="input-group-btn">
+	      			<button class="btn btn-default" type="submit">enviar</button>
+	        			<i class="glyphicon glyphicon-search"></i>
+	      			</button>
+	    		</div>
+	  	  </div>
+		</form>
+	</div>
+</div>
+
+{% endblock contenido %}

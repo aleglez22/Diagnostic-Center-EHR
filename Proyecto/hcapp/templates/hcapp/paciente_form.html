@@ -1,90 +1,45 @@
-
-
 {% extends "hcapp/index.html" %}
 {% load staticfiles %}
 
-
-
 {% block contenido %}
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<div class="container">
-  <h2>Small Modal</h2>
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Crear Nuevo Paciente </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Crear pacientes</h4>
-        </div>
-        <div class="modal-body">
-        <form method="post">
-          {% csrf_token %}
-          {{form.as_p}}
-          <input type="submit" name="guardar">
-        </form>
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 
          <div class="container">
             <div class="row">
-              <div class="col-md-3 col-xs-8 col-sm-6">
+              <div class="col-md-3 col-xs-4 col-sm-6">
                 <form name="formulario_pacientes" method="post">
                   <div class="form-group row">
-                      <h1>Registro de pacientes</h1>
-                        <div>
-                              <h5>
+                      <h1>Registro de Pacientes</h1>
+                        <div>      
                                 {% csrf_token %}
-                                {% include 'hcapp/form_template.html' %}
-                              </h5>
+                                {% include 'hcapp/form_template.html' %}         
                         </div>
+                        <br>
                           <button class="btn btn-primary btn-block"> Crear </button>
-        
                   </div>
                 </form>
               </div>
-<div>
-  <div class="col-md-1 col-xs-4 col-sm-6">
-    
-  </div>
-</div>
-              
               <div class="col-md-9 col-xs-8 col-sm-6">
                 <div class="table-responsive" align="center">
                     <table class="table Contextual Classes" >
                           <thead>
-                              <tr colspan="5" align="center"><h2>Ultimos Paciente</h2></tr>                       
+                              <tr colspan="5" align="center"><h2>Paciente Nuevos</h2></tr>                       
                             <tr>
-                                <th>Cédula</th>
-                                <th>Edad</th>
-                                <th>Paciente</th>
-                                <th>Fecha</th>
-                                <th>Teléfono</th>
+                                <th><h3 align="center"> Cédula </h3></th>
+                                <th><h3 align="center"> Edad </h3></th>
+                                <th><h3 align="center"> Paciente </h3></th>
+                                <th><h3 align="center"> Fecha </h3></th>
+                                <th><h3 align="center"> Teléfono </h3></th>
                             </tr>
                           </thead>
                               {% for paciente in ultimos %}
+
                           <tbody>
                            <tr>                  
                                 <td class="warning">
-                                    {{paciente.Cedula}}
+                                   {{paciente.Cedula}} 
                                 </td>
 
-                                <td class="danger">
+                                <td class="danger" align="center">
                                     {{paciente.Edad}}
                                 </td>
                                 
@@ -93,7 +48,7 @@
                                 </td>
                   
                                 <td class="info">
-                                  {{paciente.Fecha}}
+                                  {{paciente.Fecha_nacimiento}}
                                 </td>
 
                                 <td class="warning">
@@ -103,10 +58,11 @@
                                 <td>
                                     <button class="btn btn-primary btn-block" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
                                  </td> 
+                                 <!--
                                  <td>  
-                                    <button class="btn btn-primary btn-block" type="button" id="eliminar_paciente"> Eliminar </button>
-                                </td>
-                              
+                                    <button class="btn btn-primary btn-block" type="button" id="eliminar_paciente" onclick="window.location.href='/eliminar/paciente/{{ paciente.pk }}'"> Eliminar </button>
+                                </td> 
+                              -->
                               </tr>
                             </tbody>
                             {% endfor %}
@@ -134,61 +90,66 @@ cedulas.push({{paciente.Cedula}});
 </script>
 
 
-<button id="myBtn">Open Modal</button>
+<!--////////////////////////////////////////////////-->
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+<div class="container">
+  <div class="row">
+   <!--
+   <form action="paciente.pk" method="post" target="nventana" onsubmit="procesar(this.action);">
+      <input type="submit" name="">
+   </form>
+  
+    <div class="col-md-12 col-xs-8 col-sm-6">
+        <button class="btn btn-primary btn-block" type="button" id="ver todos los pacientes" onclick="window.location.href='ver_pacientes.html'"> Ver todos los Pacientes </button>
+  -->
+<link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
+ 
+  <script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form name="formulario_pacientes" method="post">
-                  <div class="form-group row">
-                      <h1>Registro de pacientes</h1>
-                        <div>
-                              <h5>
-                                {% csrf_token %}
-                                {% include 'hcapp/form_template.html' %}
-                              </h5>
-                        </div>
-                          <button class="btn btn-primary btn-block"> Crear </button>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-xs-8 col-sm-6">
+            
+              <h1>PACIENTES</h1>
+              <br>
+                <table id="tabla_pacientes" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
+                        <thead>
+                            <tr class="danger">
+                                <th>Cédula</th>
+                                <th>Nombre y Apellido</th>
+                                <th>Teléfono</th>
+                                <th>Edad</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Fecha Ingreso</th>
+                               
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr class="success">
+                                <th>Cédula</th>
+                                <th>Nombre y Apellidoe</th>
+                                <th>Teléfono</th>
+                                <th>Edad</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Fecha Ingreso</th>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+            
+        </div>
+      </div>
+    </div>
+
+  <script type="text/javascript">
         
-                  </div>
-                </form>
-    
+        $(document).ready(function() {
+            $('#tabla_pacientes').DataTable( {
+                "ajax": '/api/pacientes/'
+            } );
+        } );
 
-
-  </div>
-
-
-</div>
-
-
-<script type="text/javascript">
-  var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+  </script>
+        <br>
 
 {% endblock contenido %}

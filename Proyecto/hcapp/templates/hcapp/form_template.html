@@ -1,27 +1,32 @@
-
 {% for field in form%}
 {% load staticfiles %}
+<h4>
+    {{field.label_tag}}
+</h4>
+{% if field.errors %}
+<div class="alert alert-danger">
+       {{ field.errors|escape }}
+</div>
+  {% endif %}
+  {{ field_for_label }}
+<div>
+    {{ field }}
 
-	<label>  {{field.label_tag}} </label>
-
-		{% if field.errors %}
-			<div class="alert alert-danger">
-  				<label >{{ field.errors|escape }} </label>
-			</div>
-		{% endif %}
-{{ field.id_for_label }}
-		<div > {{ field }} </div>
-
+</div>
 {% endfor %}
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
+<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="/resources/demos/style.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-1.12.4.js">
+        </script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">
+        </script>
+        <script>
+            $( function() {
     $( "#id_Fecha_nacimiento" ).datepicker();
     $( "#id_Fecha_nacimiento" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
   } );
-  </script>
+        </script>
+    </link>
+</link>
 
