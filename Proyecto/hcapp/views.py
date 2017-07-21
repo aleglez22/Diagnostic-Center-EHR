@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
 from django.http import HttpResponse
-from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm, EstudioForm
+from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm, EstudioForm, RangoFechasForm
 import json
 from docx import Document
 from . import filler  
@@ -195,7 +195,6 @@ def CrearPedido1(request):
             request.session['paciente']=form.cleaned_data['Paciente']
             request.session['diagnostico']=form.cleaned_data['Diagnostico']
             request.session['cortecia']=form.cleaned_data['Cortecia']
-            import datetime
             request.session['fecha']=str(form.cleaned_data['Fecha'])
 
 
@@ -425,73 +424,90 @@ def GetEstudio(request, subcategoria_id):
 
 
 
+######  REPORTES   ########
+
+def ReportesHome(request):
+    form=RangoFechasForm()
+    return render(request,"hcapp/reportes_home.html",{'form':form})
+
+
 class RegistrarPlaca(generic.CreateView):
     model = m.Placa
     fields = '__all__'
     template_name_suffix ='_form'
-    #form_class= PacienteForm
     success_url =reverse_lazy('hcapp:Registrar-Placa')
 
-def ObtenerPlacas(request):
+def ReportePlacas(request):
     if request.POST:
-        f_ini = request.POST['fecha_inicial']
-        f_fin = request.POST['fecha_final']
+        f_ini = request.POST.get('fecha_inicial')
+        f_fin = request.POST.get('fecha_final')
         if f_ini and f_fin:
             a = m.Placa.objects.filter(Fecha__range=(f_ini, f_fin))
         else:
             a = m.Placa.objects.all()
-        return render(request,'reportes.html',{'placas':a})
-
-    return (redirect (reverse_lazy("hcapp:Reportes")))
+        return render(request,'hcapp/reportes.html',{'placas':a})
+    return (redirect (reverse_lazy("hcapp:Home-Reportes")))
 
 
 def ReporteEstudios(request):
     if request.POST:
-        f_ini = request.POST['fecha_inicial']
-        f_fin = request.POST['fecha_final']
+        f_ini = request.POST.get('fecha_inicial')
+        f_fin = request.POST.get('fecha_final')
         if f_ini and f_fin:
             a = Historia.objects.filter(Fecha__range=(f_ini, f_fin))
         else:
             a = Historia.objects.all()
-        return render(request,'reportes.html', {'estudios':a})
-    return redirect (reverse_lazy("hcapp:Reportes"))
+        return render(request,'hcapp/reportes.html', {'estudios':a})
+    return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
     #{{ sec.books_set.count }}
 
 def ReporteMedicos(request):
     if request.POST:
-        f_ini = request.POST['fecha_inicial']
-        f_fin = request.POST['fecha_final']
+        f_ini = request.POST.get('fecha_inicial')
+        f_fin = request.POST.get('fecha_final')
         if f_ini and f_fin:
             a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin))
         else:
             a = Pedido.objects.all()
-        return render(request,'reporte_estudio.html', {'pedidos':a})
-    return redirect (reverse_lazy("hcapp:Reportes"))
+        return render(request,'hcapp/reportes.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
 def ReportePacientes(request):
     if request.POST:
-        f_ini = request.POST['fecha_inicial']
-        f_fin = request.POST['fecha_final']
+        f_ini = request.POST.get('fecha_inicial')
+        f_fin = request.POST.get('fecha_final')
         if f_ini and f_fin:
             a = Paciente.objects.filter(Fecha__range=(f_ini, f_fin))
         else:
             a = Paciente.objects.all()
-        return render(request,'reporte_estudio.html', {'pedidos':a})
-    return redirect (reverse_lazy("hcapp:Reportes"))
+        return render(request,'hcapp/reportes.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
+from datetime import date
 
-def RegistrarCortecia(request):
-    if request.POST:
-        f_ini = request.POST['fecha_inicial']
-        f_fin = request.POST['fecha_final']
-        if f_ini and f_fin:
-            a = Paciente.objects.filter(Fecha__range=(f_ini, f_fin))
-        else:
-            a = Paciente.objects.all()
-        return render(request,'reporte_estudio.html', {'pedidos':a})
-    return redirect (reverse_lazy("hcapp:Reportes"))
+def ReporteCortecias(request):
+    today = date.today()
+    form=RangoFechasForm(request.POST)
+    if request.POST:    
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin), Cortecia=True)
+                print("ambas")
+            elif (f_ini != None):
+                a = Pedido.objects.filter(Fecha__range=(f_ini, today), Cortecia=True)
+                print("inicial")
+            else:
+                a = Pedido.objects.filter(Cortecia=True)
+                print("ninguna")
+                
+            return render(request,'hcapp/reportes.html', {'pedidos':a})
+    return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
     
 '''

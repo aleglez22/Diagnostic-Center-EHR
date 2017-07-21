@@ -43,6 +43,11 @@ url(r'^pedido/(?P<pk>[0-9]+)/$',views.DetallePedido.as_view() ,name="Detalle-Ped
 url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 
 
+	###REPORTES###
+url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
+url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
+
+
     ### REST API JSON ###
 url(r'^api/medico-solicitante/$', views.AutocompletarMedicoSolicitante, name= "Api-MedicoSolicitante"),
 url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio"),

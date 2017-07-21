@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
+
+{{form.as_p}}
+
+
+	{% csrf_token %}
+	<input type="submit" value="cortecias">
+</form>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+  	$( "#id_Fecha_inicial" ).datepicker();
+    $( "#id_Fecha_inicial" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    $( "#id_Fecha_final").datepicker();
+    $( "#id_Fecha_final").datepicker( "option", "dateFormat", "yy-mm-dd" );
+  } );
+  </script>
+
+
+</body>
+</html>
