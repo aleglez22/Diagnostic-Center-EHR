@@ -5,15 +5,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-xs-4 col-sm-6">
+        <div class="col-md-8 col-xs-4 col-sm-6" align="center">
         	<button type="button" id="Estudios" class="btn btn-default">Estudios</button>
 			<button type="button" id="Médico" class="btn btn-primary">Médico</button>
 			<button type="button" id="Pacientes" class="btn btn-success">Pacientes</button>
 			<button type="button" id="Placas" class="btn btn-info">Placas</button>
-			<button type="button" id="Cortesias" class="btn btn-warning">Cortesias</button>
+			<br>
         </div>
     </div>
 </div>
+
+
+        <div class="col-md-4 col-xs-4 col-sm-6" align="center">
+        	<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
+				{{form.as_p}}
+				{% csrf_token %}
+				<input type="submit" value="Cortesias" class="btn btn-warning">
+			</form>
+        </div>
+   
+<!--
 <div class="container">
 	<div class="col-md-6 col-xs-4 col-sm-6">
 		<form class="form-horizontal">
@@ -27,28 +38,31 @@
 	  	  </div>
 		</form>
 	</div>
-<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
+-->
 
-{{form.as_p}}
-
-
-	{% csrf_token %}
-	<input type="submit" value="cortecias">
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-4 col-sm-6" >
+			<br>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-  	$( "#id_Fecha_inicial" ).datepicker();
-    $( "#id_Fecha_inicial" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-    $( "#id_Fecha_final").datepicker();
-    $( "#id_Fecha_final").datepicker( "option", "dateFormat", "yy-mm-dd" );
-  } );
-  </script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		  <script>
+		  $( function() {
+		  	$( "#id_Fecha_inicial" ).datepicker();
+		    $( "#id_Fecha_inicial" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+		    $( "#id_Fecha_final").datepicker();
+		    $( "#id_Fecha_final").datepicker( "option", "dateFormat", "yy-mm-dd" );
+		  } );
+		  </script>
+       </div>
+    </div>
+</div>
+
+  <!--
 	<div class="col-md-6 col-xs-4 col-sm-6">
 		<form class="form-horizontal">
 		  <div class="input-group">
@@ -61,6 +75,8 @@
 	  	  </div>
 		</form>
 	</div>
+-->
+
 </div>
 
 {% endblock contenido %}

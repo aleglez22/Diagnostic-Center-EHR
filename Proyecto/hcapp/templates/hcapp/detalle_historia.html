@@ -1,18 +1,32 @@
-{{historia.pk}} 
-<br>
-Tipo de estudio{{historia.TipoEstudio}}
-<br>
-campo {{historia.Campo}}
-<br>
-conclusion{{historia.Conclusion}}
-<br>
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
 
-<br>
-<br>
-<br>
-<br>
+{% block contenido %}
 
-{% for hist in  historias_paciente%}
-{{hist.pk}}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-4 col-sm-6" >
+			<br>
+				{{historia.pk}} 
+					<br>
+						Tipo de estudio{{historia.TipoEstudio}}
+					<br>
+						campo {{historia.Campo}}
+					<br>
+						conclusion{{historia.Conclusion}}
+					<br>
+
+					<br>
+					<br>
+					<br>
+					<br>
+
+						{% for hist in  historias_paciente%}
+						{{hist.pk}}
 	
-{% endfor %}
+				{% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

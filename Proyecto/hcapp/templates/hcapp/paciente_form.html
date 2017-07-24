@@ -74,18 +74,18 @@
 
 
 
-          <script type="text/javascript">
-  
-$( "#mensaje" ).click(function() {
+<script type="text/javascript">
+      
+    $( "#mensaje" ).click(function() {
 
-var cedulas=[];
+    var cedulas=[];
 
-{% for paciente in ultimos %}
-cedulas.push({{paciente.Cedula}});
-{% endfor %}
+    {% for paciente in ultimos %}
+    cedulas.push({{paciente.Cedula}});
+    {% endfor %}
 
-  alert( cedulas[1]);
-});
+      alert( cedulas[1]);
+    });
 
 </script>
 
@@ -104,13 +104,15 @@ cedulas.push({{paciente.Cedula}});
   -->
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
  
-  <script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
+<script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
 
     <div class="container">
       <div class="row">
         <div class="col-md-12 col-xs-8 col-sm-6">
-            
-              <h1>PACIENTES</h1>
+          <div class="jumbotron text-center">
+            <h2>Pacientes</h2>
+            <p>Lista de los Pacientes</p>
+          </div>
               <br>
                 <table id="tabla_pacientes" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
                         <thead>
