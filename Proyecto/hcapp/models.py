@@ -20,12 +20,12 @@ class Paciente (models.Model):
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
     Fecha_nacimiento= models.DateField(null= True, blank=True)
     Fecha_ingreso= models.DateField(auto_now=True, auto_now_add=False)
-    Edad= models.IntegerField(null=True, blank=True) #>>>>automatizar calculo
+    #Edad= models.IntegerField(null=True, blank=True) #>>>>automatizar calculo
 
-    def save(self, *args, **kwargs):
+    '''def save(self, *args, **kwargs):
         if not self.Edad:
             self.Edad = calculate_age(self.Fecha_nacimiento)
-        super(Paciente, self).save(*args, **kwargs)
+        super(Paciente, self).save(*args, **kwargs)'''
 
     def get_absolute_url(self):
         return reverse('hcapp:Crear-Paciente')
