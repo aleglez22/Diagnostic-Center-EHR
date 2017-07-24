@@ -12,6 +12,9 @@ import json
 from docx import Document
 from . import filler  
 
+def get_edad(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
@@ -26,6 +29,7 @@ def Historias(request):
     return render(request,"hcapp/prueba_table.html",{})
 
 
+
 def TablaPacientes(request):
     
     pacientes= Paciente.objects.all()
@@ -34,7 +38,7 @@ def TablaPacientes(request):
 
     for p in pacientes:
 
-        lista=[str(p.Cedula),str(p.Nombre)+' '+str(p.Apellido),str(p.Telefono),str(p.Edad),str(p.Fecha_nacimiento),
+        lista=[str(p.Cedula),str(p.Nombre)+' '+str(p.Apellido),str(p.Telefono),str(get_edad(p.Fecha_nacimiento)),str(p.Fecha_nacimiento),
         str(p.Fecha_ingreso)]
         listaDatos.append(lista)
     
@@ -109,7 +113,7 @@ def DescargarDoc(request,historia_id):
     nombre_paciente=str(pedido.Paciente.Nombre) +' '+ str(pedido.Paciente.Apellido)
     medico_solicitante= str(pedido.Medico.Nombre) +' '+ str(pedido.Medico.Apellido)
     fecha=historia.Fecha_creacion
-    edad_paciente=pedido.Paciente.Edad
+    edad_paciente=get_edad(pedido.Paciente.Fecha_nacimiento)
 
     document=filler.reemplaza(campo_viejo,campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
         fecha,nombre_doc )
@@ -167,7 +171,7 @@ class EliminarPaciente(generic.DeleteView):
 
 class EditarPaciente (generic.UpdateView):
     model= Paciente
-    fields = ['Telefono', 'Edad', 'Fecha_nacimiento']
+    fields = ['Telefono']
     #needs paciente_form.html
 
 
