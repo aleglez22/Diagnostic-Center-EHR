@@ -13,7 +13,7 @@
         <div class="form-group row">
           <h1>Historias Clínicas</h1>
           <br>
-            <table id="example" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
+            <table id="tabla_historias" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
                     <thead>
                         <tr class="danger">
                             <th>Id</th>
@@ -45,7 +45,7 @@
 <script type="text/javascript">
     
     $(document).ready(function() {
-        $('#example').DataTable( {
+        $('#tabla_historias').DataTable( {
             "ajax": '/api/historias/'
         } );
     } );

@@ -1,22 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>cortecias</title>
-</head>
-<body>
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
 
-{% for pedido in pedidos %}
-	
-{{pedido.Fecha}}
-
-{% endfor %}
+{% block contenido %}
 
 
-{% for paciente in pacientes %}
-	
-{{paciente.Edad}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-4 col-sm-6" >
+			<br>
 
-{% endfor %}
+				{% for pedido in pedidos %}
+					
+				{{pedido.Fecha}}
 
-</body>
-</html>
+				{% endfor %}
+
+
+				{% for paciente in pacientes %}
+					
+				{{paciente.Edad}}
+
+				{% endfor %}
+				
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
