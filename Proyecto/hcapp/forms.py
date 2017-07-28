@@ -3,9 +3,9 @@ from django.db import models
 from django import forms
 
 class TipoEstudioForm(forms.ModelForm):
-    categoria = forms.ModelChoiceField(required=False,queryset=m.Categoria.objects.all())
-    subcategoria = forms.ModelChoiceField(required=False,queryset=m.Subcategoria.objects.none()) # Need to populate this using jquery
-    estudio = forms.ModelChoiceField(required=False,queryset=m.TipoEstudio.objects.none()) # Need to populate this using jquery
+    categoria = forms.ModelChoiceField(required=False,queryset=m.Categoria.objects.all(),widget=forms.Select(attrs={'class': 'form-control'}))
+    subcategoria = forms.ModelChoiceField(required=False,queryset=m.Subcategoria.objects.none(),widget=forms.Select(attrs={'class': 'form-control'})) # Need to populate this using jquery
+    estudio = forms.ModelChoiceField(required=False,queryset=m.TipoEstudio.objects.none(), widget=forms.Select(attrs={'class': 'form-control'})) # Need to populate this using jquery
 
     class Meta:
         model = m.TipoEstudio
@@ -45,8 +45,8 @@ class PedidoForm(forms.Form):
             self.fields[x].widget.attrs.update({'class': 'form-control'})
 
 class RangoFechasForm(forms.Form):
-    Fecha_inicial= forms.DateField(label='Fecha Inicial',required=False)
-    Fecha_final= forms.DateField(label='Fecha Final',required=False)
+    Fecha_inicial= forms.DateField(label='Fecha Inicial',required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    Fecha_final= forms.DateField(label='Fecha Final',required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 class NombreEstudioForm(forms.Form):
     Estudio=forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Tipo de estudio',validators=[validar_estudio_existe],required=False)
