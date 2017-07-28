@@ -14,10 +14,12 @@
                                 {% include 'hcapp/form_template.html' %}         
                         </div>
                         <br>
-                          <button class="btn btn-primary btn-block"> Crear </button>
+                          <input type="submit" class="btn btn-primary btn-block"></button>
                   </div>
                 </form>
               </div>
+        <div class="container">
+            <div class="row">             
               <div class="col-md-9 col-xs-8 col-sm-6">
                 <div class="table-responsive" align="center">
                     <table class="table Contextual Classes" >
@@ -32,15 +34,14 @@
                             </tr>
                           </thead>
                               {% for paciente in ultimos %}
-
                           <tbody>
                            <tr>                  
                                 <td class="warning">
-                                   {{paciente.Cedula}} 
+                                   <a href="">{{paciente.Cedula}} </a>
                                 </td>
 
-                                <td class="danger" align="center">
-                                    {{paciente.Edad}}
+                                <td class="danger" ">
+                                    <strong>{{paciente.Edad}}</strong>
                                 </td>
                                 
                                 <td class="success">
@@ -58,11 +59,6 @@
                                 <td>
                                     <button class="btn btn-primary btn-block" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
                                  </td> 
-                                 <!--
-                                 <td>  
-                                    <button class="btn btn-primary btn-block" type="button" id="eliminar_paciente" onclick="window.location.href='/eliminar/paciente/{{ paciente.pk }}'"> Eliminar </button>
-                                </td> 
-                              -->
                               </tr>
                             </tbody>
                             {% endfor %}
@@ -71,7 +67,8 @@
               </div>
             </div>
           </div>
-
+        </div>
+      </div>
 
 
 <script type="text/javascript">
@@ -89,69 +86,15 @@
 
 </script>
 
-
 <!--////////////////////////////////////////////////-->
 
 <div class="container">
   <div class="row">
-   <!--
-   <form action="paciente.pk" method="post" target="nventana" onsubmit="procesar(this.action);">
-      <input type="submit" name="">
-   </form>
-  
-    <div class="col-md-12 col-xs-8 col-sm-6">
-        <button class="btn btn-primary btn-block" type="button" id="ver todos los pacientes" onclick="window.location.href='ver_pacientes.html'"> Ver todos los Pacientes </button>
-  -->
-<link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
- 
-<script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-xs-8 col-sm-6">
-          <div class="jumbotron text-center">
-            <h2>Pacientes</h2>
-            <p>Lista de los Pacientes</p>
-          </div>
-              <br>
-                <table id="tabla_pacientes" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
-                        <thead>
-                            <tr class="danger">
-                                <th>Cédula</th>
-                                <th>Nombre y Apellido</th>
-                                <th>Teléfono</th>
-                                <th>Edad</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Fecha Ingreso</th>
-                               
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr class="success">
-                                <th>Cédula</th>
-                                <th>Nombre y Apellidoe</th>
-                                <th>Teléfono</th>
-                                <th>Edad</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Fecha Ingreso</th>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-            
-        </div>
-      </div>
-    </div>
-
-  <script type="text/javascript">
-        
-        $(document).ready(function() {
-            $('#tabla_pacientes').DataTable( {
-                "ajax": '/api/pacientes/'
-            } );
-        } );
-
-  </script>
+    <div class="col-md-12 col-xs-8 col-sm-6" align="center">
+        <input type="submit" class="btn btn-primary btn-block" value="Ver todos los Pacientes" align="center">
         <br>
-
+    </div>
+  </div>
+</div>
+<br>
 {% endblock contenido %}
