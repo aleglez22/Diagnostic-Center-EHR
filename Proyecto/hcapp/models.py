@@ -82,8 +82,8 @@ class Plantilla(models.Model):
 
 class Pedido(models.Model):
     TRUE_FALSE_CHOICE = ((True, "Yes"),(False, "No"))
-    Paciente= models.ForeignKey(Paciente, on_delete=models.DO_NOTHING)
-    Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.DO_NOTHING)
+    Paciente= models.ForeignKey(Paciente, on_delete=models.PROTECT)
+    Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.PROTECT)
     Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
     Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
     Fecha = models.DateField(auto_now=True)
@@ -95,7 +95,7 @@ class Pedido(models.Model):
 
 class Historia(models.Model):
     p1=Pedido(Paciente=Paciente.objects.get(Cedula=111),Medico=MedicoSolicitante.objects.get(pk=1),Diagnostico_presuntivo="nada")
-    Pedido=models.ForeignKey(Pedido, on_delete=models.DO_NOTHING, default= 1)
+    Pedido=models.ForeignKey(Pedido, on_delete=models.PROTECT, default= 1)
     TipoEstudio= models.CharField(max_length=200)
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
@@ -113,7 +113,7 @@ class Categoria(models.Model):
 
 
 class Subcategoria(models.Model):
-    Categoria= models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
+    Categoria= models.ForeignKey(Categoria, on_delete=models.PROTECT)
     Nombre = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
@@ -122,7 +122,7 @@ class Subcategoria(models.Model):
 
 class TipoEstudio(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
-    Subcategoria= models.ForeignKey(Subcategoria, on_delete=models.DO_NOTHING)
+    Subcategoria= models.ForeignKey(Subcategoria, on_delete=models.PROTECT)
     Fecha_creacion = models.DateField(auto_now=True)
 
     def __str__(self):

@@ -83,9 +83,11 @@ class DetalleHistoria(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         contexto=super(DetalleHistoria, self).get_context_data(**kwargs)
+
         historia_actual= Historia.objects.get(pk=self.kwargs['pk'])
         print('historia_actual '+str(historia_actual.pk))
         estudio_actual= historia_actual.TipoEstudio
+        print('estudio_actual '+str(estudio_actual))
 
         pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
         print('pedido actual '+str(pedido_actual.pk))

@@ -8,6 +8,11 @@
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
+			<br>historias del paciente<br>
+			{% for hist in  historias_paciente%}
+						{{hist.pk}}
+				{% endfor %}
+				<br>historia actual<br>
 				{{historia.pk}} 
 					<br>
 						Tipo de estudio{{historia.TipoEstudio}}
@@ -22,10 +27,7 @@
 					<br>
 					<br>
 
-						{% for hist in  historias_paciente%}
-						{{hist.pk}}
-	
-				{% endfor %}
+						
         </div>
     </div>
 </div>
