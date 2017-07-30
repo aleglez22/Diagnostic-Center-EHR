@@ -31,13 +31,41 @@ class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
 
 
 class PedidoModelAdmin(DeleteNotAllowedModelAdmin):
-	campos_readonly=('Paciente', 'Medico','Diagnostico_presuntivo' )
+    campos_readonly=('Paciente', 'Medico','Diagnostico_presuntivo' )
+    list_display = ('id','Paciente', 'Medico', 'Diagnostico_presuntivo','Fecha','Cortecia',)#campos a mostrar
+    list_filter = ('Fecha','Medico',)# filtros(tags)
+    ordering = ('-Fecha',)
+    search_fields = ('id',)
+
+    #buscar por paciente 
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super(PedidoModelAdmin, self).get_search_results(request, queryset, search_term)
+        try:
+            search_term_as_int = int(search_term)
+            paciente=models.Paciente.objects.get(Cedula=search_term_as_int)
+        except ValueError:
+            pass
+        else:
+            queryset |= self.model.objects.filter(Paciente=paciente)
+        return queryset, use_distinct
+
+
 
 class HistoriaModelAdmin(DeleteNotAllowedModelAdmin):
-	campos_readonly=('Pedido','TipoEstudio','Fecha_creacion')
+    campos_readonly=('Pedido','TipoEstudio','Fecha_creacion')
+    list_display = ('Pedido', 'TipoEstudio', 'Fecha_creacion')#campos a mostrar
+    list_filter = ('TipoEstudio','Fecha_creacion',)# filtros(tags)
+    ordering = ('-Fecha_creacion',)
+
 
 class PacienteModelAdmin(DeleteNotAllowedModelAdmin):
-	campos_readonly=('Cedula','Nombre','Apellido','Fecha_nacimiento','Fecha_ingreso')
+    campos_readonly=('Cedula','Nombre','Apellido','Fecha_nacimiento','Fecha_ingreso')
+    list_display = ('Nombre', 'Apellido', 'Fecha_ingreso')#campos a mostrar
+    list_filter = ('Fecha_ingreso',)# filtros(tags)
+    ordering = ('-Fecha_ingreso',)
+    search_fields = ('Cedula',)
+
 
 
 

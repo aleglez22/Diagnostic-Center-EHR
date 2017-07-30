@@ -32,6 +32,8 @@ class Paciente (models.Model):
 
     def __str__(self):
         return ("pcte: "+str(self.Cedula)+" "+str(self.Nombre)+" "+str(self.Apellido))
+    
+        
 
 
 class MedicoSolicitante (models.Model):
