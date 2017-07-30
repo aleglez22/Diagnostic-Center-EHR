@@ -8,30 +8,30 @@
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
-
 				<form method="post" action="{% url 'hcapp:Crear-Otra-Historia'  %}">
-					{% csrf_token %}
+					<div>
+				<div>		 
+							{% csrf_token %}
 
-
-					{% for field in form%}
-
-					<label>  {{field.label_tag}} </label>
-
-						{% if field.errors %}
-							<div class="alert alert-danger">
-				  				<label >{{ field.errors|escape }} </label>
+							{% for field in form%}
+							<div>
+							{{field.label_tag}}
+								{% if field.errors %}
+			  						{{ field.errors|escape }} 
+								{% endif %}
 							</div>
-						{% endif %}
-				{{ field.id_for_label }}
-						<div > {{ field }} </div>
-				{% endfor %}
+							<div>
+							<legend>{{ field.id_for }}</legend> 
+							
+								{{ field }} 
+								
+							{% endfor %}
+							</div>
+				</div>
 
-
-				<li> nombre estudio {{nombre_estudio_form.Estudio}}</li>
-					<input type="submit" value="Añadir otra"  name="boton_guardar2">
-					
-
-				<input type="submit" value="Guardar y salir" name="boton_guardarysalir">
+				<legend><li> nombre estudio {{nombre_estudio_form}}</li></legend>
+				<input type="submit" value="Añadir otra"  name="boton_guardar2" class="btn btn-info">
+				<input type="submit" value="Guardar y salir" name="boton_guardarysalir" class="btn btn-info">
 
 
 				<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />

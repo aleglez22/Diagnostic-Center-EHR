@@ -5,7 +5,7 @@
 
          <div class="container">
             <div class="row">
-              <div class="col-md-3 col-xs-4 col-sm-6">
+              <div class="col-md-12">
                 <form name="formulario_pacientes" method="post">
                   <div class="form-group row">
                       <h1>Registro de Pacientes</h1>
@@ -18,17 +18,17 @@
                   </div>
                 </form>
               </div>
-              <div class="col-md-9 col-xs-8 col-sm-6">
+              <div class="col-md-9">
                 <div class="table-responsive" align="center">
                     <table class="table Contextual Classes" >
                           <thead>
-                              <tr colspan="5" align="center"><h2>Paciente Nuevos</h2></tr>                       
+                              <tr colspan="5" align="center"><h2>Ultimos Paciente</h2></tr>                       
                             <tr>
-                                <th><h3 align="center"> Cédula </h3></th>
-                                <th><h3 align="center"> Edad </h3></th>
-                                <th><h3 align="center"> Paciente </h3></th>
-                                <th><h3 align="center"> Fecha </h3></th>
-                                <th><h3 align="center"> Teléfono </h3></th>
+                                <th>Cédula </h3></th>
+                                <th>Edad </h3></th>
+                                <th>Paciente </h3></th>
+                                <th>Fecha </h3></th>
+                                <th>Teléfono </h3></th>
                             </tr>
                           </thead>
                               {% for paciente in ultimos %}
@@ -58,11 +58,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-block" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
                                  </td> 
-                                 <!--
-                                 <td>  
-                                    <button class="btn btn-primary btn-block" type="button" id="eliminar_paciente" onclick="window.location.href='/eliminar/paciente/{{ paciente.pk }}'"> Eliminar </button>
-                                </td> 
-                              -->
+                              
                               </tr>
                             </tbody>
                             {% endfor %}
@@ -77,82 +73,76 @@
 <script type="text/javascript">
       
     $( "#mensaje" ).click(function() {
-
     var cedulas=[];
-
     {% for paciente in ultimos %}
     cedulas.push({{paciente.Cedula}});
     {% endfor %}
-
       alert( cedulas[1]);
     });
-
 </script>
 
 
 <!--////////////////////////////////////////////////-->
 
-<div class="container">
-  <div class="row">
-   <!--
-   <form action="paciente.pk" method="post" target="nventana" onsubmit="procesar(this.action);">
-      <input type="submit" name="">
-   </form>
+
+<script language="javascript">
+(function(){
+var checkCedula = function()
+{
+  var mensaje = document.getElementById('mensaje');
+  var cedulaRuc = formulario_pacientes.id_Cedula.value;/*ayuda con respecto a cadenas(string) crear arrays de cadenas en base aun elemento indicador del Split como cedula*/
+  array = cedulaRuc.split( "" );/*ayuda a medir el numero de caracteres de un array*/
+  num = array.length;/*Aqui comprobamos que el numero ingresado tiene que tener diezcaracteres para ingresar a la condición sino no ingresa para verificar*/
+  if (( num == 10 && cedulaRuc != 0000000000 ) && ( num == 10 && cedulaRuc != 2222222222 ) && ( num == 10 && cedulaRuc != 9999999999 ))
+  {
+    total = 0;
+    digito = (array[9]*1);
+    for( i=0; i < (num-1); i++ )
+    {
+      mult = 0;
+      if ( ( i%2 ) != 0 ) 
+      {
+      total = total + ( array[i] * 1 );
+      }
+      else
+      {
+      mult = array[i] * 2;
+        if( mult > 9 )
+        total = total + ( mult - 9 );
+        else 
+        total = total + mult;
+      }
+    }
   
-    <div class="col-md-12 col-xs-8 col-sm-6">
-        <button class="btn btn-primary btn-block" type="button" id="ver todos los pacientes" onclick="window.location.href='ver_pacientes.html'"> Ver todos los Pacientes </button>
-  -->
-<link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
- 
-<script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"> </script>
+    decena = total / 10;
+    decena = Math.floor( decena );
+    decena = ( decena + 1 ) * 10;
+    final = ( decena - total );
+    if((final == 10 && digito == 0) || ( final == digito )) 
+    {
+      alert( "cedula correcta");
+      mensaje.innerHTML = "<span style=color:green> <i> cédula correcta </i> </span>";
+      return true;
+    }
+      else
+      {
+         alert( "el digito autoverificador de su cedula es incorrecto debe ser…"+final);
+        mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta </i> </span>";
+      return false;
+      }
+  }
+    else
+    {
+      alert("La cedula no pue detener menos de 10 digitos y tan poco mas de10 digitos");
+      mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
+    return false;
+    }
+}
+var txtCedulaRuc = document.getElementById('id_Cedula');
+txtCedulaRuc.addEventListener("change", checkCedula);
+}())
+</script>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-xs-8 col-sm-6">
-          <div class="jumbotron text-center">
-            <h2>Pacientes</h2>
-            <p>Lista de los Pacientes</p>
-          </div>
-              <br>
-                <table id="tabla_pacientes" class="table Contextual Classes" cellspacing="0" width="100%" align="center">
-                        <thead>
-                            <tr class="danger">
-                                <th>Cédula</th>
-                                <th>Nombre y Apellido</th>
-                                <th>Teléfono</th>
-                                <th>Edad</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Fecha Ingreso</th>
-                               
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr class="success">
-                                <th>Cédula</th>
-                                <th>Nombre y Apellidoe</th>
-                                <th>Teléfono</th>
-                                <th>Edad</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Fecha Ingreso</th>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-            
-        </div>
-      </div>
-    </div>
-
-  <script type="text/javascript">
-        
-        $(document).ready(function() {
-            $('#tabla_pacientes').DataTable( {
-                "ajax": '/api/pacientes/'
-            } );
-        } );
-
-  </script>
-        <br>
 
 
 <script language="javascript">

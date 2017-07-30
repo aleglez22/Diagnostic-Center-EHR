@@ -18,16 +18,16 @@
 					<label>  {{field.label_tag}} </label>
 
 						{% if field.errors %}
-							<div class="alert alert-danger">
-				  				<label >{{ field.errors|escape }} </label>
+							<div">
+				  				{{ field.errors|escape }} 
 							</div>
 						{% endif %}
-				{{ field.id_for_label }}
+				{{ field.id_for }}
 						<div > {{ field }} </div>
 				{% endfor %}
+				<br>
 
-
-					<input type="submit" value="Añadir otra"  name="boton_guardar2">
+				<input type="submit" value="Añadir otra"  name="boton_guardar2" class="btn btn-info">
 
 				<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">

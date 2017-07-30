@@ -14,12 +14,16 @@
 				{% endfor %}
 				<br>historia actual<br>
 				{{historia.pk}} 
+
+
+				<legend><B>Historia registrada en el campo</B> {{historia.pk}} </legend>
+
 					<br>
-						Tipo de estudio{{historia.TipoEstudio}}
+						<legend><B>Tipo de estudio:</B> {{historia.TipoEstudio}}</legend>
 					<br>
-						campo {{historia.Campo}}
+						<legend><B>Campo:</B></legend><p align="justify"><big>{{historia.Campo}}</big></p>
 					<br>
-						conclusion{{historia.Conclusion}}
+						<legend><B>Conclusion:</B></legend><p align="justify"><big>{{historia.Conclusion}}</big></p>
 					<br>
 
 					<br>
@@ -27,7 +31,7 @@
 					<br>
 					<br>
 
-						
+						{% endfor %}
         </div>
     </div>
 </div>
