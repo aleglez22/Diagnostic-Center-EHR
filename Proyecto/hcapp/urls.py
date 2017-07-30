@@ -44,7 +44,7 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 
 
 	###REPORTES###
-url(r'^registrar-placas/$',views.RegistrarPlaca ,name="Registrar-Placa"),
+url(r'^registrar-placas/$',views.RegistrarPlaca.as_view() ,name="Registrar-Placa"),
 url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
 url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
 url(r'^reportes/reporte-pacientes/$',views.ReportePacientes ,name="Reporte-Paciente"),

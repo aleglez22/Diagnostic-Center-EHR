@@ -6,7 +6,6 @@ admin.site.register(models.Categoria)
 admin.site.register(models.Subcategoria)
 admin.site.register(models.TipoEstudio)
 
-
 admin.site.register(models.Plantilla)
 admin.site.register(models.MedicoSolicitante)
 
@@ -50,7 +49,11 @@ class PedidoModelAdmin(DeleteNotAllowedModelAdmin):
             queryset |= self.model.objects.filter(Paciente=paciente)
         return queryset, use_distinct
 
-
+class PlacaModelAdmin(DeleteNotAllowedModelAdmin):
+    campos_readonly=('Tipo','Fecha')
+    def has_delete_permission(self, request, obj=None):
+        return True
+    
 
 class HistoriaModelAdmin(DeleteNotAllowedModelAdmin):
     campos_readonly=('Pedido','TipoEstudio','Fecha_creacion')
@@ -72,3 +75,4 @@ class PacienteModelAdmin(DeleteNotAllowedModelAdmin):
 admin.site.register(models.Historia, HistoriaModelAdmin)
 admin.site.register(models.Paciente, PacienteModelAdmin)
 admin.site.register(models.Pedido, PedidoModelAdmin)
+admin.site.register(models.Placa, PlacaModelAdmin)
