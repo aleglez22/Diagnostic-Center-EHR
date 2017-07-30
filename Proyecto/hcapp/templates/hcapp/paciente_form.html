@@ -5,7 +5,7 @@
 
          <div class="container">
             <div class="row">
-              <div class="col-md-3 col-xs-4 col-sm-6">
+              <div class="col-md-12">
                 <form name="formulario_pacientes" method="post">
                   <div class="form-group row">
                       <h1>Registro de Pacientes</h1>
@@ -14,34 +14,33 @@
                                 {% include 'hcapp/form_template.html' %}         
                         </div>
                         <br>
-                          <input type="submit" class="btn btn-primary btn-block"></button>
+                          <button class="btn btn-primary btn-block"> Crear </button>
                   </div>
                 </form>
               </div>
-        <div class="container">
-            <div class="row">             
-              <div class="col-md-9 col-xs-8 col-sm-6">
+              <div class="col-md-9">
                 <div class="table-responsive" align="center">
                     <table class="table Contextual Classes" >
                           <thead>
-                              <tr colspan="5" align="center"><h2>Paciente Nuevos</h2></tr>                       
+                              <tr colspan="5" align="center"><h2>Ultimos Paciente</h2></tr>                       
                             <tr>
-                                <th><h3 align="center"> Cédula </h3></th>
-                                <th><h3 align="center"> Edad </h3></th>
-                                <th><h3 align="center"> Paciente </h3></th>
-                                <th><h3 align="center"> Fecha </h3></th>
-                                <th><h3 align="center"> Teléfono </h3></th>
+                                <th>Cédula </h3></th>
+                                <th>Edad </h3></th>
+                                <th>Paciente </h3></th>
+                                <th>Fecha </h3></th>
+                                <th>Teléfono </h3></th>
                             </tr>
                           </thead>
                               {% for paciente in ultimos %}
+
                           <tbody>
                            <tr>                  
                                 <td class="warning">
-                                   <a href="">{{paciente.Cedula}} </a>
+                                   {{paciente.Cedula}} 
                                 </td>
 
-                                <td class="danger" ">
-                                    <strong>{{paciente.Edad}}</strong>
+                                <td class="danger" align="center">
+                                    {{paciente.Edad}}
                                 </td>
                                 
                                 <td class="success">
@@ -59,6 +58,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-block" type="button" id="modificar_paciente" onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar </button>
                                  </td> 
+                              
                               </tr>
                             </tbody>
                             {% endfor %}
@@ -67,34 +67,80 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+
 
 
 <script type="text/javascript">
       
     $( "#mensaje" ).click(function() {
-
     var cedulas=[];
-
     {% for paciente in ultimos %}
     cedulas.push({{paciente.Cedula}});
     {% endfor %}
-
       alert( cedulas[1]);
     });
-
 </script>
+
 
 <!--////////////////////////////////////////////////-->
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 col-xs-8 col-sm-6" align="center">
-        <input type="submit" class="btn btn-primary btn-block" value="Ver todos los Pacientes" align="center">
-        <br>
-    </div>
-  </div>
-</div>
-<br>
+
+<script language="javascript">
+(function(){
+var checkCedula = function()
+{
+  var mensaje = document.getElementById('mensaje');
+  var cedulaRuc = formulario_pacientes.id_Cedula.value;/*ayuda con respecto a cadenas(string) crear arrays de cadenas en base aun elemento indicador del Split como cedula*/
+  array = cedulaRuc.split( "" );/*ayuda a medir el numero de caracteres de un array*/
+  num = array.length;/*Aqui comprobamos que el numero ingresado tiene que tener diezcaracteres para ingresar a la condición sino no ingresa para verificar*/
+  if (( num == 10 && cedulaRuc != 0000000000 ) && ( num == 10 && cedulaRuc != 2222222222 ) && ( num == 10 && cedulaRuc != 9999999999 ))
+  {
+    total = 0;
+    digito = (array[9]*1);
+    for( i=0; i < (num-1); i++ )
+    {
+      mult = 0;
+      if ( ( i%2 ) != 0 ) 
+      {
+      total = total + ( array[i] * 1 );
+      }
+      else
+      {
+      mult = array[i] * 2;
+        if( mult > 9 )
+        total = total + ( mult - 9 );
+        else 
+        total = total + mult;
+      }
+    }
+  
+    decena = total / 10;
+    decena = Math.floor( decena );
+    decena = ( decena + 1 ) * 10;
+    final = ( decena - total );
+    if((final == 10 && digito == 0) || ( final == digito )) 
+    {
+      alert( "cedula correcta");
+      mensaje.innerHTML = "<span style=color:green> <i> cédula correcta </i> </span>";
+      return true;
+    }
+      else
+      {
+         alert( "el digito autoverificador de su cedula es incorrecto debe ser…"+final);
+        mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta </i> </span>";
+      return false;
+      }
+  }
+    else
+    {
+      alert("La cedula no pue detener menos de 10 digitos y tan poco mas de10 digitos");
+      mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
+    return false;
+    }
+}
+var txtCedulaRuc = document.getElementById('id_Cedula');
+txtCedulaRuc.addEventListener("change", checkCedula);
+}())
+</script>
+
 {% endblock contenido %}
