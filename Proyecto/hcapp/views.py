@@ -135,7 +135,13 @@ def PacienteHome(request):
     context={'ultimos_pacientes':ultimos}
     return  render(request, "hcapp/paciente_form.html", context )
 
+from .cedula import verificar
+from django.core.exceptions import ValidationError
 
+def validar_cedula(value):
+    cedula = verificar(str(value))
+    if not cedula: 
+        raise ValidationError('Cédula incorrecta') 
 
 class CrearPaciente(generic.CreateView):
     model = Paciente
@@ -153,6 +159,7 @@ class CrearPaciente(generic.CreateView):
         #form.fields['Nombre'].widget.attrs['value']='form-control' #otra forma
         #form.fields['Apellido'].widget.attrs.update({'placeholder': 'Apellido','size': 10})
         #form.fields['Apellido'].widget.attrs.update({'id': 'juan'})
+        form.fields['Cedula'].validators=[validar_cedula]
         
         for x, y in form.fields.items():
             form.fields[x].widget.attrs.update({'class': 'form-control'})
