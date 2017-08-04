@@ -6,11 +6,16 @@ from . import models as m
 from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm, EstudioForm, RangoFechasForm
 import json
 from docx import Document
-from . import filler  
+from . import filler
+from django.contrib.auth.decorators import login_required
+
+
+
+
 
 def get_edad(born):
     today = date.today()
@@ -130,6 +135,7 @@ def DescargarDoc(request,historia_id):
 ##CONTROLADORES DE PACIENTES##
 
 #vista para Home_pacientes
+
 def PacienteHome(request):
     ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
     context={'ultimos_pacientes':ultimos}
@@ -431,7 +437,7 @@ def GetEstudio(request, subcategoria_id):
 
 
 ######  REPORTES   ########
-
+#@login_required
 def ReportesHome(request):
     form=RangoFechasForm()
     return render(request,"hcapp/reportes_home.html",{'form':form})
