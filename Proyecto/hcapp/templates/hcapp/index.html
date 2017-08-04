@@ -33,28 +33,129 @@
  </head>
 
   <body>
-    <div class="contenedor">
-        <div align="center" class="col-md-12 col-xs-8 col-sm-6 " >
-            <h1 align="center"> CEDYLABE <span>&#160</span></h1>
-        </div>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--///////////////////////////////////////////////////////////////////////////////////////////////-->
 
+<div class="contenedor">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div >
+        <h1 class="text-muted">Cedylabe.<span>&#160</span></h1>
+          
+          <!--<a class="navbar-brand" href="{% url "hcapp:Inicio" %}">Cedylabe</a>-->
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i> Notificaciones<i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="https://mail.google.com">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> Ir a correo
+
+                                    <span class="pull-right text-muted small">tiempo</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Correo
+                                    <span class="pull-right text-muted small">en que tiempo</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> Login <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil de Usuario</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Ingresar</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+
+
+
+            <li><p class="navbar-text">Registro</p></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+          <ul id="login-dp" class="dropdown-menu">
+            <li>
+               <div class="row">
+                  <div class="col-md-12">
+                     <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                        <div class="form-group">
+                            Usuario:
+                           <label class="sr-only" for="exampleInputEmail2">Usuario</label>
+                           <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                            Contraseña
+                           <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
+                           <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                            
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                        </div>
+                     </form>
+                  </div>
+                  <div>
+                    <p align="center">Cedylabe</p>
+                  </div>
+               </div>
+            </li>
+          </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+
+<div class="container">
+    <div class="col-md-12 col-xs-8 col-sm-6 ">
+        <nav>
+            <ul>
+            <img src="{% static 'images/logo/logo.jpg' %}" class="img-rounded" alt="Cinque Terre" width="100" height="80" align="center">
+
+            <li><a href="{% url "hcapp:Inicio" %}"><span class="color1"><i class="icon icon-home"></i></span>Inicio</a></li>
+
+            <li><a href="{% url "hcapp:Crear-Paciente" %}"><span class="color2"><i class="icon icon-man"></i></span>Paciente</a><ul><li><a href="#">Ver Tabla</a></li></ul></li>
+
+            <li><a href="{% url "hcapp:Crear-Pedidos" %}"><span class="color3"><i class="icon icon-file-text2"></i></span>Pedido</a></li>
+
+            <li><a href="{% url "hcapp:Tabla-Historias" %}"><span class="color4"><i class="icon icon-files-empty"></i></span>Historias</a></li>
+
+            <!--<li><a href="{% url "hcapp:Home-Pedidos" %}"><span class="color5"><i class="icon icon-profile"></i></span>Estudios</a></li>-->
+
+            <li><a href="{% url "hcapp:Home-Reportes" %}"><span class="color6"><i class="icon icon-folder-open"></i></span>Reportes</a></li>
+            </ul>
+        </nav>
     </div>
-        <div id="contenedor">
-            <div class="col-md-12 col-xs-8 col-sm-6 ">
-            <nav>
-              <ul>
-                <img src="{% static 'images/logo/logo.jpg' %}" class="rounded float-right" alt="Cinque Terre" width="100" height="80" align="center">
-                <li><a href="{% url "hcapp:Inicio" %}"><span class="color1"><i class="icon icon-home"></i></span>Inicio</a></li>
-                <li><a href="{% url "hcapp:Crear-Paciente" %}"><span class="color2"><i class="icon icon-man"></i></span>Paciente</a></li>
-                <li><a href="{% url "hcapp:Crear-Pedidos" %}"><span class="color3"><i class="icon icon-file-text2"></i></span>Pedido</a></li>
-                <li><a href="{% url "hcapp:Tabla-Historias" %}"><span class="color4"><i class="icon icon-files-empty"></i></span>Historias</a></li>
-                <li><a href="{% url "hcapp:Home-Pedidos" %}"><span class="color5"><i class="icon icon-profile"></i></span>Estudios</a></li>
-                <li><a href="{% url "hcapp:Home-Reportes" %}"><span class="color6"><i class="icon icon-folder-open"></i></span>Reportes</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>  
+  </div>
+</body>
+</html>
   
 {% block contenido %}
-
 {% endblock contenido %}

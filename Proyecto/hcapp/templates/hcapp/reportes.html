@@ -6,23 +6,28 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-xs-4 col-sm-6" >
-			<br>
-
-				{% for pedido in pedidos %}
+        <!--***************************************************-->
+        <div class="col-md-6 col-xs-4 col-sm-6" align="left">
+					{% for pedido in pedidos %}
 					
-				{{pedido.Fecha}}
+					{{pedido.Fecha}}
 
-				{% endfor %}
-
-
+					{% endfor %}
+		</div>
+		<!--***************************************************-->
+        <div class="col-md-6 col-xs-4 col-sm-6" align="left">
 				{% for paciente in pacientes %}
 					
 				{{paciente.Edad}}
 
 				{% endfor %}
-				
-        </div>
+		</div>
+		<!--***************************************************-->
+		 <div class="col-md-6 col-xs-4 col-sm-6" align="left">
+
+
+		</div>
+		<!--***************************************************-->
     </div>
 </div>
 {% endblock contenido %}

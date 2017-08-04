@@ -1,86 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
 
-  <head>
-    
-    <!-- Meta Tag -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <title>login</title>
-
-    <link rel="stylesheet" href="css/estilo_login.css">
-    
-    <!-- Main CSS Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    
-    <!-- Google Web Fonts  -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700">
-    
- </head>
-  <body>
+{% block contenido %}
     
 	
-	<!-- Preloader Start -->
-    <div class="preloader">
-	  <p>Procesando...</p>
-     </div>
-     <!-- Preloader End -->
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url "hcapp:Inicio" %}">Cedylabe</a>
+    </div>
 
-
-     <!-- inicio heder -->
-        <div class="contenedor-formulario">
-          <div class="wrap">
-            <form action="" class="formulario" name="formulario_registro" method="get">
-              <div>
-                <div class="input-group">
-                  <input type="text" id="usuario" name="usuario">
-                  <label class="label" for="usuario">Usuario</label>
-                </div>
-                <div class="input-group">
-                  <input type="password" id="pass" name="pass">
-                  <label class="label" for="pass">Contraseña:</label>
-                </div>
-                <input type="submit" id="btn-submit" value="Ingresar">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><p class="navbar-text">Ingrese</p></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+      <ul id="login-dp" class="dropdown-menu">
+        <li>
+           <div class="row">
+              <div class="col-md-12">
+                Registro
+                 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                    <div class="form-group">
+                       <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                       <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                    </div>
+                    <div class="form-group">
+                       <label class="sr-only" for="exampleInputPassword2">Password</label>
+                       <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                        
+                    </div>
+                    <div class="form-group">
+                       <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </div>
+                 </form>
               </div>
-            </form>
-          </div>
-        </div>
-     <!-- fin heder -->
+              <div>
+                <p align="center">CEDYLABE</p>
+              </div>
+           </div>
+        </li>
+      </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    
 
-    
-            
-
-    <!-- Footer Start -->
-    <footer class="footer-section">
-        <div class="container">
-            <div class="row">
-               
-          
-            <div class="container">
-             <div class="col-md-12 uipasta-credit">
-                <p>Cedylabe   <a href="https://es-la.facebook.com/public/Cedylabe-Cia-Ltda" target="_blank" title="Cedylabe">Cedylabe</a></p>
-                </div>
-            </div>    
-             </div>
-
-        </div>
-    </footer>
-    <!-- Footer End -->
-    
-    
-    <!-- Back to Top Start -->
-    <a href="#" class="scroll-to-top"><i class="icon-arrow-up-circle"></i></a>
-    <!-- Back to Top End -->
-    
-    <!-- All Javascript Plugins  -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/plugin.js"></script>
-    
-    <!-- Main Javascript File  -->
-    <script type="text/javascript" src="js/scripts.js"></script>
-  
-  
-  </body>
- </html>
+{% endblock contenido %}

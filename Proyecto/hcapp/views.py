@@ -23,7 +23,7 @@ def Inicio(request):
 
 def Pruebaselect(request):
     form=TipoEstudioForm()
-    return render(request,"hcapp/prueba_select.html",{ 'form': form})
+    return render(request,"hcapp/prueba_select.html",{'form': form})
 
 def Historias(request):
     return render(request,"hcapp/prueba_table.html",{})
