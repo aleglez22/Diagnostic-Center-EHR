@@ -1,0 +1,16 @@
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
+
+{% block contenido %}
+    
+
+
+     <!-- inicio heder -->
+        <div class="contenedor-formulario">
+          <div class="wrap">
+            
+            <p>Logged out! salido</p>  
+
+<a href="{% url 'hcapp:login'%}">Click here to login again.</a>
+
+{% endblock contenido %}

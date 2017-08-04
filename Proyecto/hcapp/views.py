@@ -6,11 +6,16 @@ from . import models as m
 from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 from django import forms
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import  TipoEstudioForm, PacienteForm, PedidoForm, NombreEstudioForm, EstudioForm, RangoFechasForm
 import json
 from docx import Document
-from . import filler  
+from . import filler
+from django.contrib.auth.decorators import login_required
+
+
+
+
 
 def get_edad(born):
     today = date.today()
@@ -83,9 +88,11 @@ class DetalleHistoria(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         contexto=super(DetalleHistoria, self).get_context_data(**kwargs)
+
         historia_actual= Historia.objects.get(pk=self.kwargs['pk'])
         print('historia_actual '+str(historia_actual.pk))
         estudio_actual= historia_actual.TipoEstudio
+        print('estudio_actual '+str(estudio_actual))
 
         pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
         print('pedido actual '+str(pedido_actual.pk))
@@ -128,12 +135,19 @@ def DescargarDoc(request,historia_id):
 ##CONTROLADORES DE PACIENTES##
 
 #vista para Home_pacientes
+
 def PacienteHome(request):
     ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
     context={'ultimos_pacientes':ultimos}
     return  render(request, "hcapp/paciente_form.html", context )
 
+from .cedula import verificar
+from django.core.exceptions import ValidationError
 
+def validar_cedula(value):
+    cedula = verificar(str(value))
+    if not cedula: 
+        raise ValidationError('Cédula incorrecta') 
 
 class CrearPaciente(generic.CreateView):
     model = Paciente
@@ -151,6 +165,7 @@ class CrearPaciente(generic.CreateView):
         #form.fields['Nombre'].widget.attrs['value']='form-control' #otra forma
         #form.fields['Apellido'].widget.attrs.update({'placeholder': 'Apellido','size': 10})
         #form.fields['Apellido'].widget.attrs.update({'id': 'juan'})
+        form.fields['Cedula'].validators=[validar_cedula]
         
         for x, y in form.fields.items():
             form.fields[x].widget.attrs.update({'class': 'form-control'})
@@ -422,7 +437,7 @@ def GetEstudio(request, subcategoria_id):
 
 
 ######  REPORTES   ########
-
+#@login_required
 def ReportesHome(request):
     form=RangoFechasForm()
     return render(request,"hcapp/reportes_home.html",{'form':form})

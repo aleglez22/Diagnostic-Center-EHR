@@ -137,4 +137,68 @@ txtCedulaRuc.addEventListener("change", checkCedula);
 }())
 </script>
 
+
+
+<script language="javascript">
+(function(){
+var checkCedula = function()
+{
+  var mensaje = document.getElementById('mensaje');
+  var cedulaRuc = formulario_pacientes.id_Cedula.value;/*ayuda con respecto a cadenas(string) crear arrays de cadenas en base aun elemento indicador del Split como cedula*/
+  array = cedulaRuc.split( "" );/*ayuda a medir el numero de caracteres de un array*/
+  num = array.length;/*Aqui comprobamos que el numero ingresado tiene que tener diezcaracteres para ingresar a la condición sino no ingresa para verificar*/
+  if (( num == 10 && cedulaRuc != 0000000000 ) && ( num == 10 && cedulaRuc != 2222222222 ) && ( num == 10 && cedulaRuc != 9999999999 ))
+  {
+    total = 0;
+    digito = (array[9]*1);
+    for( i=0; i < (num-1); i++ )
+    {
+      mult = 0;
+      if ( ( i%2 ) != 0 ) 
+      {
+      total = total + ( array[i] * 1 );
+      }
+      else
+      {
+      mult = array[i] * 2;
+        if( mult > 9 )
+        total = total + ( mult - 9 );
+        else 
+        total = total + mult;
+      }
+    }
+  
+    decena = total / 10;
+    decena = Math.floor( decena );
+    decena = ( decena + 1 ) * 10;
+    final = ( decena - total );
+    if((final == 10 && digito == 0) || ( final == digito )) 
+    {
+      alert( "cedula correcta");
+      mensaje.innerHTML = "<span style=color:green> <i> cédula correcta </i> </span>";
+      return true;
+    }
+      else
+      {
+         alert( "el digito autoverificador de su cedula es incorrecto debe ser…"+final);
+        mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta </i> </span>";
+      return false;
+      }
+  }
+    else
+    {
+      alert("La cedula no pue detener menos de 10 digitos y tan poco mas de10 digitos");
+      mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
+    return false;
+    }
+}
+
+var txtCedulaRuc = document.getElementById('id_Cedula');
+txtCedulaRuc.addEventListener("change", checkCedula);
+
+}())
+
+</script>
+
 {% endblock contenido %}
+

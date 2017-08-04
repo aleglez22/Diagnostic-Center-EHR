@@ -1,11 +1,18 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from . import  views
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 app_name ='hcapp'
 
 urlpatterns = [
-url(r'^home/$',views.Inicio ,name="Inicio"),
+url(r'^$',views.Inicio ,name="Inicio"),
+
+#url(r'^accounts/', include('django.contrib.auth.urls')),#incluye todas las urls de la aplicacion auth
+
+url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='Login'),
+url(r'^logout/$', auth_views.logout, {'next_page': 'hcapp:Inicio'}, name='Logout'),
 
 #url(r'^imprimir/(?P<historia_id>[0-9]+)/(?P<nombre_estudio>[\w\-]+)/$',views.DescargarDoc,name="Descargar"),
 url(r'^imprimir/(?P<historia_id>[0-9]+)/$',views.DescargarDoc,name="Descargar"),
@@ -19,7 +26,7 @@ url(r'^GetSubcategoria/(?P<categoria_id>[0-9]+)/$',views.GetSubcategoria,name="p
 url(r'^GetEstudio/(?P<subcategoria_id>[0-9]+)/$',views.GetEstudio,name="estudio"),
 
 
-url(r'^crear/paciente/$',views.CrearPaciente.as_view() ,name="Crear-Paciente"),
+url(r'^crear/paciente/$',login_required(views.CrearPaciente.as_view()) ,name="Crear-Paciente"),
 url(r'^pacientes/$',views.TablaPacientes ,name="Tabla-Pacientes"),
 url(r'^editar/paciente/(?P<pk>[0-9]+)/$',views.EditarPaciente.as_view() ,name="Editar-Pacientes"),
 url(r'^eliminar/paciente/(?P<pk>[0-9]+)$',views.EliminarPaciente.as_view() ,name="Eliminar-Pacientes"),
@@ -44,7 +51,7 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 
 
 	###REPORTES###
-url(r'^registrar-placas/$',views.RegistrarPlaca ,name="Registrar-Placa"),
+url(r'^registrar-placas/$',views.RegistrarPlaca.as_view() ,name="Registrar-Placa"),
 url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
 url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
 url(r'^reportes/reporte-pacientes/$',views.ReportePacientes ,name="Reporte-Paciente"),
