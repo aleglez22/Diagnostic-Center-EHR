@@ -155,6 +155,18 @@
     });
 
 </script>
+
+
+<script type="text/javascript">
+  
+  var estudioDrop= document.getElementById("id_estudio");
+  var Estudio= document.getElementById("id_Estudio");
+
+  estudioDrop.onchange= function() {
+    Estudio.value=estudioDrop.options[estudioDrop.selectedIndex].label;
+}
+
+</script>
           
 
 
