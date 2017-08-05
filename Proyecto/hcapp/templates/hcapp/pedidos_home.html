@@ -114,11 +114,11 @@
                                 
                             </tr>
                           </thead>
-                              {% for pedido in ultimos %}
+                              {% for pedido in ultimos_pedidos %}
                           <tbody>
                            <tr>                  
                                 <td class="warning">
-                                   {{pedido.Cedula}} 
+                                   {{pedido.pk}} 
                                 </td>
 
                                 <td class="danger" align="center">

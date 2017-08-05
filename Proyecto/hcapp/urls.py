@@ -3,6 +3,7 @@ from django.contrib import admin
 from . import  views
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 app_name ='hcapp'
 
@@ -19,15 +20,15 @@ url(r'^imprimir/(?P<historia_id>[0-9]+)/$',views.DescargarDoc,name="Descargar"),
 
 
     ###PACIENTES###
-url(r'^pacientes/$',views.PacienteHome,name="Home-Paciente"),
 url(r'^prueba/$',views.Pruebaselect,name="prueba"),
+
 
 url(r'^GetSubcategoria/(?P<categoria_id>[0-9]+)/$',views.GetSubcategoria,name="prueba"),
 url(r'^GetEstudio/(?P<subcategoria_id>[0-9]+)/$',views.GetEstudio,name="estudio"),
 
 
 url(r'^crear/paciente/$',login_required(views.CrearPaciente.as_view()) ,name="Crear-Paciente"),
-url(r'^pacientes/$',views.TablaPacientes ,name="Tabla-Pacientes"),
+url(r'^pacientes/$', TemplateView.as_view(template_name="hcapp/pacientes.html") ,name="Tabla-Pacientes"),
 url(r'^editar/paciente/(?P<pk>[0-9]+)/$',views.EditarPaciente.as_view() ,name="Editar-Pacientes"),
 url(r'^eliminar/paciente/(?P<pk>[0-9]+)$',views.EliminarPaciente.as_view() ,name="Eliminar-Pacientes"),
 
