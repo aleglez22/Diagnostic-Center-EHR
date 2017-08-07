@@ -1,101 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
 
-  <head>
-    
-    <!-- Meta Tag -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <title>login</title>
+{% block contenido %}
 
-    <link rel="stylesheet" href="css/estilo_login.css">
-    
-    <!-- Main CSS Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    
-    <!-- Google Web Fonts  -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700">
-    
- </head>
-  <body>
-    
-	
-	<!-- Preloader Start -->
-    <div class="preloader">
-	  <p>Procesando...</p>
-     </div>
-     <!-- Preloader End -->
-
-
-     <!-- inicio heder -->
-        <div class="contenedor-formulario">
-          <div class="wrap">
-            {% if form.errors %}
-<p>Tu usuario o contraseña no son validos. Intente nuevamente</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Tu cuenta no tiene permiso para visitar esta página. Por favor selecciona una cuenta con permisos .</p>
-    {% else %}
-    <p>Registrese para acceder a esta página.</p>
+<div class="container">
+  <div class="col-md-12">
+    {% if form.errors %}
+      <center><p class="lead">Tu usuario o contraseña no son validos. Intente nuevamente</p></center>
     {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'hcapp:Login' %}">
-{% csrf_token %}
-
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
+    {% if next %}
+      {% if user.is_authenticated %}
+        <center><p class="lead">Tu cuenta no tiene permiso para visitar esta página. Por favor selecciona una cuenta con permisos .</p></center>
+      {% else %}
+        <center><p class="lead">Registrese para acceder a esta página.</p></center>
+      {% endif %}
+    {% endif %}
+  </div>
 </div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
+<!--/////////////////////////////////////////////////////////////////////////-->
 
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</div>
-</form>
+<div class="container">
+  <div class="col-md-6" align="center">
+      <table border="0" style="background-color:rgb(247, 244, 223);">
+        <form method="post" name="Login_Form" class="form-signin" action="{% url 'hcapp:Login' %}" >
+          <tr>
+            <td colspan="2" align="center"><p class="lead">¡Bienvenido! Ingrese por favor</p></td>
+          </tr>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-
-  
-            
-
-    <!-- Footer Start -->
-    <footer class="footer-section">
-        <div class="container">
-            <div class="row">
-               
+          <tr>
+          {% csrf_token %}
+            <td> {{ form.username.label_tag }}</td>
+            <td> {{ form.username }}</td>
+          </tr>
           
-            <div class="container">
-             <div class="col-md-12 uipasta-credit">
-                <p>Cedylabe   <a href="https://es-la.facebook.com/public/Cedylabe-Cia-Ltda" target="_blank" title="Cedylabe">Cedylabe</a></p>
-                </div>
-            </div>    
-             </div>
+          <tr><br>
+            <td><br>{{ form.password.label_tag }}</td>
+            <td><br>{{ form.password }}</td>
+          </tr>
 
-        </div>
-    </footer>
-    <!-- Footer End -->
-    
-    
-    <!-- Back to Top Start -->
-    <a href="#" class="scroll-to-top"><i class="icon-arrow-up-circle"></i></a>
-    <!-- Back to Top End -->
-    
-    <!-- All Javascript Plugins  -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/plugin.js"></script>
-    
-    <!-- Main Javascript File  -->
-    <script type="text/javascript" src="js/scripts.js"></script>
-  
-  
-  </body>
- </html>
+          <tr><br>
+            <td colspan="2" align="center"><br>
+              <input type="submit" class="btn btn-primary" value="login" />
+              <input type="hidden" name="next" value="{{ next }}" />              
+            </td>
+          </tr>
+
+        </form>
+            {# Assumes you setup the password_reset view in your URLconf #}
+      </table>
+    </div>
+    <div class="container">
+      <div col-md-6>
+          <div class="image">
+              <img src=" {% static 'images/inicio/inicio.jpg' %}" class="rounded float-right" alt="Cinque Terre" width="500" height="350" align="center">
+            </div>
+      </div>
+    </div>
+    <br>
+</div>
+<br>
+<!--/////////////////////////////////////////////////////////////////////////-->
+            
+{% endblock contenido %}
