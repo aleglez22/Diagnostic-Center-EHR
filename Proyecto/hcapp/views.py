@@ -14,6 +14,8 @@ from . import filler
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
+from datetime import date
+
 
 
 def superuser_or_medico(user):
@@ -24,7 +26,12 @@ def superuser_or_secretario(user):
 
 def get_edad(born):
     today = date.today()
+    if born is None:
+        return 'error edad'
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    
+
+    
 
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
@@ -472,7 +479,7 @@ class RegistrarPlaca(generic.CreateView):
     success_url =reverse_lazy('hcapp:Registrar-Placa')
 
 
-from datetime import date
+
 
 def ReporteCortecias(request):
     today = date.today()
