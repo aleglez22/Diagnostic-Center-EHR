@@ -105,34 +105,44 @@
         <div class="table-responsive" align="center">
           <table class="table Contextual Classes" >
                           <thead>
-                              <tr colspan="5" align="center"><h2>Pedidos</h2></tr>                       
+                              <tr colspan="6" align="center"><h2>Ultimos Pedidos</h2></tr>                       
                             <tr>
-                                <th><h3 align="center"> Paciente </h3></th>
-                                <th><h3 align="center"> Médico </h3></th>
-                                <th><h3 align="center"> Fecha del Pedido </h3></th>
-                                <th><h3 align="center"> Diagnostico </h3></th>
+                                <th align="center"> N° de Pedido </th>
+                                <th align="center"> Cédula Paciente </th>
+                                <th align="center"> Médico </th>
+                                <th align="center"> Paciente </th>
+                                <th align="center"> Fecha de Nacimiento </th>
+                                <th align="center"> Fecha del Pedido </th>
                                 
                             </tr>
                           </thead>
                               {% for pedido in ultimos_pedidos %}
                           <tbody>
                            <tr>                  
-                                <td class="warning">
+                                <td class="success">
                                    {{pedido.pk}} 
                                 </td>
 
-                                <td class="danger" align="center">
-                                    {{pedido.Medico.Nombre}}
+                                <td class="info">
+                                   {{pedido.Paciente.Cedula}} 
+                                </td>
+
+                                <td class="danger">
+                                    {{pedido.Medico.Nombre}} {{pedido.Medico.Apellido}}
                                 </td>
                                 
                                 <td class="success">
-                                    {{pedido.Nombre }}  {{pedido.Apellido}}
+                                    {{pedido.Paciente.Nombre }}  {{pedido.Paciente.Apellido}}
                                 </td>
                   
                                 <td class="info">
-                                  {{pedido.Fecha_nacimiento}}
+                                  {{pedido.Paciente.Fecha_nacimiento}}
                                 </td>
-                              </tr>
+
+                                <td class="warning">
+                                  {{pedido.Fecha_pedido}}
+                                </td>
+                            </tr>
                             </tbody>
                             {% endfor %}
                     </table>                   

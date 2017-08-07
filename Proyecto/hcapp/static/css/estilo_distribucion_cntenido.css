@@ -10,44 +10,48 @@ body{
 	color: #fff;
 }
 
+/*********************  efecto maquina de escribir *********************/
 #contenedor{
+	margin: auto;
+	display: table;
+	/*
 	height: 100%;
 	width: 100%;
-	margin: auto;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	background: #fff;
-	display: table;
+	*/
 }
 
-
 h1{ 
-	text-align: center;
-	font-size:50px;
-	float: center;
+	/*text-align: center;*/
+	float: left;
 	color: #fff;
 	position: relative;
+	font-size:2.5em;
 }
 
 h1 span{
 	position: absolute;
 	right: 0px;
 	width: 0px;
-	background: #262121;
-	border-left: 1px solid #fff;
-	animation: maquina 4s infinite alternate steps(9);
+	background: #222222;
+	border-left: 1px solid #fff; /* cursor del diseño*/
+	animation: maquina 5s infinite alternate steps(8);
 }
 
 @keyframes maquina{
 	from{
-		width: 60%;
+		width:100%;
 	}
 	to{
-		width:40%;
+		width:0%;
 	}
 }
+/******************** fin efecto maquina de escribir ******************************************/
 
-/* navegador menu*/
+
+/*********************  navegador menu ********************* */
 header{
 	/*background: #fff;*/
 	width: 100%;
@@ -75,7 +79,7 @@ nav > ul{
 	display: table;
 	overflow: hidden;
 	width: 100%;
-	background:#fff;
+	background:#123052;
 	position: relative;
 }
 
@@ -92,9 +96,9 @@ nav > ul > li:hover > ul{
 nav > ul > li > ul{
 	display: block;
 	position: absolute;
-	background: orange;
-	/*left: 0;
-	right:0;*/
+	background: #fff;
+	left: 0;
+	right:0;
 	overflow: hidden;
 	height: 0%;
 	-webkit-transition: all .3s ease;
@@ -105,23 +109,20 @@ nav > ul > li > ul{
 
 }
 
-
 nav > ul li a{
-	color: #000;
+	color: #fff;
 	display: block;
 	line-height: 20px;
 	padding: 20px;
 	position: relative;
 	text-align: center;
 	text-decoration: none;
-	font-style: italic;
 	-webkit-transition: all .3s ease;
 	-moz-transition: all .3s ease;
 	-ms-transition: all .3s ease;
 	-o-transition: all .3s ease;
 	transition: all .3s ease;
 }
-
 
 nav > ul > li > a span{
 	background: #174459;
@@ -167,74 +168,3 @@ nav ul li a .color5{
 nav ul li a .color6{
 	background: #5F84F3;
 }
-
-table{
-	display:table-cell;
-	margin-left: 60px;
-	margin-right: 40px;
-	margin-top: 10px;
-}
-
-
-aside{
-	width: 30%;
-	height: 50%;
-	background: green;
-	margin-right: 2px;
-	float: right;
-}
-
-
-/*login*/
-
-#login-dp{
-    min-width: 250px;
-    padding: 14px 14px 0;
-    overflow:hidden;
-    background-color:rgba(255,255,255,.8);
-}
-#login-dp .help-block{
-    font-size:12px    
-}
-#login-dp .bottom{
-    background-color:rgba(255,255,255,.8);
-    border-top:1px solid #ddd;
-    clear:both;
-    padding:14px;
-}
-#login-dp .social-buttons{
-    margin:12px 0    
-}
-#login-dp .social-buttons a{
-    width: 49%;
-}
-#login-dp .form-group {
-    margin-bottom: 10px;
-}
-.btn-fb{
-    color: #fff;
-    background-color:#3b5998;
-}
-.btn-fb:hover{
-    color: #fff;
-    background-color:#496ebc;
-}
-.btn-tw{
-    color: #fff;
-    background-color:#55acee;
-}
-.btn-tw:hover{
-    color: #fff;
-    background-color:#59b5fa;
-}
-@media(max-width:768px){
-    #login-dp{
-        background-color: inherit;
-        color: #000;
-    }
-    #login-dp .bottom{
-        background-color: inherit;
-        border-top:0 none;
-    }
-}
-

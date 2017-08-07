@@ -3,14 +3,11 @@
 
 {% block contenido %}
     
-
-
-     <!-- inicio heder -->
-        <div class="contenedor-formulario">
-          <div class="wrap">
-            
-            <p>Logged out! salido</p>  
-
-<a href="{% url 'hcapp:login'%}">Click here to login again.</a>
-
+<div class="container">
+  <div class="col-md-12">
+        <p>Logged out! salido </p>  
+        	
+		<a href="{% url 'hcapp:login'%}">Click here to login again.<span class="glyphicon glyphicon-user"></a>
+  </div>
+</div>
 {% endblock contenido %}

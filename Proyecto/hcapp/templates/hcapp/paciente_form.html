@@ -3,68 +3,62 @@
 
 {% block contenido %}
 
-         <div class="container">
-              <div class="col-md-9">
-                <div class="table-responsive" align="center">
-                    <table class="table Contextual Classes" >
-                          <thead>
-                              <tr colspan="5" align="center"><h2>Ultimos Paciente</h2></tr>                       
-                            <tr>
-                                <th>Cédula </h3></th>
-                                <th>Paciente </h3></th>
-                                <th>Fecha de Nacimiento</h3></th>
-                                <th>Teléfono </h3></th>
-                            </tr>
-                          </thead>
-                              {% for paciente in ultimos %}
-
-                          <tbody>
-                           <tr>                  
-                                <td class="warning">
-                                   {{paciente.Cedula}} 
-                                </td>
-                                                                
-                                <td class="success">
-                                    {{paciente.Nombre }}  {{paciente.Apellido}}
-                                </td>
-                  
-                                <td class="info">
-                                  {{paciente.Fecha_nacimiento}}
-                                </td>
-
-                                <td class="warning">
-                                  {{paciente.Telefono}}
-                                </td>
-
-                                <td>
-                                    <button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'"> Modificar  <span class="glyphicon glyphicon-pencil"></span></button>
-                                 </td>  
-                              </tr>
-                            </tbody>
-                            {% endfor %}
-                    </table>                   
-                </div>
-              </div>
-<br>
-
-            <div class="col-md-3">
-                <form name="formulario_pacientes" method="post">
-                  <div class="form-group row">
-                      <h1>Registro de Pacientes</h1>
-                        <div>      
-                                {% csrf_token %}
-                                {% include 'hcapp/form_template.html' %}   
-                          <br>      
-                          <button class="btn btn-primary btn-block"> Crear </button>
-                          <br>
-                        </div>
-                  </div>
-                </form>
-              </div>
+<div class="container">
+  <div class="col-md-4">
+    <form name="formulario_pacientes" method="post">
+      <div class="form-group row">
+        <h1><center>Registro de Pacientes</center></h1>
+          <div>
+            {% csrf_token %}
+            {% include 'hcapp/form_template.html' %}   
+           <br>      
+            <button class="btn btn-primary btn-block"> Crear </button>
+          <br>
           </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-8">
+    <table class="table Contextual Classes" border="0"">
+      <tr colspan="4" align="center"><h1>Ultimos Paciente</h1></tr>
+      <thead>
+        <tr class="danger">
+          <th>Cédula   </th>
+          <th>Paciente </th>
+          <th>Fecha de Nacimiento </th>
+          <th>Teléfono </th>
+        </tr>
+      </thead>
+       {% for paciente in ultimos %}
+      <tbody>
+        <tr>
+          <td>
+            {{paciente.Cedula}} 
+          </td> 
 
+          <td>
+            {{paciente.Nombre }}  {{paciente.Apellido}}
+          </td>
 
+          <td>
+            {{paciente.Fecha_nacimiento}}
+          </td>
 
+          <td>
+            {{paciente.Telefono}}
+          </td>
+
+          <th>
+            <button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href='/editar/paciente/{{ paciente.pk }}'">  <span class="glyphicon glyphicon-pencil"></span></button>
+          </th>         
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+ 
+ <br>            
 <script type="text/javascript">
       
     $( "#mensaje" ).click(function() {
@@ -200,5 +194,11 @@ txtCedulaRuc.addEventListener("change", checkCedula);
 
 </script>
 
+<!--/////////////////// boton tabla pacieintes ///////////////////////////////-->
+<div class="container">
+  <div class="col-md-12" align="center">
+    <button class="btn btn-primary btn-block" type="button" id="Tabla-Pacientes"  onclick="window.location.href='/pacientes'">Ver Tabla General</button>
+  </div>
+</div>
+<br>
 {% endblock contenido %}
-
