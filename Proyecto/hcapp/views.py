@@ -12,23 +12,32 @@ import json
 from docx import Document
 from . import filler
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
+from datetime import date
 
 
 
+def superuser_or_medico(user):
+    return user.is_superuser or user.groups.filter(name='medicos').exists()
 
+def superuser_or_secretario(user):
+    return user.is_superuser or user.groups.filter(name='secretarios').exists()
 
 def get_edad(born):
     today = date.today()
+    if born is None:
+        return 'error edad'
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    
+
+    
 
 #ejemplo de funcion que retorna varios pacientes
 def Inicio(request):
     pacientes=Paciente.objects.all()
     return render(request,"hcapp/home.html",{})
 
-def Pruebaselect(request):
-    form=TipoEstudioForm()
-    return render(request,"hcapp/prueba_select.html",{ 'form': form})
 
 def Historias(request):
     return render(request,"hcapp/prueba_table.html",{})
@@ -192,6 +201,26 @@ class EditarPaciente (generic.UpdateView):
 
 ##CONTROLADORES DE HISTORIAS##
 
+
+'''
+obtener el nombre codename del permiso de la base de datos
+o 
+usar solucion de https://stackoverflow.com/questions/39705707/checking-user-group-membership-in-permission-required
+
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+content_type = ContentType.objects.get_for_model(Paciente)
+permiso = Permission.objects.get(
+        codename='hcapp.can_change_Paciente',
+        content_type=content_type,
+    )´'''
+
+
+
+
+
+#@user_passes_test(superuser_or_medico)
 def PedidosHome(request):
     nform=NombreEstudioForm()
     form=PedidoForm()
@@ -450,7 +479,7 @@ class RegistrarPlaca(generic.CreateView):
     success_url =reverse_lazy('hcapp:Registrar-Placa')
 
 
-from datetime import date
+
 
 def ReporteCortecias(request):
     today = date.today()
