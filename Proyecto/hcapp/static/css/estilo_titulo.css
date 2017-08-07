@@ -1,0 +1,42 @@
+/*********************  efecto maquina de escribir *********************/
+*{
+	/*background: #6F8D12;*/
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-family: monospace;
+	background: #000;
+}
+
+.contenedor_titulo{
+	margin: auto;
+	display: table;
+}
+
+h1{ 
+	float: left;
+	color: #fff; /*color de las letas*/
+	position: relative;
+	font-size:2.5em;
+}
+
+h1 span{
+	position: absolute;
+	right: 0px;
+	width: 0px;
+	background: #222222; /* color de fondo del span*/
+	border-left: 1px solid #fff; /* cursor del diseño*/
+	animation: maquina 5s infinite alternate steps(10);
+}
+
+@keyframes maquina{
+	from{
+		width:100%;
+	}
+	to{
+		width:0%;
+	}
+}
+/******************** fin efecto maquina de escribir ******************************************/

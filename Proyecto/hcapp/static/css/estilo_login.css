@@ -80,7 +80,7 @@ body {
   top: -12px;
   font-size: 12px;
   line-height: 12px;
-  color: #B6B6B6;
+  color: #fff;
 }
 .contenedor-formulario .formulario .input-group.checkbox label, .contenedor-formulario .formulario .input-group.radio label {
   display: inline-block;
