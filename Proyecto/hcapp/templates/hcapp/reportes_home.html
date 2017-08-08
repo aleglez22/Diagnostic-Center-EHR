@@ -14,15 +14,17 @@
         </div>
         <!--***************************************************-->
         <div class="col-md-2 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
-				
+			<form method="post" action="{% url 'hcapp:Reporte-Estudios' %}">
+				{% csrf_token %}
+				{{form.as_p}}
 				<input type="submit" value="Estudios" class="btn btn-primary btn-lg">
 			</form>
 		</div>
 		<!--***************************************************-->
 		<div class="col-md-2 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
-				
+			<form method="post" action="{% url 'hcapp:Reporte-Medicos' %}">
+				{% csrf_token %}
+				{{form.as_p}}
 				<input type="submit" value="Médico" class="btn btn-success btn-lg">
 			</form>
 		</div>

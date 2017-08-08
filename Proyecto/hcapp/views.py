@@ -195,7 +195,8 @@ class EliminarPaciente(generic.DeleteView):
 
 class EditarPaciente (generic.UpdateView):
     model= Paciente
-    fields = ['Telefono']
+    fields = ['Telefono', 'Nombre', 'Apellido']
+    template_name_suffix ='_editform'
     #needs paciente_form.html
 
 
@@ -546,14 +547,66 @@ class ReportePlacas(Reporte):
     context_name='placas'
 
 class ReporteEstudios(Reporte):
-    model=Historias
+    model=Historia
     date_field_name='Fecha_creacion__range'
     context_name='historias'
 
-class ReporteMedicos(Reporte):
+'''class ReporteMedicos(Reporte):
     model=Pedido
     date_field_name='Fecha__range'
     context_name='pedidos'
+'''
+
+class ReporteMedicos(View):
+    today = date.today()
+    
+    template='hcapp/reportes.html'
+    date_field_name = 'Fecha__range'
+    context_name='medicos'
+
+    
+    def post(self, request, *args, **kwargs): 
+        form=RangoFechasForm(request.POST) 
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                
+                pedidos =Pedido.objects.filter(Fecha__range=(f_ini,f_fin)) 
+                print("ambas")
+            elif (f_ini != None):
+                pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
+                print("inicial")
+            else:
+                pedidos = Pedido.objects.all()
+                print("ninguna")
+
+
+            from django.db.models import Count
+            contexto= pedidos.values('Medico__Nombre','Medico__Apellido').annotate(cantidad=Count('Medico'))
+            print( 'cantidad:'+str(contexto) )
+
+
+            #print (medicos)
+
+            '''
+
+            for x in range(len(medicos)):
+                print ("hola"+ str(x))
+                ids= (medicos[x].pk)
+                #numero_de_historias= Historia.objects.filter(Medi)
+
+                
+            seleccionado = medicos.filter(Nombre='Pablo')
+            print ('selecconado:' + str(seleccionado))
+
+            '''
+
+
+            return render(request,self.template, {self.context_name:contexto})
+        return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
 

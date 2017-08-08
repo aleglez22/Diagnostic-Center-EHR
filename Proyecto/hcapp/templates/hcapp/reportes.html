@@ -10,28 +10,72 @@
 	        <!--***************************************************-->
 	        
 	        <div class="col-md-12 col-xs-4 col-sm-6">
-	        	<h1 align="center"> {% if pedidos %} Cortecias {% endif %}</h1>
-						{% for pedido in pedidos %}
-					<h4> Pedido =</h4>	
-						{{pedido.Fecha}}
+	        	{% if pedidos %}
+	        	<h1 align="center">  Cortecias </h1>
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      <tr colspan="4"><center><h1>Ultimos Paciente</h1></center></tr>
+				      <thead>
+				        <tr class="danger">
+				          <th>Nombre del Paciente  </th>
+				          <th>Fecha del pedido </th>
+				        </tr>
+				      </thead>
+				       {% for pedido in pedidos %}
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{pedido.Paciente.Nombre}} {{pedido.Paciente.Apellido}}
+				          </td> 
 
-						{% endfor %}
+				          <td>
+				            {{pedido.Fecha}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+
+			<!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->
+			{% if medicos %}
+	        	<h1 align="center">  Medicos </h1>
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+				        <tr class="danger">
+				          <th>Médico </th>
+				          <th>Estudios realizados </th>
+				        </tr>
+				      </thead>
+				       {% for medico in medicos %}
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{medico.Medico__Nombre}} {{medico.Medico__Apellido}}
+				          </td> 
+
+				          <td>
+				            {{medico.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+
+
 			</div>
 			<!--***************************************************-->
 		</div>	
-	        <div class="col-md-12 col-xs-4 col-sm-6">
-	        	<h1 align="center"> {% if pedidos %} Estudios {% endif %}</h1>
-					{% for paciente in pacientes %}
-					
-					{{paciente.Edad}}
-
-					{% endfor %}
-			</div>
+	        
 			<!--***************************************************-->
-			 <div class="col-md-6 col-xs-4 col-sm-6">
-
-
-			</div>
+			 
 			<!--***************************************************-->
 	    </div>
 	</div>
