@@ -1,0 +1,22 @@
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+<div class="container">
+  <div class="col-md-4">
+    <form name="formulario_pacientes" method="post">
+      <div class="form-group row">
+        <h1><center>Crear / Actualizar Medico solicitante</center></h1>
+          <div>
+            {% csrf_token %}
+            {% include 'hcapp/form_template.html' %}   
+           <br>      
+            <button class="btn btn-primary btn-block"> aceptar </button>
+          <br>
+          </div>
+      </div>
+    </form>
+  </div>
+  
+{% endblock contenido %}

@@ -36,7 +36,7 @@ url(r'^crear/otrahistoria/$',views.GuardarOtraHistoria ,name="Crear-Otra-Histori
 url(r'^crear/selecciona-estudio/$',views.CasoErrorNestudio ,name="Selecciona-Estudio"),
 url(r'^historia/(?P<pk>[0-9]+)/$',views.DetalleHistoria.as_view() ,name="Detalle-Historia"),
 url(r'^historias/$', views.Historias, name= "Tabla-Historias"),
-#url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="Editar-Historia"),
+url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="Editar-Historia"),
 #url(r'^eliminar/historia/(?P<pk>[0-9]+)$',views.EliminarHistoria.as_view() ,name="Eliminar-Pacientes"),
 
 
@@ -66,5 +66,10 @@ url(r'^api/paciente/$', views.AutocompletarPaciente, name= "Api-Paciente"),
 url(r'^api/historias/$', views.TablaHistorias, name= "Api-Historias"),
 url(r'^api/pacientes/$', views.TablaPacientes, name= "Api-Pacientes"),
 #url(r'^reportes/$', views.PruebaTabla, name= "Reportes"),
+
+
+    ###MEDICOS SOLICITANTES###
+url(r'^crear/medico/$',login_required(views.CrearMedico.as_view()) ,name="Crear-Medico"),
+url(r'^editar/medico/(?P<pk>[0-9]+)/$',login_required(views.EditarMedico.as_view()) ,name="Editar-Medico"),
 ]
 

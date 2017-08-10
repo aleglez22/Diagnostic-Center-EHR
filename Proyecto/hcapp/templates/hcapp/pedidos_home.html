@@ -151,17 +151,20 @@
   </div>
 </div>
 
+<div id="mensaje">
+  prueba
+</div>
+
 <script type="text/javascript">
       
     $( "#mensaje" ).click(function() {
 
     var cedulas=[];
 
-    {% for pedido in ultimos %}
-    cedulas.push({{paciente.Cedula}});
+    {% for pedido in ultimos_pedidos %}
+    cedulas.push({{pedido.pk}});
     {% endfor %}
-
-      alert( cedulas[1]);
+      alert( cedulas);
     });
 
 </script>
@@ -178,6 +181,15 @@
 
 </script>
           
+          
+                
+                
+                <script>
+                    $( function() {
+            $( "#id_Fecha" ).datepicker();
+            $( "#id_Fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+          } );
+                </script>
 
 
 {% endblock contenido %}

@@ -52,8 +52,11 @@ def TablaPacientes(request):
 
     for p in pacientes:
 
+        address="'/editar/paciente/{0}'".format(p.pk)
+        btn_editar='<button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href={0}">  <span class="glyphicon glyphicon-pencil"></span></button>'.format(address)
+
         lista=[str(p.Cedula),str(p.Nombre)+' '+str(p.Apellido),str(p.Telefono),str(get_edad(p.Fecha_nacimiento)),str(p.Fecha_nacimiento),
-        str(p.Fecha_ingreso)]
+        str(p.Fecha_ingreso), str(btn_editar)]
         listaDatos.append(lista)
     
     dic={"data":listaDatos}
@@ -69,6 +72,9 @@ def TablaHistorias(request):
     print (historias)
 
     for historia in historias:
+        address="'/editar/historia/{0}'".format(historia.pk)
+        btn_editar='<button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href={0}">  <span class="glyphicon glyphicon-pencil"></span></button>'.format(address)
+       
         pk=historia.pk
         pk="<a href='/historia/{0}'> {1} </a>".format(pk, pk)
         pedido= historia.Pedido
@@ -78,9 +84,10 @@ def TablaHistorias(request):
         tipo_estudio=historia.TipoEstudio
         fecha_historia= historia.Fecha_creacion
         fecha_pedido= pedido.Fecha_pedido
+        nombre_paciente=str(pedido.Paciente.Nombre) +" "+ str(pedido.Paciente.Apellido)
 
-        lista=[str(pk),str(p),str(medico),str(paciente),str(tipo_estudio),str(fecha_historia),
-        str(fecha_pedido)]
+        lista=[str(pk),str(p),str(medico),str(paciente),str(nombre_paciente),str(tipo_estudio),str(fecha_historia),
+        str(fecha_pedido), str(btn_editar)]
         listaDatos.append(lista)
     
     dic={"data":listaDatos}
@@ -113,6 +120,13 @@ class DetalleHistoria(generic.DetailView):
         print('historias  '+str(historias)) #pedidos en los que esta el paciente actual
         contexto['historias_paciente']= historias
         return contexto
+
+class EditarHistoria(generic.UpdateView):
+    model=Historia
+    fields = ['Campo', 'Conclusion']
+    template_name_suffix ='_editform'
+    success_url =reverse_lazy('hcapp:Tabla-Historias')
+
 
 
 
@@ -725,13 +739,15 @@ class EliminarEstudio(generic.DeleteView):
 ##CONTROLADORES DE MEDICO##
 
 class CrearMedico(generic.CreateView):
-    model = Medico
+    model = MedicoSolicitante
     fields = ['Nombre','Apellido','Telefono']
+    success_url=reverse_lazy("hcapp:Home-Pedidos")
 
 
 class DetalleMedico(generic.DetailView):
-    model=Medico
+    model=MedicoSolicitante
     template_name = 'hcapp/detalle_medico.html'
+
 
 class ListaMedico(generic.ListView):
     template_name = 'hcapp/medicos.html'
@@ -739,12 +755,14 @@ class ListaMedico(generic.ListView):
 
 
 class EliminarMedico(generic.DeleteView):
-    model= Medico
-    success_url= reverse_lazy("hcapp:Home-pacientes")
+    model= MedicoSolicitante
+    success_url= reverse_lazy("hcapp:Crear-Paciente")
 
 class EditarMedico (generic.UpdateView):
-    model= Medico
+    model= MedicoSolicitante
     fields = ['Nombre','Apellido','Telefono']
+    success_url=reverse_lazy("hcapp:Home-Pedidos")
+
 
 
 
