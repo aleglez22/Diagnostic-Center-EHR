@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
 from datetime import date
-
+from django.db.models import Count
 
 
 def superuser_or_medico(user):
@@ -191,7 +191,7 @@ class CrearPaciente(generic.CreateView):
 
 class EliminarPaciente(generic.DeleteView):
     model= Paciente
-    success_url= reverse_lazy("hcapp:Home-Pacientes")
+    success_url= reverse_lazy("hcapp:Crear-Paciente")
 
 class EditarPaciente (generic.UpdateView):
     model= Paciente
@@ -536,34 +536,11 @@ class Reporte(View):
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
-class ReportePacientes(Reporte):
-    model=Paciente
-    date_field_name='Fecha_ingreso__range'
-    context_name='pacientes'
-
-class ReportePlacas(Reporte):
-    model=m.Placa
-    date_field_name='Fecha__range'
-    context_name='placas'
-
-class ReporteEstudios(Reporte):
-    model=Historia
-    date_field_name='Fecha_creacion__range'
-    context_name='historias'
-
-'''class ReporteMedicos(Reporte):
-    model=Pedido
-    date_field_name='Fecha__range'
-    context_name='pedidos'
-'''
-
-class ReporteMedicos(View):
+class ReportePacientes(View):
     today = date.today()
-    
+    context_name='pacientes'
     template='hcapp/reportes.html'
-    date_field_name = 'Fecha__range'
-    context_name='medicos'
-
+    
     
     def post(self, request, *args, **kwargs): 
         form=RangoFechasForm(request.POST) 
@@ -583,27 +560,67 @@ class ReporteMedicos(View):
                 pedidos = Pedido.objects.all()
                 print("ninguna")
 
+            # ####a= pedidos.annotate(edad=get_edad(pedidos.values('Paciente__Fecha_nacimiento')))<<<<<
 
-            from django.db.models import Count
-            contexto= pedidos.values('Medico__Nombre','Medico__Apellido').annotate(cantidad=Count('Medico'))
-            print( 'cantidad:'+str(contexto) )
+            
+            '''for x in pedidos:
+
+                if get_edad(x.Paciente.Fecha_nacimiento) in contexto :
+                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]+=1
+                else:
+                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]=1
+                    '''
+            lista=[]
+            contexto={}
+
+            for x in pedidos:
+
+                if get_edad(x.Paciente.Fecha_nacimiento) in contexto :
+                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]+=1
+                else:
+                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]=1
+            print(contexto)
 
 
-            #print (medicos)
-
-            '''
-
-            for x in range(len(medicos)):
-                print ("hola"+ str(x))
-                ids= (medicos[x].pk)
-                #numero_de_historias= Historia.objects.filter(Medi)
-
+            for x, y in contexto.items():
+                lista.append({'edad':x, 'cantidad':y})
                 
-            seleccionado = medicos.filter(Nombre='Pablo')
-            print ('selecconado:' + str(seleccionado))
 
-            '''
 
+            print(lista)
+
+
+            return render(request,self.template, {self.context_name:lista})
+        return redirect (reverse_lazy("hcapp:Home-Reportes"))
+
+
+class ReportePlacas(View):
+    today = date.today()
+    context_name='placas'
+    template='hcapp/reportes.html'
+
+    
+    def post(self, request, *args, **kwargs): 
+        form=RangoFechasForm(request.POST) 
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                
+                placas =m.Placa.objects.filter(Fecha__range=(f_ini,f_fin)) 
+                print("ambas")
+            elif (f_ini != None):
+                placas = m.Placa.objects.filter(Fecha__range=(f_ini,self.today)) 
+                print("inicial")
+            else:
+                placas = m.Placa.objects.all()
+                print("ninguna")
+
+            
+            contexto= placas.values('Tipo').annotate(cantidad=Count('Tipo'))
+            print( 'cantidad:'+str(contexto) )
 
             return render(request,self.template, {self.context_name:contexto})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
@@ -611,8 +628,73 @@ class ReporteMedicos(View):
 
 
 
-    
+class ReporteEstudios(View):
+    today = date.today()
+    context_name='historias'
+    template='hcapp/reportes.html'
 
+    def post(self, request, *args, **kwargs): 
+        form=RangoFechasForm(request.POST) 
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                
+                historias =Historia.objects.filter(Fecha__range=(f_ini,f_fin)) 
+                print("ambas")
+            elif (f_ini != None):
+                historias = Historia.objects.filter(Fecha__range=(f_ini,self.today)) 
+                print("inicial")
+            else:
+                historias = Historia.objects.all()
+                print("ninguna")
+
+            contexto= historias.values('TipoEstudio').annotate(cantidad=Count('TipoEstudio'))
+
+            return render(request,self.template, {self.context_name:contexto})
+        return redirect (reverse_lazy("hcapp:Home-Reportes"))
+
+'''class ReporteMedicos(Reporte):
+    model=Pedido
+    date_field_name='Fecha__range'
+    context_name='pedidos'
+'''
+
+class ReporteMedicos(View):
+    today = date.today()
+    context_name='medicos'
+    template='hcapp/reportes.html'
+
+    def post(self, request, *args, **kwargs): 
+        form=RangoFechasForm(request.POST) 
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+            print(form.cleaned_data)
+
+            if (f_ini != None) and (f_fin != None):
+                
+                pedidos =Pedido.objects.filter(Fecha__range=(f_ini,f_fin)) 
+                print("ambas")
+            elif (f_ini != None):
+                pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
+                print("inicial")
+            else:
+                pedidos = Pedido.objects.all()
+                print("ninguna")
+
+            contexto= pedidos.values('Medico__Nombre','Medico__Apellido').annotate(cantidad=Count('Medico'))
+            #print( 'cantidad:'+str(contexto) )
+
+
+
+            return render(request,self.template, {self.context_name:contexto})
+        return redirect (reverse_lazy("hcapp:Home-Reportes"))
+
+
+            
 
 #pasarle como parametro el nombre de la tabla a modificar utilizando factory
 

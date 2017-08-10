@@ -41,11 +41,12 @@
 
 			<!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->
 			{% if medicos %}
-	        	<h1 align="center">  Medicos </h1>
+	        	
 	        	  <div class="col-md-8">
 				    <table class="table Contextual Classes" border="0">
 				      
 				      <thead>
+				      <tr><h1 align="center">  Medicos </h1></tr>
 				        <tr class="danger">
 				          <th>Médico </th>
 				          <th>Estudios realizados </th>
@@ -60,6 +61,97 @@
 
 				          <td>
 				            {{medico.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+  				<!--****************CANTIDADES POR TIPOS DE ESTUDIOS***********************************-->
+			{% if historias %}
+	        	
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+				      <tr><h1 align="center">  Medicos </h1></tr>
+				        <tr class="danger">
+				          <th>Médico </th>
+				          <th>Estudios realizados </th>
+				        </tr>
+				      </thead>
+				       {% for historia in historias %}
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{historia.TipoEstudio}} 
+				          </td> 
+
+				          <td>
+				            {{historia.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+  				<!--****************EDADES DE PACIENTES***********************************-->
+			{% if pacientes %}
+	        	
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+				      <tr><h1 align="center">  Medicos </h1></tr>
+				        <tr class="danger">
+				          <th>Edad del paciente </th>
+				          <th>cantidad </th>
+				        </tr>
+				      </thead>
+				       {% for paciente in pacientes %}
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{paciente.edad}}
+				          </td> 
+
+				          <td>
+				            {{paciente.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+
+  				<!--****************PLACAS POR TIPO***********************************-->
+			{% if placas %}
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+	        	
+				      <tr><h1 align="center">  Placas Desechadas </h1></tr>
+				        <tr class="danger">
+				          <th>Placa </th>
+				          <th>Cantidad </th>
+				        </tr>
+				      </thead>
+				       {% for placa in placas %}
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{placa.Tipo}}
+				          </td> 
+
+				          <td>
+				            {{placa.cantidad}}
 				          </td>       
 				        </tr>
 				      </tbody>

@@ -133,8 +133,8 @@ class TipoEstudio(models.Model):
 
 
 class Placa(models.Model):
-    tipos=(('AGFA','8 X 10'), ('AGFA','10 X 14'),('AGFA','14 X 17'), ('FUJI','8 X 10'),
-    ('FUJI','10 X 14'),('FUJI','14 X 17'))
+    tipos=(('AGFA 8 X 10','AGFA 8 X 10'), ('AGFA 10 X 14','AGFA 10 X 14'),('AGFA 14 X 17','AGFA 14 X 17'), ('FUJI 8 X 10',' FUJI 8 X 10'),
+    ('FUJI 10 X 14','FUJI 10 X 14'),('FUJI 14 X 17','FUJI 14 X 17'))
     Tipo = models.CharField(max_length=255, null=True, blank=True, choices=tipos)
     Fecha= models.DateField(auto_now=True)
 

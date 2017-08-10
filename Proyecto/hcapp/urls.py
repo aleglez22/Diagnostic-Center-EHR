@@ -51,9 +51,10 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 url(r'^registrar-placas/$',views.RegistrarPlaca.as_view() ,name="Registrar-Placa"),
 url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
 url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
-url(r'^reportes/reporte-pacientes/$',views.ReportePacientes.as_view() ,name="Reporte-Paciente"),
+url(r'^reportes/reporte-pacientes/$',views.ReportePacientes.as_view() ,name="Reporte-Pacientes"),
 url(r'^reportes/reporte-estudios/$',views.ReporteEstudios.as_view() ,name="Reporte-Estudios"),
 url(r'^reportes/reporte-medicos/$',views.ReporteMedicos.as_view() ,name="Reporte-Medicos"),
+url(r'^reportes/reporte-placas/$',views.ReportePlacas.as_view() ,name="Reporte-Placas"),
 
 
     ### REST API JSON ###
