@@ -19,7 +19,11 @@ url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'},
 url(r'^logout/$', auth_views.logout, {'next_page': 'hcapp:Inicio'}, name='Logout'),
 
 
-	###OUTPUT###
+	###INPUTS###
+url(r'^subirplantilla/$',views.UploadPlantilla,name="Subir-Plantilla"),
+
+
+	###OUTPUTS###
 url(r'^imprimir/(?P<historia_id>[0-9]+)/$',views.DescargarDoc,name="Descargar"),
 
 
