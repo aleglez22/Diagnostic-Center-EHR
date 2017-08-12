@@ -8,11 +8,9 @@
 	<div class="col-md-12">
 	    <div class="row">
 	        <!--***************************************************-->
-	        
-	        <div class="col-md-12 col-xs-4 col-sm-6">
 	        	{% if pedidos %}
 	        	<h1 align="center">  Cortecias </h1>
-	        	  <div class="col-md-8">
+	        	  <div class="col-md-6">
 				    <table class="table Contextual Classes" border="0">
 				      <tr colspan="4"><center><h1>Ultimos Paciente</h1></center></tr>
 				      <thead>
@@ -36,6 +34,83 @@
 				      {% endfor %}
 				    </table> 
   				</div>	
+  				  				<div class="col-md-12">
+  						<div id="canvas-container" style="width:50%;">
+							<canvas id="chart" width="500" height="350"></canvas>
+						</div>
+  				</div>
+
+				<script type="text/javascript">
+					$(document).ready(function(){
+						var datos = {
+							type: "pie",
+							data : {
+								datasets :[{
+									data : [
+										5,
+										10,
+										40,
+										12,
+										23,
+									],
+									backgroundColor: [
+										"#F7464A",
+										"#46BFBD",
+										"#FDB45C",
+										"#949FB1",
+										"#4D5360",
+									],
+								}],
+								labels : [
+									"Datos 1",
+									"Datos 2",
+									"Datos 3",
+									"Datos 4",
+									"Datos 5",
+								]
+							},
+							options : {
+								responsive : true,
+							}
+						};
+
+						var canvas = document.getElementById('chart').getContext('2d');
+						window.pie = new Chart(canvas, datos);
+					/*
+						setInterval(function(){
+							datos.data.datasets.splice(0);
+							var newData = {
+								backgroundColor : [
+									"#F7464A",
+									"#46BFBD",
+									"#FDB45C",
+									"#949FB1",
+									"#4D5360",
+								],
+								data : [getRandom(), getRandom(), getRandom(), getRandom(), getRandom()]
+							};
+
+							datos.data.datasets.push(newData);
+
+							window.pie.update();
+
+						}, 5000);
+
+
+
+						function getRandom(){
+							return Math.round(Math.random() * 100);
+						}
+					*/
+
+					});
+				</script>
+				<div id="mens">
+					prueba
+				</div>
+				<script type="text/javascript">
+					$("")
+				</script>
   				{% endif %}
 
 
@@ -67,7 +142,89 @@
 				      {% endfor %}
 				    </table> 
   				</div>	
+  				<div class="col-md-12">
+  						<div id="canvas-container" style="width:50%;">
+							<canvas id="chart" width="500" height="350"></canvas>
+						</div>
+  				</div>
+
+				<script type="text/javascript">
+					$(document).ready(function(){
+						var datos = {
+							type: "pie",
+							data : {
+								datasets :[{
+									data : [
+										5,
+										10,
+										40,
+									],
+									backgroundColor: [
+										"#F7464A",
+										"#46BFBD",
+										"#FDB45C",
+									],
+								}],
+								labels : [
+									"Datos 1",
+									"Datos 2",
+									"Datos 3",
+								]
+							},
+							options : {
+								responsive : true,
+							}
+						};
+
+						var canvas = document.getElementById('chart').getContext('2d');
+						window.pie = new Chart(canvas, datos);
+					/* /////////////////// ESTA PARTE ES PARA HACERLO DINAMICO ////////////////////////
+
+						setInterval(function(){
+							datos.data.datasets.splice(0);
+							var newData = {
+								backgroundColor : [
+									"#F7464A",
+									"#46BFBD",
+									"#FDB45C",
+									"#949FB1",
+									"#4D5360",
+								],
+								data : [getRandom(), getRandom(), getRandom(), getRandom(), getRandom()]
+							};
+
+							datos.data.datasets.push(newData);
+
+							window.pie.update();
+
+						}, 5000);
+
+
+
+						function getRandom(){
+							return Math.round(Math.random() * 100);
+						}
+					////////////////////////////////// FIN DINAMICO /////////////////////////////////////*/
+
+					});
+				</script>
+					<div id="mensaje">
+					  prueba
+					</div>
+
+					<script type="text/javascript">
+					      
+					    $( "#mensaje" ).click(function() {
+					    var cantidad_med=[];
+					    {% for medico in medicos %}
+					    cantidad_med.push({{medico.cantidad}});
+					    {% endfor %}
+					      alert( cantidad_med);
+					    });
+					</script>
+
   				{% endif %}
+
 
   				<!--****************CANTIDADES POR TIPOS DE ESTUDIOS***********************************-->
 			{% if historias %}
@@ -160,14 +317,6 @@
   				</div>	
   				{% endif %}
 
-
-
-			</div>
-			<!--***************************************************-->
-		</div>	
-	        
-			<!--***************************************************-->
-			 
 			<!--***************************************************-->
 	    </div>
 	</div>

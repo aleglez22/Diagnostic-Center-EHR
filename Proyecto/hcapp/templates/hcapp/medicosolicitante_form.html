@@ -6,17 +6,52 @@
 <div class="container">
   <div class="col-md-4">
     <form name="formulario_pacientes" method="post">
-      <div class="form-group row">
-        <h1><center>Crear / Actualizar Medico solicitante</center></h1>
+    <legend><h1><center>Crear / Actualizar Medico solicitante</center></h1></legend>
+      <div class="form-group row" align="center">
+        
+        <br>
           <div>
             {% csrf_token %}
+            <br>
             {% include 'hcapp/form_template.html' %}   
+            <br>
            <br>      
-            <button class="btn btn-primary btn-block"> aceptar </button>
+            <legend><button class="btn btn-primary btn-block"><i class="fa fa-user-md" style="font-size:25px;"></i> Aceptar </button></legend>
           <br>
           </div>
       </div>
     </form>
   </div>
-  
+      <!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->          
+          <div class="col-md-8">
+            <table class="table Contextual Classes" border="0">
+              
+              <thead>
+              <tr><h1 align="center">  Medicos </h1></tr>
+                <tr class="danger">
+                  <th>Nombre </th>
+                  <th>Apellido</th>
+                  <th>Teléfono</th>
+                </tr>
+              </thead>
+               {% for medico in medicos %}
+              <tbody>
+                <tr>
+                  <td>
+                    {{medico.Medico__Nombre}}
+                  </td> 
+
+                  <td>
+                     {{medico.Medico__Apellido}}
+                  </td> 
+
+                  <td>
+                     {{medico.telefono}}
+                  </td>      
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table> 
+          </div>  
+</div>
 {% endblock contenido %}

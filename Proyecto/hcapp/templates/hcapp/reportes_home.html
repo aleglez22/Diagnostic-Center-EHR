@@ -13,7 +13,7 @@
 			</form>
         </div>
         <!--***************************************************-->
-        <div class="col-md-2 col-xs-4 col-sm-6" align="left">
+        <div class="col-md-4 col-xs-4 col-sm-6" align="left">
 			<form method="post" action="{% url 'hcapp:Reporte-Estudios' %}">
 				{% csrf_token %}
 				{{form.as_p}}
@@ -21,7 +21,7 @@
 			</form>
 		</div>
 		<!--***************************************************-->
-		<div class="col-md-2 col-xs-4 col-sm-6" align="left">
+		<div class="col-md-4 col-xs-4 col-sm-6" align="left">
 			<form method="post" action="{% url 'hcapp:Reporte-Medicos' %}">
 				{% csrf_token %}
 				{{form.as_p}}
@@ -29,7 +29,7 @@
 			</form>
 		</div>
 		<!--***************************************************-->
-		<div class="col-md-2 col-xs-4 col-sm-6" align="left">
+		<div class="col-md-6 col-xs-4 col-sm-6" align="left">
 			<form method="post" action="{% url 'hcapp:Reporte-Pacientes' %}">
 				{% csrf_token %}
 				{{form.as_p}}
@@ -37,7 +37,7 @@
 			</form>
 		</div>
 		<!--***************************************************-->
-		<div class="col-md-2 col-xs-4 col-sm-6" align="left">
+		<div class="col-md-6 col-xs-4 col-sm-6" align="left">
 			<form method="post" action="{% url 'hcapp:Reporte-Placas' %}">
 				{% csrf_token %}
 				{{form.as_p}}

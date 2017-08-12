@@ -8,22 +8,29 @@
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
-			<br>historias del paciente<br>
+			<legend><b>historias del paciente:</b></legend>
+			<p align="justify">
 			{% for hist in  historias_paciente%}
 						{{hist.pk}}
 				{% endfor %}
-				<br>historia actual<br>
-				{{historia.pk}} 
+			</p>	
+				<br>
+				<!--
+				<legend><B>historia actual</B></legend>
+				<p>
+					{{historia.pk}} 
+				</p>
+				-->
+				<br>
 
-
-				<legend><B>Historia registrada en el campo</B> {{historia.pk}} </legend>
+				<legend><B>Historia registrada en el campo: </B> {{historia.pk}} </legend>
 
 					<br>
-						<legend><B>Tipo de estudio:</B> {{historia.TipoEstudio}}</legend>
+						<legend><B>Tipo de estudio:</B></legend><p>{{historia.TipoEstudio}}</p>
 					<br>
-						<legend><B>Campo:</B></legend><p align="justify"><big>{{historia.Campo}}</big></p>
+						<legend><B>Campo:</B></legend><p align="justify">{{historia.Campo}}</p>
 					<br>
-						<legend><B>Conclusion:</B></legend><p align="justify"><big>{{historia.Conclusion}}</big></p>
+						<legend><B>Conclusion:</B></legend><p align="justify">{{historia.Conclusion}}</p>
 					<br>
 
 					<br>
@@ -33,4 +40,14 @@
         </div>
     </div>
 </div>
+<div class="container">
+	<div class="col-md-12 col-xs-4 col-sm-6">
+	<legend></legend>
+	<button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href='/imprimir/{{ historia.pk }}'"><span class="glyphicon glyphicon-print"> Imprimir</span></button>
+	<br>
+	</div>
+</div>
+<br>
+<br>
+
 {% endblock contenido %}

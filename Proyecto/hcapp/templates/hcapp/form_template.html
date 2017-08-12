@@ -1,21 +1,21 @@
 {% for field in form%}
 {% load staticfiles %}
 
-     {{field.label_tag}}
-           
+     <b>{{field.label_tag}}</b><!-- label con datos guias-->
+        
                 {% if field.errors %}
        
-                {{ field.errors|escape }}
+                    {{ field.errors|escape }}
        
                 {% endif %}
-          
-            
-            {{ field_for_label }}
+                    
+                {{ field_for_label }}
        
-            {{ field }}
+                    {{ field }}
 
-            {% endfor %}
- 
+                {% endfor %}
+        
+
         <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
             <link href="/resources/demos/style.css" rel="stylesheet">
                 <script src="https://code.jquery.com/jquery-1.12.4.js">

@@ -7,12 +7,12 @@
   <div class="col-md-4">
     <form name="formulario_pacientes" method="post">
       <div class="form-group row">
-        <h1><center>Registro de Pacientes</center></h1>
+        <h1><center>Registro de Historias</center></h1>
           <div>
             {% csrf_token %}
             {% include 'hcapp/form_template.html' %}   
            <br>      
-            <button class="btn btn-primary btn-block"> Crear </button>
+            <button class="btn btn-primary btn-block"><i class="fa fa-ambulance" style="font-size:25px"></i>  Crear </button>
           <br>
           </div>
       </div>

@@ -37,7 +37,9 @@
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>     
+
+
 
     <script type="text/javascript">
       
@@ -147,10 +149,28 @@
                             {% endfor %}
                     </table>                   
                 </div>
-              </div>
+            </div>
+        <br>
   </div>
 </div>
+<br>
+<script type="text/javascript">
+      
+    $( "#mensaje" ).click(function() {
 
+    var cedulas=[];
+
+    {% for pedido in ultimos %}
+    cedulas.push({{paciente.Cedula}});
+    {% endfor %}
+
+      alert( cedulas[1]);
+    });
+
+</script>
+
+
+<!--   ESCRIPT AYUDA PARA GENERAR LOS REPORTES 
 <div id="mensaje">
   prueba
 </div>
@@ -158,16 +178,14 @@
 <script type="text/javascript">
       
     $( "#mensaje" ).click(function() {
-
     var cedulas=[];
-
     {% for pedido in ultimos_pedidos %}
     cedulas.push({{pedido.pk}});
     {% endfor %}
       alert( cedulas);
     });
-
 </script>
+-->
 
 
 <script type="text/javascript">
@@ -181,15 +199,11 @@
 
 </script>
           
-          
-                
-                
-                <script>
-                    $( function() {
-            $( "#id_Fecha" ).datepicker();
-            $( "#id_Fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-          } );
-                </script>
-
+      <script>
+        $( function() {
+          $( "#id_Fecha" ).datepicker();
+          $( "#id_Fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+        });
+      </script>
 
 {% endblock contenido %}
