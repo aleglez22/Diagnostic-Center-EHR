@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
-<div class="container" >
+<div class="container">
   <div class="row">
     <div class="col-md-3 col-xs-4 col-sm-6">
       <form method="post" action="{% url 'hcapp:Crear-Pedidos' %}">
@@ -107,7 +107,7 @@
         <div class="table-responsive" align="center">
           <table class="table Contextual Classes" >
                           <thead>
-                              <tr colspan="6" align="center"><h2>Ultimos Pedidos</h2></tr>                       
+                              <tr colspan="6" align="center"><center><h2><i class="fa fa-hospital-o" style="font-size:40px;color: red"></i> Ultimos Pedidos</h2></center></tr>                       
                             <tr>
                                 <th align="center"> N° de Pedido </th>
                                 <th align="center"> Cédula Paciente </th>
@@ -115,7 +115,6 @@
                                 <th align="center"> Paciente </th>
                                 <th align="center"> Fecha de Nacimiento </th>
                                 <th align="center"> Fecha del Pedido </th>
-                                
                             </tr>
                           </thead>
                               {% for pedido in ultimos_pedidos %}

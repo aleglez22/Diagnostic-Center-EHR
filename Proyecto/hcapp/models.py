@@ -69,8 +69,6 @@ class Secretario (models.Model):
     def __str__(self):
         return ("secret: "+str(self.Nombre)+" "+str(self.Apellido))
 
-
-
 class Plantilla(models.Model):
     TipoEstudio = models.CharField(max_length=200) #>>>>unique
     Fecha_creacion = models.DateField(auto_now=True)

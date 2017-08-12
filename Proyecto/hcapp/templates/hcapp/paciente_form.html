@@ -20,8 +20,9 @@
   </div>
   <div class="col-md-8">
     <table class="table Contextual Classes" border="0">
-      <tr colspan="4"><center><h1>Ultimos Paciente</h1></center></tr>
+      
       <thead>
+      <tr colspan="4" align="center"><center><h1><i class="fa fa-stethoscope" style="font-size:40px;color: red;"></i> Ultimos Paciente</h1></center></tr>
         <tr class="danger">
           <th>Cédula   </th>
           <th>Paciente </th>
@@ -181,7 +182,7 @@ var checkCedula = function()
   }
     else
     {
-      alert("La cedula no pue detener menos de 10 digitos y tan poco mas de10 digitos");
+      alert("La cedula no pue detener menos de 10 digitos y tan poco mas de 10 digitos");
       mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
     return false;
     }

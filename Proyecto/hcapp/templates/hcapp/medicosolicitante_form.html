@@ -8,11 +8,20 @@
     <form name="formulario_pacientes" method="post">
     <legend><h1><center>Crear / Actualizar Medico solicitante</center></h1></legend>
       <div class="form-group row" align="center">
+        <div class="form-group">
+          <label for="id_Nombre">Nombre:</label>
+          <i class="fa fa-user-md" style="font-size:25px;"></i><input type="text" class="form-control" name="Nombre" maxlength="128" id="id_Nombre" required placeholder="Nombre"/>
+      
+          <label for="id_Apellido">Apellido:</label>
+          <i class="fa fa-user-md" style="font-size:25px;"></i><input type="text" class="form-control"  name="Apellido" maxlength="128" id="id_Apellido" required placeholder="Apellido"/>
         
+          <label for="id_Telefono">Teléfono:</label>
+          <input type="number" class="form-control" name="Telefono" id="id_Telefono" placeholder="Teléfono"/>
         <br>
-          <div>
+          <input type="submit" class="btn btn-primary btn-block" name="enviar">
+
+
             {% csrf_token %}
-            <br>
             {% include 'hcapp/form_template.html' %}   
             <br>
            <br>      
@@ -27,7 +36,7 @@
             <table class="table Contextual Classes" border="0">
               
               <thead>
-              <tr><h1 align="center">  Medicos </h1></tr>
+              <tr><h1 align="center"><i class="fa fa-user-md" style="font-size:50px;">  Medicos </i></h1></tr>
                 <tr class="danger">
                   <th>Nombre </th>
                   <th>Apellido</th>
@@ -54,4 +63,5 @@
             </table> 
           </div>  
 </div>
+
 {% endblock contenido %}
