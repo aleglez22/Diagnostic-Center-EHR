@@ -5,46 +5,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-xs-4 col-sm-6" align="left">
+        <div class="col-md-12 col-xs-4 col-sm-6" align="center">
         	<form method="post" action="{% url 'hcapp:Reporte-Cortecia' %}">
 				{{form.as_p}}
 				{% csrf_token %}
 				<input type="submit" value="Cortesias" class="btn btn-warning btn-lg">
-				<input type="button" onclick="this.form.action='{% url 'hcapp:Reporte-Estudios' %}'; this.form.submit(); return false;" value="Estudios">
+
+				<input type="button"class="btn btn-primary btn-lg" onclick="this.form.action='{% url 'hcapp:Reporte-Estudios' %}'; this.form.submit(); return false;" value="Estudios"> <br><br>
+
+				<input type="button" class="btn btn-success btn-lg" onclick="this.form.action='{% url 'hcapp:Reporte-Medicos' %}'; this.form.submit(); return false;" value="Médicos"> 
+
+
+				<input type="button" class="btn btn-danger btn-lg" onclick="this.form.action='{% url 'hcapp:Reporte-Pacientes' %}'; this.form.submit(); return false;" value="Pacientes"> <br><br>
+
+
+				<input type="button" class="btn btn-info btn-lg" onclick="this.form.action='{% url 'hcapp:Reporte-Placas' %}'; this.form.submit(); return false;" value="Placas">
+
 			</form>
         </div>
         <!--***************************************************-->
-        <div class="col-md-4 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Estudios' %}">
-				{% csrf_token %}
-				{{form.as_p}}
-				<input type="submit" value="Estudios" class="btn btn-primary btn-lg">
-			</form>
-		</div>
-		<!--***************************************************-->
-		<div class="col-md-4 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Medicos' %}">
-				{% csrf_token %}
-				{{form.as_p}}
-				<input type="submit" value="Médico" class="btn btn-success btn-lg">
-			</form>
-		</div>
-		<!--***************************************************-->
-		<div class="col-md-6 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Pacientes' %}">
-				{% csrf_token %}
-				{{form.as_p}}
-				<input type="submit" value="Pacientes" class="btn btn-danger btn-lg">
-			</form>
-		</div>
-		<!--***************************************************-->
-		<div class="col-md-6 col-xs-4 col-sm-6" align="left">
-			<form method="post" action="{% url 'hcapp:Reporte-Placas' %}">
-				{% csrf_token %}
-				{{form.as_p}}
-				<input type="submit" value="Placas" class="btn btn-info btn-lg">
-			</form>
-		</div>
+        
 		<!--***************************************************-->
     </div>
 </div>

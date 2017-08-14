@@ -21,6 +21,9 @@ from django.db.models import Count
 def superuser_or_medico(user):
     return user.is_superuser or user.groups.filter(name='medicos').exists()
 
+def superuser(user):
+    return user.is_superuser
+
 def superuser_or_secretario(user):
     return user.is_superuser or user.groups.filter(name='secretarios').exists()
 
@@ -246,6 +249,8 @@ def PedidosHome(request):
     context={'form':form, 'nombre_estudio_form':nform,
     'drop_form':drop, 'ultimos_pedidos':ultimos_pedidos}
     return render(request, "hcapp/pedidos_home.html",context )
+
+
 
 
 def CrearPedido1(request):

@@ -35,7 +35,7 @@ url(r'^crear/historia/$',views.GuardarHistoria ,name="Crear-Historia"),
 url(r'^crear/otrahistoria/$',views.GuardarOtraHistoria ,name="Crear-Otra-Historia"),
 url(r'^crear/selecciona-estudio/$',views.CasoErrorNestudio ,name="Selecciona-Estudio"),
 url(r'^historia/(?P<pk>[0-9]+)/$',views.DetalleHistoria.as_view() ,name="Detalle-Historia"),
-url(r'^historias/$', views.Historias, name= "Tabla-Historias"),
+url(r'^historias/$',user_passes_test(views.superuser_or_medico) (views.Historias), name= "Tabla-Historias"),
 url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="Editar-Historia"),
 #url(r'^eliminar/historia/(?P<pk>[0-9]+)$',views.EliminarHistoria.as_view() ,name="Eliminar-Pacientes"),
 
@@ -49,7 +49,7 @@ url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
 
 	###REPORTES###
 url(r'^registrar-placas/$',views.RegistrarPlaca.as_view() ,name="Registrar-Placa"),
-url(r'^reportes/$',views.ReportesHome ,name="Home-Reportes"),
+url(r'^reportes/$',user_passes_test(views.superuser)(views.ReportesHome) ,name="Home-Reportes"),
 url(r'^reportes/reporte-cortecias/$',views.ReporteCortecias ,name="Reporte-Cortecia"),
 url(r'^reportes/reporte-pacientes/$',views.ReportePacientes.as_view() ,name="Reporte-Pacientes"),
 url(r'^reportes/reporte-estudios/$',views.ReporteEstudios.as_view() ,name="Reporte-Estudios"),
