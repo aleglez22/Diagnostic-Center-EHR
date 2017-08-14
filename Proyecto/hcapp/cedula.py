@@ -14,11 +14,11 @@ def verificar(nro):
             elif tercer_dig == 9: # si es ruc
                 return __validar_ced_ruc(nro,2) # sociedades privadas
             else:
-                raise Exception('Tercer digito invalido') 
+                return False 
         else:
-            raise Exception('Codigo de provincia incorrecto') 
+            return False
     else:
-        raise Exception('Longitud incorrecta del numero ingresado')
+        return False
 
 def __validar_ced_ruc(nro,tipo):
     total = 0
