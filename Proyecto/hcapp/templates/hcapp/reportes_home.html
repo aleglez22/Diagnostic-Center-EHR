@@ -10,6 +10,7 @@
 				{{form.as_p}}
 				{% csrf_token %}
 				<input type="submit" value="Cortesias" class="btn btn-warning btn-lg">
+				<input type="button" onclick="this.form.action='{% url 'hcapp:Reporte-Estudios' %}'; this.form.submit(); return false;" value="Estudios">
 			</form>
         </div>
         <!--***************************************************-->

@@ -7,9 +7,12 @@
             <div class="row">
               <div class="col-md-12">
                         <legend><h1>Registro de Placas Desechadas</h1></legend>
+                                <form action="{% url 'hcapp:Registrar-Placa' %}" method="POST"> 
                                 {% csrf_token %}
                                 {% include 'hcapp/form_template.html' %}    
-                          <button class="btn btn-primary btn-block"><i class="fa fa-heartbeat" style="font-size:25px"></i> Registrar </button>
+                          
+                          <input type="submit" value="Registrar" class="btn btn-primary btn-block" >
+                          </form>
               </div>
             </div>
           </div>
