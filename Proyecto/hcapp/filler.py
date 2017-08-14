@@ -21,8 +21,9 @@ def docx_replace_regex(doc_obj, regex , replace):
 
 
 def reemplaza(a_reemplazar,reemplazo,pacient_name,age,doct,date,doc_name ):
-    c_campo = re.compile(r"{0}".format(str(a_reemplazar)))
+    c_campo = re.compile(r"{0}".format(str('##campo##')))
     campo = r"{0}".format(str(reemplazo))
+   
 
     c_nombre_paciente = re.compile(r"{0}".format('##nombre##'))
     nombre_paciente = r"{0}".format(str(pacient_name))
@@ -44,6 +45,7 @@ def reemplaza(a_reemplazar,reemplazo,pacient_name,age,doct,date,doc_name ):
     module_dir=os.path.dirname(__file__)
     file_path =os.path.join((module_dir+settings.MEDIA_ROOT), filename)
     doc = Document(file_path)
+
 
     docx_replace_regex(doc, c_campo, campo)
     docx_replace_regex(doc, c_nombre_paciente, nombre_paciente)

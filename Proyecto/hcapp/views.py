@@ -144,12 +144,14 @@ def DescargarDoc(request,historia_id):
     medico_solicitante= str(pedido.Medico.Nombre) +' '+ str(pedido.Medico.Apellido)
     fecha=historia.Fecha_creacion
     edad_paciente=get_edad(pedido.Paciente.Fecha_nacimiento)
+    tipo_estudio=historia.TipoEstudio
 
     document=filler.reemplaza(campo_viejo,campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
         fecha,nombre_doc )
+    nombre_fichero=str(nombre_paciente) + ' '+ str(tipo_estudio)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=download.docx'
+    response['Content-Disposition'] = 'attachment; filename={0}.docx'.format(nombre_fichero)
     document.save(response)
     return response
 
