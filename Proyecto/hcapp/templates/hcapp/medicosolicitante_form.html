@@ -31,37 +31,7 @@
       </div>
     </form>
   </div>
-      <!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->          
-          <div class="col-md-8">
-            <table class="table Contextual Classes" border="0">
-              
-              <thead>
-              <tr><h1 align="center"><i class="fa fa-user-md" style="font-size:50px;">  Medicos </i></h1></tr>
-                <tr class="danger">
-                  <th>Nombre </th>
-                  <th>Apellido</th>
-                  <th>Teléfono</th>
-                </tr>
-              </thead>
-               {% for medico in medicos %}
-              <tbody>
-                <tr>
-                  <td>
-                    {{medico.Medico__Nombre}}
-                  </td> 
-
-                  <td>
-                     {{medico.Medico__Apellido}}
-                  </td> 
-
-                  <td>
-                     {{medico.telefono}}
-                  </td>      
-                </tr>
-              </tbody>
-              {% endfor %}
-            </table> 
-          </div>  
+      <!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->            
 </div>
 
 {% endblock contenido %}

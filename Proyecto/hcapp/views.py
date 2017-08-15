@@ -79,9 +79,10 @@ def TablaHistorias(request):
         btn_editar='<button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href={0}">  <span class="glyphicon glyphicon-pencil"></span></button>'.format(address)
        
         pk=historia.pk
-        pk="<a href='/historia/{0}'> {1} </a>".format(pk, pk)
+        pk="<a href='/historia/{0}'> h{1} </a>".format(pk, pk)
         pedido= historia.Pedido
         p=pedido.pk
+
         medico= pedido.Medico.Nombre
         paciente=pedido.Paciente.Cedula
         tipo_estudio=historia.TipoEstudio
@@ -89,7 +90,7 @@ def TablaHistorias(request):
         fecha_pedido= pedido.Fecha_pedido
         nombre_paciente=str(pedido.Paciente.Nombre) +" "+ str(pedido.Paciente.Apellido)
 
-        lista=[str(pk),str(p),str(medico),str(paciente),str(nombre_paciente),str(tipo_estudio),str(fecha_historia),
+        lista=[str(pk),'p'+str(p),str(medico),str(paciente),str(nombre_paciente),str(tipo_estudio),str(fecha_historia),
         str(fecha_pedido), str(btn_editar)]
         listaDatos.append(lista)
     

@@ -35,9 +35,9 @@ class PedidoForm(forms.Form):
     Paciente = forms.CharField(validators=[validar_cliente_existe], widget=forms.TextInput(attrs={'class': 'form-control'}))
     Medico= forms.CharField(validators=[validar_medico_existe], label='Médico solicitante',required=False)
     Fecha= forms.DateField(label='Fecha Pedido',required=False)
-    Estudio=forms.CharField(label='Tipo de estudio',validators=[validar_estudio_existe])
+    Estudio=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Tipo Estudio', 'title': 'Escribe el nombre del estudio y se autocompletará'}), label='Tipo de estudio',validators=[validar_estudio_existe])
     Diagnostico=forms.CharField(required=False)
-    Cortecia = forms.BooleanField(required=False)
+    Cortecia = forms.BooleanField(widget=forms.CheckboxInput(attrs={'title': 'Haz click si este pedido será una Cortecía'}),required=False)
 
     def __init__(self, *args, **kwargs):
         super(PedidoForm, self).__init__(*args, **kwargs)

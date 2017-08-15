@@ -3,7 +3,8 @@
 
 {% block contenido %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery1.7.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 
 
 <div class="container">
@@ -25,19 +26,27 @@
               </div>
           {% endif %}
 
+          {% if field.name == 'Paciente' %}
+        <input title="Crear nuevo Paciente" type="button" class="btn btn-default" value="+" onclick="location.href = '{% url 'hcapp:Crear-Paciente' %}'">
+        {% endif %}
+
+        {% if field.name == 'Medico' %}
+        <input title="Crear nuevo Médico" type="button" class="btn btn-default" value="+" onclick="location.href = '{% url 'hcapp:Crear-Medico' %}'">
+        {% endif %}
+
         {% if field.name == 'Estudio' %}
         {{drop_form.as_p}}
         {% endif %}
             <div > {{ field }} </div>
         {% endfor %}
+
+
+
+
         <br>
         <input type="submit" class="btn btn-primary btn-block" name="enviar">
         <br>
     </form>
-
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>     
 
 
 
