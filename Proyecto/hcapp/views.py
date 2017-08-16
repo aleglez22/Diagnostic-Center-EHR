@@ -518,12 +518,13 @@ def ReporteCortecias(request):
                 print("ambas")
             elif (f_ini != None):
                 a = Pedido.objects.filter(Fecha__range=(f_ini, today), Cortecia=True)
+                f_fin=today
                 print("inicial")
             else:
                 a = Pedido.objects.filter(Cortecia=True)
                 print("ninguna")
                 
-            return render(request,'hcapp/reportes.html', {'pedidos':a})
+            return render(request,'hcapp/reportes.html', {'pedidos':a,'fechainicial':f_ini, 'fechafinal': f_fin})
     return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
@@ -550,11 +551,12 @@ class Reporte(View):
             elif (f_ini != None):
                 context = self.model.objects.filter(**{self.date_field_name: (f_ini,self.today)}) 
                 print("inicial")
+                f_fin=today
             else:
                 context = self.model.objects.all()
                 print("ninguna")
                 
-            return render(request,self.template, {self.context_name:context})
+            return render(request,self.template, {self.context_name:context, 'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
@@ -578,20 +580,13 @@ class ReportePacientes(View):
             elif (f_ini != None):
                 pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
+                f_fin=today
             else:
                 pedidos = Pedido.objects.all()
                 print("ninguna")
 
             # ####a= pedidos.annotate(edad=get_edad(pedidos.values('Paciente__Fecha_nacimiento')))<<<<<
 
-            
-            '''for x in pedidos:
-
-                if get_edad(x.Paciente.Fecha_nacimiento) in contexto :
-                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]+=1
-                else:
-                    contexto[get_edad(x.Paciente.Fecha_nacimiento)]=1
-                    '''
             lista=[]
             contexto={}
 
@@ -607,12 +602,7 @@ class ReportePacientes(View):
             for x, y in contexto.items():
                 lista.append({'edad':x, 'cantidad':y})
                 
-
-
-            print(lista)
-
-
-            return render(request,self.template, {self.context_name:lista})
+            return render(request,self.template, {self.context_name:lista, 'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
@@ -636,6 +626,7 @@ class ReportePlacas(View):
             elif (f_ini != None):
                 placas = m.Placa.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
+                f_fin=today
             else:
                 placas = m.Placa.objects.all()
                 print("ninguna")
@@ -644,7 +635,7 @@ class ReportePlacas(View):
             contexto= placas.values('Tipo').annotate(cantidad=Count('Tipo'))
             print( 'cantidad:'+str(contexto) )
 
-            return render(request,self.template, {self.context_name:contexto})
+            return render(request,self.template, {self.context_name:contexto,'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
@@ -669,13 +660,14 @@ class ReporteEstudios(View):
             elif (f_ini != None):
                 historias = Historia.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
+                f_fin=today
             else:
                 historias = Historia.objects.all()
                 print("ninguna")
 
             contexto= historias.values('TipoEstudio').annotate(cantidad=Count('TipoEstudio'))
 
-            return render(request,self.template, {self.context_name:contexto})
+            return render(request,self.template, {self.context_name:contexto,'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 '''class ReporteMedicos(Reporte):
@@ -703,6 +695,7 @@ class ReporteMedicos(View):
             elif (f_ini != None):
                 pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
+                f_fin=today
             else:
                 pedidos = Pedido.objects.all()
                 print("ninguna")
@@ -712,7 +705,7 @@ class ReporteMedicos(View):
 
 
 
-            return render(request,self.template, {self.context_name:contexto})
+            return render(request,self.template, {self.context_name:contexto,'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 

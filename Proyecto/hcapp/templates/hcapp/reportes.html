@@ -5,7 +5,24 @@
 
 
 <div class="container">
+<h4>
+{% if fechainicial == none and fechafinal == none  %}
+	 Reporte de todas las fechas
+{% elif fechainicial == none   %}
+	Reporte desde el inicio hasta {{fechafinal}}
+{% else   %}
+	Reporte desde {{fechainicial}} hasta {{fechafinal}}
+{% endif %}
+</h4>
+
+<script type="text/javascript"> 
+				       var datos_cantidad=[];
+				       var datos_label=[];
+</script>
+ 
+
 	<div class="col-md-12">
+
 	    <div class="row">
 	        <!--***************************************************-->
 	        	{% if pedidos %}
@@ -34,77 +51,7 @@
 				      {% endfor %}
 				    </table> 
   				</div>	
-  				  				<div class="col-md-12">
-  						<div id="canvas-container" style="width:50%;">
-							<canvas id="chart" width="500" height="350"></canvas>
-						</div>
-  				</div>
-
-				<script type="text/javascript">
-					$(document).ready(function(){
-						var datos = {
-							type: "pie",
-							data : {
-								datasets :[{
-									data : [
-										5,
-										10,
-										40,
-										12,
-										23,
-									],
-									backgroundColor: [
-										"#F7464A",
-										"#46BFBD",
-										"#FDB45C",
-										"#949FB1",
-										"#4D5360",
-									],
-								}],
-								labels : [
-									"Datos 1",
-									"Datos 2",
-									"Datos 3",
-									"Datos 4",
-									"Datos 5",
-								]
-							},
-							options : {
-								responsive : true,
-							}
-						};
-
-						var canvas = document.getElementById('chart').getContext('2d');
-						window.pie = new Chart(canvas, datos);
-					/*
-						setInterval(function(){
-							datos.data.datasets.splice(0);
-							var newData = {
-								backgroundColor : [
-									"#F7464A",
-									"#46BFBD",
-									"#FDB45C",
-									"#949FB1",
-									"#4D5360",
-								],
-								data : [getRandom(), getRandom(), getRandom(), getRandom(), getRandom()]
-							};
-
-							datos.data.datasets.push(newData);
-
-							window.pie.update();
-
-						}, 5000);
-
-
-
-						function getRandom(){
-							return Math.round(Math.random() * 100);
-						}
-					*/
-
-					});
-				</script>
+  				  				
 
   				{% endif %}
 
@@ -122,7 +69,18 @@
 				          <th>Estudios realizados </th>
 				        </tr>
 				      </thead>
+				      
+
 				       {% for medico in medicos %}
+				       <script type="text/javascript"> 
+				       datos_cantidad.push({{ medico.cantidad}});
+				        </script>
+
+				        <script type="text/javascript"> 
+				        var nombre= "{{ medico.Medico__Apellido }} {{medico.Medico__Nombre}} "
+				        datos_label.push(String(nombre));
+				        </script>
+
 				      <tbody>
 				        <tr>
 				          <td>
@@ -137,34 +95,151 @@
 				      {% endfor %}
 				    </table> 
   				</div>	
-  				<div class="col-md-12">
+  				
+
+  				{% endif %}
+
+
+  				<!--****************CANTIDADES POR TIPOS DE ESTUDIOS***********************************-->
+			{% if historias %}
+	        	
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+				      <tr><h1 align="center">  Tipos de Estudios </h1></tr>
+				        <tr class="danger">
+				          <th>Médico </th>
+				          <th>Estudios realizados </th>
+				        </tr>
+				      </thead>
+				       {% for historia in historias %}
+				        <script type="text/javascript"> 
+				       datos_cantidad.push({{ historia.cantidad}});
+				        </script>
+
+				        <script type="text/javascript"> 
+				        var nombre= "{{ historia.TipoEstudio}} "
+				        datos_label.push(String(nombre));
+				        </script>
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{historia.TipoEstudio}} 
+				          </td> 
+
+				          <td>
+				            {{historia.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+  				<!--****************EDADES DE PACIENTES***********************************-->
+			{% if pacientes %}
+	        	
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+				      <tr><h1 align="center">  Edades de los pacientes </h1></tr>
+				        <tr class="danger">
+				          <th>Edad del paciente </th>
+				          <th>cantidad </th>
+				        </tr>
+				      </thead>
+				       {% for paciente in pacientes %}
+				       <script type="text/javascript"> 
+				       datos_cantidad.push({{ paciente.cantidad}});
+				        </script>
+
+				        <script type="text/javascript"> 
+				        var nombre= "{{paciente.edad}} "
+				        datos_label.push(String(nombre));
+				        </script>
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{paciente.edad}}
+				          </td> 
+
+				          <td>
+				            {{paciente.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+
+  				<!--****************PLACAS POR TIPO***********************************-->
+			{% if placas %}
+	        	  <div class="col-md-8">
+				    <table class="table Contextual Classes" border="0">
+				      
+				      <thead>
+	        	
+				      <tr><h1 align="center">  Placas Desechadas </h1></tr>
+				        <tr class="danger">
+				          <th>Placa </th>
+				          <th>Cantidad </th>
+				        </tr>
+				      </thead>
+				       {% for placa in placas %}
+				       <script type="text/javascript"> 
+				       datos_cantidad.push({{ placa.cantidad}});
+				        </script>
+
+				        <script type="text/javascript"> 
+				        var nombre= "{{placa.Tipo}} "
+				        datos_label.push(String(nombre));
+				        </script>
+				      <tbody>
+				        <tr>
+				          <td>
+				            {{placa.Tipo}}
+				          </td> 
+
+				          <td>
+				            {{placa.cantidad}}
+				          </td>       
+				        </tr>
+				      </tbody>
+				      {% endfor %}
+				    </table> 
+  				</div>	
+  				{% endif %}
+
+			<!--***************************************************-->
+	    </div>
+	    <div class="col-md-12">
   						<div id="canvas-container" style="width:50%;">
 							<canvas id="chart" width="500" height="350"></canvas>
 						</div>
   				</div>
 
 				<script type="text/javascript">
+				    //alert(datos_label);
+				    //alert(datos_cantidad);
+				    
 					$(document).ready(function(){
 						var datos = {
 							type: "pie",
 							data : {
 								datasets :[{
-									data : [
-										5,
-										10,
-										40,
-									],
+									data : datos_cantidad,
 									backgroundColor: [
 										"#F7464A",
 										"#46BFBD",
 										"#FDB45C",
 									],
 								}],
-								labels : [
-									"Datos 1",
-									"Datos 2",
-									"Datos 3",
-								]
+								labels : datos_label
 							},
 							options : {
 								responsive : true,
@@ -203,117 +278,6 @@
 
 					});
 				</script>
-					<div id="mensaje">
-					  prueba
-					</div>
-
-					<script type="text/javascript">
-					      
-					    $( "#mensaje" ).click(function() {
-					    var cantidad_med=[];
-					    {% for medico in medicos %}
-					    cantidad_med.push({{medico.cantidad}});
-					    {% endfor %}
-					      alert( cantidad_med);
-					    });
-					</script>
-
-  				{% endif %}
-
-
-  				<!--****************CANTIDADES POR TIPOS DE ESTUDIOS***********************************-->
-			{% if historias %}
-	        	
-	        	  <div class="col-md-8">
-				    <table class="table Contextual Classes" border="0">
-				      
-				      <thead>
-				      <tr><h1 align="center">  Tipos de Estudios </h1></tr>
-				        <tr class="danger">
-				          <th>Médico </th>
-				          <th>Estudios realizados </th>
-				        </tr>
-				      </thead>
-				       {% for historia in historias %}
-				      <tbody>
-				        <tr>
-				          <td>
-				            {{historia.TipoEstudio}} 
-				          </td> 
-
-				          <td>
-				            {{historia.cantidad}}
-				          </td>       
-				        </tr>
-				      </tbody>
-				      {% endfor %}
-				    </table> 
-  				</div>	
-  				{% endif %}
-
-  				<!--****************EDADES DE PACIENTES***********************************-->
-			{% if pacientes %}
-	        	
-	        	  <div class="col-md-8">
-				    <table class="table Contextual Classes" border="0">
-				      
-				      <thead>
-				      <tr><h1 align="center">  Edades de los pacientes </h1></tr>
-				        <tr class="danger">
-				          <th>Edad del paciente </th>
-				          <th>cantidad </th>
-				        </tr>
-				      </thead>
-				       {% for paciente in pacientes %}
-				      <tbody>
-				        <tr>
-				          <td>
-				            {{paciente.edad}}
-				          </td> 
-
-				          <td>
-				            {{paciente.cantidad}}
-				          </td>       
-				        </tr>
-				      </tbody>
-				      {% endfor %}
-				    </table> 
-  				</div>	
-  				{% endif %}
-
-
-  				<!--****************PLACAS POR TIPO***********************************-->
-			{% if placas %}
-	        	  <div class="col-md-8">
-				    <table class="table Contextual Classes" border="0">
-				      
-				      <thead>
-	        	
-				      <tr><h1 align="center">  Placas Desechadas </h1></tr>
-				        <tr class="danger">
-				          <th>Placa </th>
-				          <th>Cantidad </th>
-				        </tr>
-				      </thead>
-				       {% for placa in placas %}
-				      <tbody>
-				        <tr>
-				          <td>
-				            {{placa.Tipo}}
-				          </td> 
-
-				          <td>
-				            {{placa.cantidad}}
-				          </td>       
-				        </tr>
-				      </tbody>
-				      {% endfor %}
-				    </table> 
-  				</div>	
-  				{% endif %}
-
-			<!--***************************************************-->
-	    </div>
 	    <input type="button" value="Imprimir" class="btn btn-danger btn-lg" onclick="window.print();">
 	</div>
 </div>
