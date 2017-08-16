@@ -4,15 +4,28 @@
 {% block contenido %}
 
 
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
 			<legend><b>historias del paciente:</b></legend>
 			<p align="justify">
+			<select id="fechas" onChange="cambiar(this)"> Historias Anteriores
 			{% for hist in  historias_paciente%}
+						<option value="{{hist.pk}}">H{{hist.pk}} {{hist.Fecha_creacion}}</option>
 						{{hist.pk}}
 				{% endfor %}
+				</select>
+
+<script type="text/javascript">
+	function cambiar(objeto){
+		valor= objeto.options[objeto.selectedIndex].value;
+		location.href=('/historia/'+String(valor)+ '/');
+	}
+</script>
+
 			</p>	
 				<br>
 				<!--
