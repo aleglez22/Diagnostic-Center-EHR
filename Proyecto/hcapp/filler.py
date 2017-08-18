@@ -42,8 +42,8 @@ def reemplaza(a_reemplazar,reemplazo,pacient_name,age,doct,date,doc_name ):
     
 
     filename =str(doc_name)
-    module_dir=os.path.dirname(__file__)
-    file_path =os.path.join((module_dir+settings.MEDIA_ROOT), filename)
+    #module_dir=os.path.dirname(__file__)
+    file_path =os.path.join((settings.MEDIA_ROOT), filename)
     doc = Document(file_path)
 
 
