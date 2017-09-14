@@ -3,17 +3,25 @@
 
 {% block contenido %}
 
-<form method="post" enctype="multipart/form-data">
+
+
+  
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-4 col-sm-6" align="center">
+
+        <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Subir</button>
+    <input type="file" name="myfile" >
+    <button type="submit" class="btn btn-success btn-lg" >Subir</button>
   </form>
 
   {% if uploaded_file_url %}
     <p>Archivo subido en: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
   {% endif %}
 
-  
-
+        </div>
+        </div>
+        </div>
 
 {% endblock contenido %}

@@ -10,14 +10,16 @@
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
-			<legend><b>historias del paciente:</b></legend>
-			<p align="justify">
-			<select id="fechas" onChange="cambiar(this)"> Historias Anteriores
+			<h5>
+			<label for="fechas">Historias anteriores:</label>
+			<select id="fechas" onChange="cambiar(this)">
 			{% for hist in  historias_paciente%}
 						<option value="{{hist.pk}}">H{{hist.pk}} {{hist.Fecha_creacion}}</option>
 						{{hist.pk}}
 				{% endfor %}
 				</select>
+				</h5>
+
 
 <script type="text/javascript">
 	function cambiar(objeto){
@@ -36,7 +38,7 @@
 				-->
 				<br>
 
-				<legend><B>Historia registrada en el campo: </B> {{historia.pk}} </legend>
+				<legend><B>Id Historia: </B> {{historia.pk}} </legend>
 
 					<br>
 						<legend><B>Tipo de estudio:</B></legend><p>{{historia.TipoEstudio}}</p>

@@ -1,5 +1,6 @@
 {% for field in form%}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
      <b>{{field.label_tag}}</b><!-- label con datos guias-->
         
@@ -11,7 +12,7 @@
                     
                 {{ field_for_label }}
        
-                    {{ field }}
+                    {% render_field field class="form-control" %}
 
                 {% endfor %}
         
