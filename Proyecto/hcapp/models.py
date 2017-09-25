@@ -94,7 +94,6 @@ class Pedido(models.Model):
         return ("pedido: "+str(self.Paciente)+" "+str(self.Diagnostico_presuntivo))
 
 class Historia(models.Model):
-    p1=Pedido(Paciente=Paciente.objects.get(Cedula=111),Medico=MedicoSolicitante.objects.get(pk=1),Diagnostico_presuntivo="nada")
     Pedido=models.ForeignKey(Pedido, on_delete=models.PROTECT, default= 1)
     TipoEstudio= models.CharField(max_length=200)
     Fecha_creacion = models.DateField(auto_now=True)
