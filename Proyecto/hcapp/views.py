@@ -188,6 +188,8 @@ def DescargarDoc(request,historia_id):
 
 def validar_cedula(value):
     cedula = verificar(str(value))
+    print("valor")
+    print(value)
     if not cedula: 
         raise ValidationError('Cédula incorrecta') 
 

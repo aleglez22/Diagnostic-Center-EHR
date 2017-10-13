@@ -1,7 +1,13 @@
 import math
 def verificar(cedulaRuc):
-  array=cedulaRuc
   num=len(cedulaRuc)
+  if num==9:
+     cedulaRuc = cedulaRuc[:0] + '0' + cedulaRuc[0:]
+     num=len(cedulaRuc)
+  array=cedulaRuc
+  print (array)
+  print (num)
+
   if (num==10 and cedulaRuc != 0000000000 and cedulaRuc != 2222222222 and cedulaRuc != 9999999999 ):
     total = 0
     digito = int(array[9])*1
@@ -23,8 +29,17 @@ def verificar(cedulaRuc):
     if (final == 10 and digito == 0) or ( final == digito ):
       return True
     else:
-      #print( "el digito autoverificador de su cedula es incorrecto debe ser" + str(final))
+      print( "el digito autoverificador de su cedula es incorrecto debe ser" + str(final))
       return False
   else:
-    #print("menr de 10 digitos")
+    print("menr de 10 digitos")
     return False
+
+
+
+
+
+
+
+
+
