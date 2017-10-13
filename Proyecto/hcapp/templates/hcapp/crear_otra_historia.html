@@ -1,58 +1,55 @@
 {% extends "hcapp/index.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block contenido %}
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-12 col-xs-4 col-sm-6" >
 			<br>
-				<form method="post" action="{% url 'hcapp:Crear-Otra-Historia'  %}">
-					<div>
+			<form method="post" action="{% url 'hcapp:Crear-Otra-Historia'  %}">
 				<div>		 
 							{% csrf_token %}
 
-							{% for field in form%}
-							<div>
-							{{field.label_tag}}
-								{% if field.errors %}
-			  						{{ field.errors|escape }} 
-								{% endif %}
-							</div>
-							<div>
-							<legend>{{ field.id_for }}</legend> 
+							<legend>{{ form.Campo.label_tag }}</legend>
+							{% render_field form.Campo rows="15" cols="100" class+="form-control" %}
+
+
+							<legend>{{ form.Conclusion.label_tag }}</legend>
+							{% render_field form.Conclusion rows="15" cols="100" class+="form-control" %}
+							<br>
 							
-								{{ field }} 
-								
-							{% endfor %}
 							</div>
-				</div>
 				<input type="submit" value="Guardar y salir" name="boton_guardarysalir" class="btn btn-info">
-				<legend><li> {{nombre_estudio_form}}</li></legend>
-				<input type="submit" value="Añadir otra"  name="boton_guardar2" class="btn btn-info">
+				<br><br><br>
+
+			<legend>{{nombre_estudio_form.Estudio.label}} {{nombre_estudio_form.Estudio}}</legend>
+			<input type="submit" value="Añadir otra"  name="boton_guardar2" class="btn btn-info">
+			<br>
+			
+			
+
+			<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+			</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+			<script type="text/javascript">
+
+
+						$(function() {
+			  $("#id_Estudio").autocomplete({
+			  	source: '/api/tipo-estudio/',
+			    minLength: 2,
+			  });
+			});
+
+
+			</script>
+				</div>
 				
-
-
-				<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
-				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
-				</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-
-				<script type="text/javascript">
-
-
-							$(function() {
-				  $("#id_Estudio").autocomplete({
-				  	source: '/api/tipo-estudio/',
-				    minLength: 2,
-				  });
-				});
-
-
-				</script>
-
 
         </div>
     </div>
 </div>
+   <br>
 {% endblock contenido %}

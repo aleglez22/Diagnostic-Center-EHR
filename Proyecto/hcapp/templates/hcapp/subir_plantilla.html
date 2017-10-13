@@ -13,11 +13,13 @@
         <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="myfile" >
+    <br>
     <button type="submit" class="btn btn-success btn-lg" >Subir</button>
   </form>
+  <br>
 
   {% if uploaded_file_url %}
-    <p>Archivo subido en: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    <h5><p>Archivo subido en: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p></h5>
   {% endif %}
 
         </div>

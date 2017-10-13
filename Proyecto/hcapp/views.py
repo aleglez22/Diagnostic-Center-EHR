@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect , get_object_or_404
-from .models import Paciente, Historia, Secretario, Medico, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
+from .models import Paciente, Historia, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Subcategoria
 from django.views import generic, View
 from django.apps import apps
 from . import models as m
@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
 from datetime import date
 from django.db.models import Count
+from .cedula import verificar
+from django.core.exceptions import ValidationError
+import os
 
 
 def superuser_or_medico(user):
@@ -38,10 +41,16 @@ from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
+class MyFileSystemStorage(FileSystemStorage):
+    def get_available_name(self, name, max_length=None):
+        if os.path.exists(self.path(name)):
+            os.remove(self.path(name))
+        return name
+
 def UploadPlantilla(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
+        fs = MyFileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         return render(request, 'hcapp/subir_plantilla.html', {
@@ -147,8 +156,6 @@ class EditarHistoria(generic.UpdateView):
 
 
 
-
-
 def DescargarDoc(request,historia_id):
     historia= m.Historia.objects.get(pk=historia_id)
     campo_nuevo=str(historia.Campo)
@@ -178,14 +185,6 @@ def DescargarDoc(request,historia_id):
 ##CONTROLADORES DE PACIENTES##
 
 #vista para Home_pacientes
-
-def PacienteHome(request):
-    ultimos=Paciente.objects.all().order_by('-Fecha_ingreso')[:10]
-    context={'ultimos_pacientes':ultimos}
-    return  render(request, "hcapp/paciente_form.html", context )
-
-from .cedula import verificar
-from django.core.exceptions import ValidationError
 
 def validar_cedula(value):
     cedula = verificar(str(value))
@@ -229,30 +228,12 @@ class EliminarPaciente(generic.DeleteView):
 
 class EditarPaciente (generic.UpdateView):
     model= Paciente
-    fields = ['Telefono', 'Nombre', 'Apellido']
+    fields = ['Telefono', 'Nombre', 'Apellido','Fecha_nacimiento']
     template_name_suffix ='_editform'
     #needs paciente_form.html
 
 
 ##CONTROLADORES DE HISTORIAS##
-
-
-'''
-obtener el nombre codename del permiso de la base de datos
-o 
-usar solucion de https://stackoverflow.com/questions/39705707/checking-user-group-membership-in-permission-required
-
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
-
-content_type = ContentType.objects.get_for_model(Paciente)
-permiso = Permission.objects.get(
-        codename='hcapp.can_change_Paciente',
-        content_type=content_type,
-    )´'''
-
-
-
 
 
 #@user_passes_test(superuser_or_medico)
@@ -264,8 +245,6 @@ def PedidosHome(request):
     context={'form':form, 'nombre_estudio_form':nform,
     'drop_form':drop, 'ultimos_pedidos':ultimos_pedidos}
     return render(request, "hcapp/pedidos_home.html",context )
-
-
 
 
 def CrearPedido1(request):
@@ -288,8 +267,8 @@ def CrearPedido1(request):
                 request.session['medico']=form.cleaned_data['Medico']
             else:
                 request.session['medico']=MedicoSolicitante.objects.get(pk=1)
-
-            plantilla=m.Plantilla.objects.get(TipoEstudio=estudio)
+            estudio_obj= TipoEstudio.objects.get(Nombre=estudio)
+            plantilla=m.Plantilla.objects.get(TipoEstudio=estudio_obj)
             campo=plantilla.Campo
             conclusion=plantilla.Conclusion
             data={'Campo':campo, 'Conclusion':conclusion}
@@ -332,8 +311,8 @@ def GuardarHistoria(request):
                 nform= NombreEstudioForm(request.POST)
                 estudio=request.POST.get('Estudio')
                 
-                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
-                    plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
+                    plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
                     campo = plantilla.Campo
                     conclusion = plantilla.Conclusion
                     data={'Campo':campo, 'Conclusion':conclusion}
@@ -368,8 +347,8 @@ def GuardarOtraHistoria(request):
                 nform= NombreEstudioForm(request.POST)            
                 estudio=request.POST.get('Estudio')
                 
-                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
-                    plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
+                    plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
                     campo = plantilla.Campo
                     conclusion = plantilla.Conclusion
                     data={'Campo':campo, 'Conclusion':conclusion}
@@ -387,8 +366,8 @@ def GuardarOtraHistoria(request):
 def CasoErrorNestudio(request):
     nform=NombreEstudioForm(request.POST)
     estudio=request.POST.get('Estudio')
-    if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio=estudio).exists():
-        plantilla = m.Plantilla.objects.get(TipoEstudio=estudio)
+    if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
+        plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
         campo = plantilla.Campo
         conclusion = plantilla.Conclusion
         data={'Campo':campo, 'Conclusion':conclusion}
@@ -398,10 +377,6 @@ def CasoErrorNestudio(request):
         return render(request, "hcapp/crear_otra_historia.html", datos)
     
     return render(request, "hcapp/error_estudio.html", {'nombre_estudio_form':nform})
-
-
-
-
 
 
 class DetallePedido(generic.DetailView):
@@ -508,13 +483,19 @@ def ReportesHome(request):
     form=RangoFechasForm()
     return render(request,"hcapp/reportes_home.html",{'form':form})
 
+from django.contrib.messages.views import SuccessMessageMixin
 
-class RegistrarPlaca(generic.CreateView):
+class RegistrarPlaca(SuccessMessageMixin, generic.CreateView):
     model = m.Placa
     fields = '__all__'
     template_name_suffix ='_form'
     success_url =reverse_lazy('hcapp:Registrar-Placa')
+    success_message = 'Se ha registrado una placa dañada'
+    
+    
 
+
+    
 
 
 
@@ -684,11 +665,6 @@ class ReporteEstudios(View):
             return render(request,self.template, {self.context_name:contexto,'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
-'''class ReporteMedicos(Reporte):
-    model=Pedido
-    date_field_name='Fecha__range'
-    context_name='pedidos'
-'''
 
 class ReporteMedicos(View):
     today = date.today()
@@ -723,40 +699,20 @@ class ReporteMedicos(View):
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
-            
-
-#pasarle como parametro el nombre de la tabla a modificar utilizando factory
-
-# class CrearEstudio(generic.CreateView):
-#     model = #tabla
-#     pass
-#
-# class DetalleEstudio(generic.DetailView):
-#     model= #tabla
-#     template_name = 'hcapp/detalle_estudio.html'
-
-class ListaEstudio(generic.ListView):
-    template_name = 'hcapp/estudios.html'
-    context_object_name='estudios'
-
-class EditarEstudio (generic.UpdateView):
-    #model= tabla
-    #fields = todos
-    pass
-
-class EliminarEstudio(generic.DeleteView):
-    # model= tabla
-    success_url= reverse_lazy("hcapp:Home-estudios")
 
 
-
-
-##CONTROLADORES DE MEDICO##
+##CONTROLADORES DE MEDICOSOLICITANTE##
 
 class CrearMedico(generic.CreateView):
     model = MedicoSolicitante
     fields = ['Nombre','Apellido','Telefono']
     success_url=reverse_lazy("hcapp:Home-Pedidos")
+
+    def get_context_data(self, **kwargs):
+        ctx = super(CrearMedico, self).get_context_data(**kwargs)
+        medicos=MedicoSolicitante.objects.all().order_by('-Fecha')
+        ctx['medicos'] = medicos
+        return ctx
 
 
 class DetalleMedico(generic.DetailView):
@@ -768,6 +724,10 @@ class ListaMedico(generic.ListView):
     template_name = 'hcapp/medicos.html'
     context_object_name='medicos'
 
+    
+    def get_queryset(self):
+        return MedicoSolicitante.objects.all().order_by('-Fecha')
+
 
 class EliminarMedico(generic.DeleteView):
     model= MedicoSolicitante
@@ -776,31 +736,11 @@ class EliminarMedico(generic.DeleteView):
 class EditarMedico (generic.UpdateView):
     model= MedicoSolicitante
     fields = ['Nombre','Apellido','Telefono']
-    success_url=reverse_lazy("hcapp:Home-Pedidos")
+    success_url=reverse_lazy("hcapp:Crear-Medico")
 
+    def get_context_data(self, **kwargs):
+        ctx = super(EditarMedico, self).get_context_data(**kwargs)
+        medicos=MedicoSolicitante.objects.all().order_by('-Fecha')
+        ctx['medicos'] = medicos
+        return ctx
 
-
-
-##CONTROLADORES DE SECRETARIOS##
-
-class CrearSecretario(generic.CreateView):
-    model = Secretario
-    fields = ['Nombre','Apellido','Telefono']
-
-
-class DetalleSecretario(generic.DetailView):
-    model=Secretario
-    template_name = 'hcapp/detalle_secretario.html'
-
-class ListaSecretario(generic.ListView):
-    template_name = 'hcapp/secretarios.html'
-    context_object_name='secretarios'
-
-
-class EliminarSecretario(generic.DeleteView):
-    model= Secretario
-    success_url= reverse_lazy("hcapp:Home-secretario")
-
-class EditarSecretario (generic.UpdateView):
-    model= Secretario
-    fields = ['Nombre','Apellido','Telefono']

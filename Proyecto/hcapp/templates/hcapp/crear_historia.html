@@ -1,5 +1,6 @@
 {% extends "hcapp/index.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block contenido %}
 <div class="container">
@@ -10,27 +11,19 @@
 				<div>		 
 							{% csrf_token %}
 
-							{% for field in form%}
-							<div>
-							{{field.label_tag}}
-								{% if field.errors %}
-			  						{{ field.errors|escape }} 
-								{% endif %}
-							</div>
-							<div>
-							<legend>{{ field.id_for }}</legend> 
+							<legend>{{ form.Campo.label_tag }}</legend>
+							{% render_field form.Campo rows="15" cols="100" class+="form-control" %}
+
+
+							<legend>{{ form.Conclusion.label_tag }}</legend>
+							{% render_field form.Conclusion rows="15" cols="100" class+="form-control" %}
+							<br>
 							
-								{{ field }} 
-								
-							{% endfor %}
 							</div>
-				</div>
-				<br>
 				<input type="submit" value="Guardar y salir" name="boton_guardarysalir" class="btn btn-info">
-				<br>
+				<br><br><br>
 
 			<legend>{{nombre_estudio_form.Estudio.label}} {{nombre_estudio_form.Estudio}}</legend>
-			<br>
 			<input type="submit" value="Añadir otra"  name="boton_guardar2" class="btn btn-info">
 			<br>
 			
@@ -52,6 +45,8 @@
 
 
 			</script>
+				</div>
+				
 
         </div>
     </div>

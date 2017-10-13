@@ -6,10 +6,22 @@
          <div class="container">
             <div class="row">
               <div class="col-md-12">
+              
+    {% if messages %}
+    {% for message in messages %}
+        <script type="text/javascript">
+        alertify.set('notifier','position', 'bottom-left');
+        alertify.success( "{{message}}");
+        </script>
+        
+    {% endfor %}
+    {% endif %}
+
                         <legend><h1>Registro de Placas Desechadas</h1></legend>
                                 <form action="{% url 'hcapp:Registrar-Placa' %}" method="POST"> 
                                 {% csrf_token %}
-                                {% include 'hcapp/form_template.html' %}    
+                                {% include 'hcapp/form_template.html' %}   
+
                           
                           <input type="submit" value="Registrar" class="btn btn-primary btn-block" >
                           </form>

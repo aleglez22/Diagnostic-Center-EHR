@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Paciente, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Radiologo, Subcategoria
+from .models import Paciente, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Subcategoria
 from. import models
 
 admin.site.register(models.Categoria)
@@ -63,7 +63,7 @@ class HistoriaModelAdmin(DeleteNotAllowedModelAdmin):
 
 
 class PacienteModelAdmin(DeleteNotAllowedModelAdmin):
-    campos_readonly=('Cedula','Nombre','Apellido','Fecha_nacimiento','Fecha_ingreso')
+    campos_readonly=('Cedula','Fecha_ingreso')
     list_display = ('Nombre', 'Apellido', 'Fecha_ingreso')#campos a mostrar
     list_filter = ('Fecha_ingreso',)# filtros(tags)
     ordering = ('-Fecha_ingreso',)

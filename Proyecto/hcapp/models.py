@@ -14,7 +14,7 @@ def calculate_age(born):
 
 
 class Paciente (models.Model):
-    Cedula = models.IntegerField(null=False, blank=False, unique=True) # es necesaria?
+    Cedula = models.IntegerField(null=False, blank=False, unique=True, error_messages={'unique':"Ya existe un paciente con esta cédula en el sistema"}) # es necesaria?
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
@@ -40,44 +40,10 @@ class MedicoSolicitante (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
     Telefono = models.IntegerField(validators=[MaxValueValidator(9999999999)], null=True, blank=True)
+    Fecha = models.DateField(auto_now=True)
     def __str__(self):
         return ("med_sol: "+str(self.Nombre)+" "+str(self.Apellido))
 
-
-class Radiologo (models.Model):
-    Nombre = models.CharField(max_length=128, null=False, blank=False)
-    Apellido = models.CharField(max_length=128, null=False, blank=False)
-    Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
-    def __str__(self):
-            return ("radiol: "+str(self.Nombre)+" "+str(self.Apellido))
-
-class Medico (models.Model):
-    Nombre = models.CharField(max_length=128, null=False, blank=False)
-    Apellido = models.CharField(max_length=128, null=False, blank=False)
-    Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
-    Fecha_creacion = models.DateField(auto_now=True)
-
-    def __str__(self):
-        return ("medic: "+str(self.Nombre)+" "+str(self.Apellido))
-
-class Secretario (models.Model):
-    Nombre = models.CharField(max_length=128, null=False, blank=False)
-    Apellido = models.CharField(max_length=128, null=False, blank=False)
-    Telefono = models.IntegerField( validators=[MaxValueValidator(9999999999)],null=True, blank=True)
-    Fecha_creacion = models.DateField(auto_now=True)
-
-    def __str__(self):
-        return ("secret: "+str(self.Nombre)+" "+str(self.Apellido))
-
-class Plantilla(models.Model):
-    TipoEstudio = models.CharField(max_length=200) #>>>>unique
-    Fecha_creacion = models.DateField(auto_now=True)
-    Campo = models.TextField()
-    Conclusion = models.TextField()
-    NombreDoc= models.CharField(max_length=200)
-
-    def __str__(self):
-        return ("Plantilla: "+str(self.TipoEstudio))
 
 
 class Pedido(models.Model):
@@ -98,7 +64,7 @@ class Historia(models.Model):
     TipoEstudio= models.CharField(max_length=200)
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
-    Conclusion = models.TextField()  # charfield
+    Conclusion = models.CharField(max_length=200)  # charfield
 
     def __str__(self):
         return ("hist: "+str(self.TipoEstudio))
@@ -127,7 +93,15 @@ class TipoEstudio(models.Model):
     def __str__(self):
         return ("est: "+str(self.Nombre))
 
+class Plantilla(models.Model):
+    TipoEstudio = models.ForeignKey(TipoEstudio, on_delete=models.PROTECT)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.CharField(max_length=200)
+    NombreDoc= models.CharField(max_length=200)
 
+    def __str__(self):
+        return ("Plantilla: "+str(self.TipoEstudio))
 
 class Placa(models.Model):
     tipos=(('AGFA 8 X 10','AGFA 8 X 10'), ('AGFA 10 X 14','AGFA 10 X 14'),('AGFA 14 X 17','AGFA 14 X 17'), ('FUJI 8 X 10',' FUJI 8 X 10'),
@@ -138,158 +112,4 @@ class Placa(models.Model):
     def __str__(self):
         return ("placa: "+str(self.Tipo))
 
-
-##### CABEZA ######
-
-#
-
-#
-# class CerebroSimpleContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class CerebroSimpleVentanaOsea(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class Hipofisis(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class HipofisisContrastada(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class MacizoFacialHuesosNasales(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class MacizoFacialReconstruido3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class MaxilarSuperiorInferior(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class MaxilarSupInfReconstruido(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class Oido(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class OidoConstrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class OidoReconstruido3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class OrbitasSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class OrbitasContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class SenosParanasalesSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class SenosParanasalesReconstruido3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class GlandulasSalivales(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class CerebroSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### ABDOMEN ######
-#
-#
-# class AbdomenSupInfSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class AbdomenSupInfContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class AbdomenTotalSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class AbdomenTotalSimpleContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class Pelvis(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### ESPECIALES ######
-#
-#
-# class Urotac(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# class Pielotac(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### Extremidades ######
-#
-#
-# class Articulaciones(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# class ArticulacionesReconstruccion3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# class Escanograma(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### CUELLO ######
-#
-#
-# class CuelloSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# class CuelloContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### TORAX ######
-#
-#
-# class ToraxSimple(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# class ToraxContrastado(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ToraxAltaResolucion(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-#
-# ##### COLUMNA ######
-#
-#
-# class ColumnaCervical(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaCervicalReconstruida3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaDorsal(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaDorsalReconstruida3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaLumbo(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaLumboReconstruida3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaTotal(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
-#
-# class ColumnaTotalReconstruida3d(models.Model):
-#     Estudio = models.OneToOneField(Estudio, on_delete=models.DO_NOTHING)
 

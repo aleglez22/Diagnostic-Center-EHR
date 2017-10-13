@@ -1,21 +1,19 @@
 {% extends "hcapp/index.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block contenido %}
 
+
+
 <div class="container">
   <div class="col-md-4">
-    <form name="formulario_pacientes" method="post">
-    <legend><h1><center>Crear / Actualizar Medico solicitante</center></h1></legend>
-      <div class="form-group row" align="center">
-        <div class="form-group">
-          
-
-
+    <form name="formulario_medicos" method="post">
+      <div class="form-group row">
+        <legend><h1><center>Formulario Médico solicitante</center></h1></legend>
+          <div>
             {% csrf_token %}
-
-            {% include 'hcapp/form_template.html' %}   
-            <br>
+            {% include 'hcapp/form_template.html' %}  
            <br>      
             <legend><button class="btn btn-primary btn-block"><i class="fa fa-user-md" style="font-size:25px;"></i> Aceptar </button></legend>
           <br>
@@ -23,7 +21,45 @@
       </div>
     </form>
   </div>
-      <!--****************ESTUDIOS POR MEDICOS SOLICITANTES***********************************-->            
+  <div class="col-md-8">
+    <table class="table Contextual Classes" border="0">
+      
+      <thead>
+      <tr colspan="4" align="center"><center><h1><i class="fa fa-stethoscope" style="font-size:40px;color: red;"></i> Ultimos Paciente</h1></center></tr>
+        <tr class="danger">
+          <th>Id   </th>
+          <th>Nombre/Apellido </th>
+          <th>Teléfono </th>
+          <th>Fecha creación </th>
+        </tr>
+      </thead>
+       {% for m in medicos %}
+      <tbody>
+        <tr>
+          <td>
+            {{m.pk}} 
+          </td> 
+
+          <td>
+            {{m.Nombre }}  {{m.Apellido}}
+          </td>
+
+          <td>
+            {{m.Telefono}}
+          </td>
+
+          <td>
+            {{m.Fecha}}
+          </td>
+
+          <th>
+            <button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href='/editar/medico/{{ m.pk }}'">  <span class="glyphicon glyphicon-pencil"></span></button>
+          </th>         
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
 </div>
 
 {% endblock contenido %}
