@@ -125,10 +125,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT =  os.path.join(BASE_DIR, "static")
+HCAPP_DIR=os.path.join(BASE_DIR, "hcapp")
 STATICFILES_DIRS = [
-    #os.path.join(BASE_DIR, "static"),
-    '/hcapp/static/',
+    os.path.join(HCAPP_DIR, "static"),
+    
 ]
 
 MEDIA_URL = '/media/'
