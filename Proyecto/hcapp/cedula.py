@@ -3,53 +3,9 @@ def verificar(cedulaRuc):
   num=len(cedulaRuc)
   if num==9:
      cedulaRuc = cedulaRuc[:0] + '0' + cedulaRuc[0:]
-     num=len(cedulaRuc)---------------------------
-Sublime Text
----------------------------
-Pylinter could not automatically determined the path to `lint.py`.
+     num=len(cedulaRuc)
+  array=cedulaRuc
 
-Please provide one in the settings file using the `pylint_path` variable.
-
-NOTE:
-If you are using a Virtualenv, the problem might be resolved by launching Sublime Text from correct Virtualenv.
----------------------------
-Aceptar   
----------------------------
-
-
-
-
-
-
-
-
-
-
-
-  array=cedulaRuc---------------------------
-Sublime Text
----------------------------
-Pylinter could not automatically determined the path to `lint.py`.
-
-Please provide one in the settings file using the `pylint_path` variable.
-
-NOTE:
-If you are using a Virtualenv, the problem might be resolved by launching Sublime Text from correct Virtualenv.
----------------------------
-Aceptar   
----------------------------
-
-
-
-
-
-
-
-
-
-
-  print (array)
-  print (num)
 
   if (num==10 and cedulaRuc != 0000000000 and cedulaRuc != 2222222222 and cedulaRuc != 9999999999 ):
     total = 0

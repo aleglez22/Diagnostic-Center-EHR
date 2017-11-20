@@ -14,6 +14,8 @@
         <h2 align="center">Registro de Pedidos</h2>
 
           {% csrf_token %}
+          
+          <input type="text" name="nombre" id="id_Nombre" value="">
 
 
           {% for field in form%}
@@ -200,6 +202,16 @@
   
   var estudioDrop= document.getElementById("id_estudio");
   var Estudio= document.getElementById("id_Estudio");
+
+  estudioDrop.onchange= function() {
+    Estudio.value=estudioDrop.options[estudioDrop.selectedIndex].label;
+}
+
+
+<script type="text/javascript">
+  
+  var pacienteDrop= document.getElementById("id_Paciente");
+  var nombrePaciente= document.getElementById("id_Nombre");
 
   estudioDrop.onchange= function() {
     Estudio.value=estudioDrop.options[estudioDrop.selectedIndex].label;

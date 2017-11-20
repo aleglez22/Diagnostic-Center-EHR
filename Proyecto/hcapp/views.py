@@ -69,7 +69,6 @@ def Historias(request):
     return render(request,"hcapp/prueba_table.html",{})
 
 
-
 def TablaPacientes(request):
     
     pacientes= Paciente.objects.all()
@@ -137,7 +136,8 @@ class DetalleHistoria(generic.DetailView):
         estudio_actual= historia_actual.TipoEstudio
         print('estudio_actual '+str(estudio_actual))
 
-        pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
+        #pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
+        pedido_actual=historia_actual.Pedido
         print('pedido actual '+str(pedido_actual.pk))
 
         pedidos=Pedido.objects.filter(Paciente= pedido_actual.Paciente)
@@ -419,6 +419,22 @@ def AutocompletarPaciente(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+    def AutocompletarCedulaToPaciente(request):
+        if request.is_ajax():
+            q = request.GET.get('term', '')
+            lista = Paciente.objects.filter(Cedula = q )
+            results = []
+            fila_json = {}
+            fila_json['id'] = fila.pk
+            #fila_json['label'] = elimina_tildes(str(fila.Apellido)) +" "+ elimina_tildes(str(fila.Nombre))
+            fila_json['value'] = fila.Nombre
+            results.append(fila_json)
+            data = json.dumps(results)
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
 
     ###MEDICOSOLICITANTE###
 
