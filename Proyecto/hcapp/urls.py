@@ -46,9 +46,8 @@ url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="E
 
     ###PEDIDOS###
 url(r'^pedidos/$',user_passes_test(views.superuser_or_medico)(views.PedidosHome) ,name="Home-Pedidos"),
-url(r'^lista-pedidos/$',views.ListaPedidos.as_view() ,name="Lista-Pedidos"),
 url(r'^pedido/(?P<pk>[0-9]+)/$',views.DetallePedido.as_view() ,name="Detalle-Pedido"),
-url(r'^crear/pedido/$',views.CrearPedido1 ,name="Crear-Pedidos"),
+url(r'^crear/pedido/$',user_passes_test(views.superuser_or_medico)(views.CrearPedido1) ,name="Crear-Pedidos"),
 
 
 	###REPORTES###
@@ -68,9 +67,9 @@ url(r'^api/medico-solicitante/$', views.AutocompletarMedicoSolicitante, name= "A
 url(r'^api/tipo-estudio/$', views.AutocompletarTipoEstudio, name= "Api-Estudio"),
 url(r'^api/paciente/$', views.AutocompletarPaciente, name= "Api-Paciente"),
 url(r'^api/historias/$', views.TablaHistorias, name= "Api-Historias"),
+url(r'^api/nombre-paciente/$', views.AutocompletarCedulaToPaciente, name= "Api-Pacientes-Nombre"),
 url(r'^api/pacientes/$', views.TablaPacientes, name= "Api-Pacientes"),
 #url(r'^reportes/$', views.PruebaTabla, name= "Reportes"),
-
 
     ###MEDICOS SOLICITANTES###
 url(r'^crear/medico/$',login_required(views.CrearMedico.as_view()) ,name="Crear-Medico"),

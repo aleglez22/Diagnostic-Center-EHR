@@ -213,7 +213,6 @@ class CrearPaciente(generic.CreateView):
         
         for x, y in form.fields.items():
             form.fields[x].widget.attrs.update({'class': 'form-control'})
-    
         return form
 
     def get_context_data(self, **kwargs):
@@ -420,24 +419,22 @@ def AutocompletarPaciente(request):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
-    def AutocompletarCedulaToPaciente(request):
-        if request.is_ajax():
-            q = request.GET.get('term', '')
-            lista = Paciente.objects.filter(Cedula = q )
-            results = []
-            fila_json = {}
-            fila_json['id'] = fila.pk
-            #fila_json['label'] = elimina_tildes(str(fila.Apellido)) +" "+ elimina_tildes(str(fila.Nombre))
-            fila_json['value'] = fila.Nombre
-            results.append(fila_json)
-            data = json.dumps(results)
-        else:
-            data = 'fail'
-        mimetype = 'application/json'
-        return HttpResponse(data, mimetype)
+from django.http import JsonResponse
+def AutocompletarCedulaToPaciente(request):
+    if request.is_ajax():
+        cedula = request.GET.get('cedula')
+        print (cedula)
+        paciente = Paciente.objects.get(Cedula=cedula)
+        data = {'nombre_paciente':str(paciente.Nombre) +" " +str(paciente.Apellido)}
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    print (data)
+    #return HttpResponse(data, mimetype)
+    return JsonResponse(data)
+
 
     ###MEDICOSOLICITANTE###
-
 def AutocompletarMedicoSolicitante(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
@@ -593,7 +590,7 @@ class ReportePacientes(View):
             elif (f_ini != None):
                 pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
-                f_fin=today
+                f_fin=self.today
             else:
                 pedidos = Pedido.objects.all()
                 print("ninguna")
@@ -639,7 +636,7 @@ class ReportePlacas(View):
             elif (f_ini != None):
                 placas = m.Placa.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
-                f_fin=today
+                f_fin=self.today
             else:
                 placas = m.Placa.objects.all()
                 print("ninguna")
@@ -668,12 +665,12 @@ class ReporteEstudios(View):
 
             if (f_ini != None) and (f_fin != None):
                 
-                historias =Historia.objects.filter(Fecha__range=(f_ini,f_fin)) 
+                historias =Historia.objects.filter(Fecha_creacion__range=(f_ini,f_fin)) 
                 print("ambas")
             elif (f_ini != None):
-                historias = Historia.objects.filter(Fecha__range=(f_ini,self.today)) 
+                historias = Historia.objects.filter(Fecha_creacion__range=(f_ini,self.today)) 
                 print("inicial")
-                f_fin=today
+                f_fin=self.today
             else:
                 historias = Historia.objects.all()
                 print("ninguna")
@@ -703,7 +700,7 @@ class ReporteMedicos(View):
             elif (f_ini != None):
                 pedidos = Pedido.objects.filter(Fecha__range=(f_ini,self.today)) 
                 print("inicial")
-                f_fin=today
+                f_fin=self.today
             else:
                 pedidos = Pedido.objects.all()
                 print("ninguna")

@@ -143,18 +143,11 @@ txtCedulaRuc.addEventListener("change", checkCedula);
 <script type="text/javascript" src="{% static 'js/jquery1.7.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script>
-        $( function() {
-          $( "#id_Fecha_nacimiento" ).datepicker();
-          $( "#id_Fecha_nacimiento" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-        });
-      </script>
+$( function() {
+  $( "#id_Fecha_nacimiento" ).datepicker();
+  $( "#id_Fecha_nacimiento" ).datepicker( "option", "dateFormat", "dd-mm-yy" );
+});
+</script>
 
-<!--/////////////////// boton tabla pacieintes ///////////////////////////////
-<div class="container">
-  <div class="col-md-12" align="center">
-    <button class="btn btn-primary btn-block" type="button" id="Tabla-Pacientes"  onclick="window.location.href='/pacientes'">Ver Tabla General</button>
-  </div>
-</div>
--->
 <br>
 {% endblock contenido %}

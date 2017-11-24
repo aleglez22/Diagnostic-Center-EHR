@@ -14,10 +14,7 @@
         <h2 align="center">Registro de Pedidos</h2>
 
           {% csrf_token %}
-          
-          <input type="text" name="nombre" id="id_Nombre" value="">
-
-
+          <h4> <div id="nombrePaciente"> </div> </h4>
           {% for field in form%}
 
           <label> {{field.label_tag}} </label>
@@ -29,11 +26,11 @@
           {% endif %}
 
           {% if field.name == 'Paciente' %}
-        <input title="Crear nuevo Paciente" type="button" class="btn btn-default" value="+" onclick="location.href = '{% url 'hcapp:Crear-Paciente' %}'">
+        <input title="Crear nuevo Paciente" target="_blank" type="button" class="btn btn-default" value="+" onclick="window.open('{% url 'hcapp:Crear-Paciente' %}')">
         {% endif %}
 
         {% if field.name == 'Medico' %}
-        <input title="Crear nuevo Médico" type="button" class="btn btn-default" value="+" onclick="location.href = '{% url 'hcapp:Crear-Medico' %}'">
+        <input title="Crear nuevo Médico" type="button" class="btn btn-default" value="+" onclick="window.open ('{% url 'hcapp:Crear-Medico' %}')">
         {% endif %}
 
         {% if field.name == 'Estudio' %}
@@ -219,11 +216,28 @@
 
 </script>
           
-      <script>
-        $( function() {
-          $( "#id_Fecha" ).datepicker();
-          $( "#id_Fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-        });
-      </script>
+<script>//Datepicker para Fecha de pedido
+  $( function() {
+    $( "#id_Fecha" ).datepicker();
+    $( "#id_Fecha" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+</script>
+
+<script>// ACTUALIZA DIV CON EL NOMBRE DEL PACIENTE INGRESADO 
+    $("#id_Paciente").change(function () {
+      var ced_paciente = $(this).val();
+      alert(ced_paciente);
+      $.ajax({
+        url: '/api/nombre-paciente/',
+        data: {
+          'cedula': ced_paciente
+        },
+        dataType: 'json',
+        success: function (data) {
+          document.getElementById("nombrePaciente").innerHTML= "Paciente: " + data['nombre_paciente'];
+        }
+      });
+    });
+  </script>
 
 {% endblock contenido %}

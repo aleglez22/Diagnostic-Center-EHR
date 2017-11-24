@@ -46,7 +46,7 @@
     
     $(document).ready(function() {
         $('#pacientes').DataTable( {
-            "ajax": '/api/pacientes/'
+            "ajax": '{% url 'hcapp:Api-Pacientes' %}'
         } );
     } );
 </script>
