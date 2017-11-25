@@ -146,6 +146,7 @@ class DetalleHistoria(generic.DetailView):
         historias= Historia.objects.filter(Pedido__in=pedidos, TipoEstudio=estudio_actual)
         #print('historias  '+str(historias)) #pedidos en los que esta el paciente actual
         contexto['historias_paciente']= historias
+        contexto['pedido']= pedido_actual
         return contexto
 
 class EditarHistoria(generic.UpdateView):

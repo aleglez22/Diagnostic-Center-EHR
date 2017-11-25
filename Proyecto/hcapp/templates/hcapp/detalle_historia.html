@@ -30,15 +30,20 @@
 
 			</p>	
 				<br>
-				<!--
-				<legend><B>historia actual</B></legend>
-				<p>
-					{{historia.pk}} 
-				</p>
-				-->
+				
 				<br>
 
-				<legend><B>Id Historia: </B> {{historia.pk}} </legend>
+				<legend><B>Id Historia: </B> {{historia.pk}} 
+				&nbsp;&nbsp;&nbsp;<B> Paciente:  </B> {{pedido.Paciente.Nombre}} {{pedido.Paciente.Apellido}}
+				&nbsp;&nbsp;&nbsp;<B> Fecha de creación:  </B> {{pedido.Fecha}}
+				&nbsp;&nbsp;&nbsp;<B> Fecha de pedido:  </B> {{pedido.Fecha_pedido}}
+				&nbsp;&nbsp;&nbsp;<B> Cortesía:  </B> {{pedido.Cortecia}}
+				&nbsp;&nbsp;&nbsp;<B> Médico solicitante:  </B> {{pedido.Medico.Nombre}} {{pedido.Medico.Apellido}}
+				&nbsp;&nbsp;&nbsp;<B> Diagnóstico presuntivo: </B> {{pedido.Diagnostico_presuntivo}} 
+
+
+
+				</legend>
 
 					<br>
 						<legend><B>Tipo de estudio:</B></legend><p>{{historia.TipoEstudio}}</p>
