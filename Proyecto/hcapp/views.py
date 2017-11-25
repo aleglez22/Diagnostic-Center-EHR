@@ -132,19 +132,19 @@ class DetalleHistoria(generic.DetailView):
         contexto=super(DetalleHistoria, self).get_context_data(**kwargs)
 
         historia_actual= Historia.objects.get(pk=self.kwargs['pk'])
-        print('historia_actual '+str(historia_actual.pk))
+        #print('historia_actual '+str(historia_actual.pk))
         estudio_actual= historia_actual.TipoEstudio
-        print('estudio_actual '+str(estudio_actual))
+        #print('estudio_actual '+str(estudio_actual))
 
         #pedido_actual= Pedido.objects.get(pk=historia_actual.Pedido.pk)
         pedido_actual=historia_actual.Pedido
-        print('pedido actual '+str(pedido_actual.pk))
+        #print('pedido actual paciente '+str(pedido_actual.Paciente.Nombre))
 
         pedidos=Pedido.objects.filter(Paciente= pedido_actual.Paciente)
-        print('pedidos '+str(pedidos)) #pedidos en los que esta el paciente actual
+        #print('pedidos '+str(pedidos)) #pedidos en los que esta el paciente actual
 
-        historias= Historia.objects.filter(Pedido=pedidos, TipoEstudio=estudio_actual)
-        print('historias  '+str(historias)) #pedidos en los que esta el paciente actual
+        historias= Historia.objects.filter(Pedido__in=pedidos, TipoEstudio=estudio_actual)
+        #print('historias  '+str(historias)) #pedidos en los que esta el paciente actual
         contexto['historias_paciente']= historias
         return contexto
 

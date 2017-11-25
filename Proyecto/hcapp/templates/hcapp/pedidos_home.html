@@ -205,15 +205,6 @@
 }
 
 
-<script type="text/javascript">
-  
-  var pacienteDrop= document.getElementById("id_Paciente");
-  var nombrePaciente= document.getElementById("id_Nombre");
-
-  estudioDrop.onchange= function() {
-    Estudio.value=estudioDrop.options[estudioDrop.selectedIndex].label;
-}
-
 </script>
           
 <script>//Datepicker para Fecha de pedido
@@ -226,7 +217,6 @@
 <script>// ACTUALIZA DIV CON EL NOMBRE DEL PACIENTE INGRESADO 
     $("#id_Paciente").change(function () {
       var ced_paciente = $(this).val();
-      alert(ced_paciente);
       $.ajax({
         url: '/api/nombre-paciente/',
         data: {
