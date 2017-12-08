@@ -87,7 +87,14 @@ var checkCedula = function()
   var cedulaRuc = formulario_pacientes.id_Cedula.value;/*ayuda con respecto a cadenas(string) crear arrays de cadenas en base aun elemento indicador del Split como cedula*/
   array = cedulaRuc.split( "" );/*ayuda a medir el numero de caracteres de un array*/
   num = array.length;/*Aqui comprobamos que el numero ingresado tiene que tener diezcaracteres para ingresar a la condición sino no ingresa para verificar*/
-  if (( num == 10 && cedulaRuc != 0000000000 ) && ( num == 10 && cedulaRuc != 2222222222 ) && ( num == 10 && cedulaRuc != 9999999999 ))
+  
+  //alert((array[0]).toString() array[1]).toString());
+  var ciudad=((array[0].toString()).concat(array[1].toString()));
+
+  ciudad=parseInt(ciudad);
+  //alert("ciudad"+ciudad);
+  if(ciudad>=1 && ciudad<=24){
+    if (( num == 10 && cedulaRuc != 0000000000 ) && ( num == 10 && cedulaRuc != 2222222222 ) && ( num == 10 && cedulaRuc != 9999999999 ))
   {
     total = 0;
     digito = (array[9]*1);
@@ -131,6 +138,15 @@ var checkCedula = function()
       mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
     return false;
     }
+
+  }else{
+    alertify.error("El código de ciudad "+ciudad+ " es incorrecto");
+    mensaje.innerHTML = "<span style=color:red> <i> cédula incorrecta, debe tener 10 dígitos </i> </span>";
+    return false;
+
+
+  }
+  
 }
 
 var txtCedulaRuc = document.getElementById('id_Cedula');

@@ -35,7 +35,6 @@ class Paciente (models.Model):
     
         
 
-
 class MedicoSolicitante (models.Model):
     Nombre = models.CharField(max_length=128, null=False, blank=False)
     Apellido = models.CharField(max_length=128, null=False, blank=False)
@@ -44,31 +43,15 @@ class MedicoSolicitante (models.Model):
     def __str__(self):
         return ("med_sol: "+str(self.Nombre)+" "+str(self.Apellido))
 
-
-
-class Pedido(models.Model):
-    TRUE_FALSE_CHOICE = ((True, "Yes"),(False, "No"))
-    Paciente= models.ForeignKey(Paciente, on_delete=models.PROTECT)
-    Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.PROTECT)
-    Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
-    Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
-    Fecha = models.DateField(auto_now=True)
-    Cortecia = models.BooleanField(choices=TRUE_FALSE_CHOICE)
-
-
-    def __str__(self):
-        return ("pedido: "+str(self.Paciente)+" "+str(self.Diagnostico_presuntivo))
-
-class Historia(models.Model):
-    Pedido=models.ForeignKey(Pedido, on_delete=models.PROTECT, default= 1)
-    TipoEstudio= models.CharField(max_length=200)
+class Plantilla(models.Model):
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
-    Conclusion = models.CharField(max_length=200)  # charfield
+    Conclusion = models.CharField(max_length=200)
+    NombreDoc= models.CharField(max_length=200)
 
     def __str__(self):
-        return ("hist: "+str(self.TipoEstudio))
-
+        return ("Plantilla: "+str(self.NombreDoc))
+        
 
 class Categoria(models.Model):
     Nombre = models.CharField(max_length=255, null=True, blank=True)
@@ -86,6 +69,7 @@ class Subcategoria(models.Model):
 
 
 class TipoEstudio(models.Model):
+    Plantilla = models.ForeignKey(Plantilla, on_delete=models.PROTECT)
     Nombre = models.CharField(max_length=255, null=True, blank=True)
     Subcategoria= models.ForeignKey(Subcategoria, on_delete=models.PROTECT)
     Fecha_creacion = models.DateField(auto_now=True)
@@ -93,15 +77,29 @@ class TipoEstudio(models.Model):
     def __str__(self):
         return ("est: "+str(self.Nombre))
 
-class Plantilla(models.Model):
-    TipoEstudio = models.ForeignKey(TipoEstudio, on_delete=models.PROTECT)
-    Fecha_creacion = models.DateField(auto_now=True)
-    Campo = models.TextField()
-    Conclusion = models.CharField(max_length=200)
-    NombreDoc= models.CharField(max_length=200)
+class Pedido(models.Model):
+    TRUE_FALSE_CHOICE = ((True, "Yes"),(False, "No"))
+    Paciente= models.ForeignKey(Paciente, on_delete=models.PROTECT)
+    Medico= models.ForeignKey(MedicoSolicitante, on_delete=models.PROTECT)
+    Diagnostico_presuntivo= models.CharField(max_length=255, null=True, blank=True)
+    Fecha_pedido = models.DateField(auto_now=True) # auto_add será valido ???
+    Fecha = models.DateField(auto_now=True)
+    Cortecia = models.BooleanField(choices=TRUE_FALSE_CHOICE)
+
 
     def __str__(self):
-        return ("Plantilla: "+str(self.TipoEstudio))
+        return ("pedido: "+str(self.Paciente)+" "+str(self.Diagnostico_presuntivo))
+
+class Historia(models.Model):
+    Pedido=models.ForeignKey(Pedido, on_delete=models.PROTECT, default= 1)
+    TipoEstudio= models.ForeignKey(TipoEstudio, on_delete=models.PROTECT)
+    Fecha_creacion = models.DateField(auto_now=True)
+    Campo = models.TextField()
+    Conclusion = models.CharField(max_length=200)  # charfield
+
+    def __str__(self):
+        return ("hist: "+str(self.TipoEstudio))
+
 
 class Placa(models.Model):
     tipos=(('AGFA 8 X 10','AGFA 8 X 10'), ('AGFA 10 X 14','AGFA 10 X 14'),('AGFA 14 X 17','AGFA 14 X 17'), ('FUJI 8 X 10',' FUJI 8 X 10'),

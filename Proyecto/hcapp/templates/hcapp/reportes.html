@@ -26,7 +26,7 @@
 	    <div class="row">
 	        <!--***************************************************-->
 	        	{% if pedidos %}
-	        	<h1 align="center">  Cortesías </h1>
+	        	<h1 align="center"> Reporte Cortesías </h1>
 	        	  <div class="col-md-6">
 				    <table class="table Contextual Classes" border="0">
 				      <tr colspan="4"><center><h1>Otorgadas</h1></center></tr>
@@ -63,7 +63,7 @@
 				    <table class="table Contextual Classes" border="0">
 				      
 				      <thead>
-				      <tr><h1 align="center">  Medicos </h1></tr>
+				      <tr><h1 align="center"> Reporte Medicos </h1></tr>
 				        <tr class="danger">
 				          <th>Médico </th>
 				          <th>Estudios realizados </th>
@@ -77,14 +77,14 @@
 				        </script>
 
 				        <script type="text/javascript"> 
-				        var nombre= "{{ medico.Medico__Apellido }} {{medico.Medico__Nombre}} "
+				        var nombre= "{{ medico.Pedido__Medico__Nombre }} {{medico.Pedido__Medico__Apellido}} "
 				        datos_label.push(String(nombre));
 				        </script>
 
 				      <tbody>
 				        <tr>
 				          <td>
-				            {{medico.Medico__Nombre}} {{medico.Medico__Apellido}}
+				            {{medico.Pedido__Medico__Nombre}} {{medico.Pedido__Medico__Apellido}}
 				          </td> 
 
 				          <td>
@@ -107,9 +107,9 @@
 				    <table class="table Contextual Classes" border="0">
 				      
 				      <thead>
-				      <tr><h1 align="center">  Tipos de Estudios </h1></tr>
+				      <tr><h1 align="center"> Reporte Tipos de Estudios </h1></tr>
 				        <tr class="danger">
-				          <th>Médico </th>
+				          <th>Nombre Estudio </th>
 				          <th>Estudios realizados </th>
 				        </tr>
 				      </thead>
@@ -119,13 +119,13 @@
 				        </script>
 
 				        <script type="text/javascript"> 
-				        var nombre= "{{ historia.TipoEstudio}} "
+				        var nombre= "{{ historia.TipoEstudio__Nombre}} "
 				        datos_label.push(String(nombre));
 				        </script>
 				      <tbody>
 				        <tr>
 				          <td>
-				            {{historia.TipoEstudio}} 
+				            {{historia.TipoEstudio__Nombre}} 
 				          </td> 
 
 				          <td>
@@ -145,7 +145,7 @@
 				    <table class="table Contextual Classes" border="0">
 				      
 				      <thead>
-				      <tr><h1 align="center">  Edades de los pacientes </h1></tr>
+				      <tr><h1 align="center"> Reporte Edades de los pacientes </h1></tr>
 				        <tr class="danger">
 				          <th>Edad del paciente </th>
 				          <th>Número de Historias realizadas </th>
@@ -184,7 +184,7 @@
 				      
 				      <thead>
 	        	
-				      <tr><h1 align="center">  Placas Desechadas </h1></tr>
+				      <tr><h1 align="center"> Reporte Placas Desechadas </h1></tr>
 				        <tr class="danger">
 				          <th>Placa </th>
 				          <th>Cantidad </th>

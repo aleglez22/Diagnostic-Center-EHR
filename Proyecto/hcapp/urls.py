@@ -46,7 +46,6 @@ url(r'^editar/historia/(?P<pk>[0-9]+)/$',views.EditarHistoria.as_view() ,name="E
 
     ###PEDIDOS###
 url(r'^pedidos/$',user_passes_test(views.superuser_or_medico)(views.PedidosHome) ,name="Home-Pedidos"),
-url(r'^pedido/(?P<pk>[0-9]+)/$',views.DetallePedido.as_view() ,name="Detalle-Pedido"),
 url(r'^crear/pedido/$',user_passes_test(views.superuser_or_medico)(views.CrearPedido1) ,name="Crear-Pedidos"),
 
 
@@ -74,5 +73,9 @@ url(r'^api/pacientes/$', views.TablaPacientes, name= "Api-Pacientes"),
     ###MEDICOS SOLICITANTES###
 url(r'^crear/medico/$',login_required(views.CrearMedico.as_view()) ,name="Crear-Medico"),
 url(r'^editar/medico/(?P<pk>[0-9]+)/$',login_required(views.EditarMedico.as_view()) ,name="Editar-Medico"),
+
+###PLANTILLAS###
+url(r'^plantillas/$',views.ListaPlantillas.as_view() ,name="Plantillas"),
+
 ]
 

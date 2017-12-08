@@ -66,7 +66,7 @@ def Inicio(request):
 
 
 def Historias(request):
-    return render(request,"hcapp/prueba_table.html",{})
+    return render(request,"hcapp/historias.html",{})
 
 
 def TablaPacientes(request):
@@ -94,25 +94,25 @@ def TablaHistorias(request):
     historias= m.Historia.objects.all()
     lista=[]
     listaDatos=[]
-    print (historias)
 
     for historia in historias:
         address="'/editar/historia/{0}'".format(historia.pk)
         btn_editar='<button class="btn btn-primary btn-block" type="button" id="modificar_paciente"  onclick="window.location.href={0}">  <span class="glyphicon glyphicon-pencil"></span></button>'.format(address)
        
         pk=historia.pk
-        pk="<a href='/historia/{0}'> h{1} </a>".format(pk, pk)
+        pk="<a href='/historia/{0}'> {1}</a>".format(pk, pk)
+        
         pedido= historia.Pedido
         p=pedido.pk
 
-        medico= pedido.Medico.Nombre
+        medico= pedido.Medico.Nombre +" "+ pedido.Medico.Apellido
         paciente=pedido.Paciente.Cedula
-        tipo_estudio=historia.TipoEstudio
+        tipo_estudio=historia.TipoEstudio.Nombre
         fecha_historia= historia.Fecha_creacion
         fecha_pedido= pedido.Fecha_pedido
         nombre_paciente=str(pedido.Paciente.Nombre) +" "+ str(pedido.Paciente.Apellido)
 
-        lista=[str(pk),'p'+str(p),str(medico),str(paciente),str(nombre_paciente),str(tipo_estudio),str(fecha_historia),
+        lista=[str(pk),'H'+str(historia.pk),'p'+str(p),str(medico),str(paciente),str(nombre_paciente),str(tipo_estudio),str(fecha_historia),
         str(fecha_pedido), str(btn_editar)]
         listaDatos.append(lista)
     
@@ -160,10 +160,12 @@ class EditarHistoria(generic.UpdateView):
 def DescargarDoc(request,historia_id):
     historia= m.Historia.objects.get(pk=historia_id)
     campo_nuevo=str(historia.Campo)
-    plantilla = m.Plantilla.objects.get(TipoEstudio=historia.TipoEstudio)
+    conclusion=str(historia.Conclusion)
+    #print ("conclusion:"+ str(conclusion))
+
+    plantilla = historia.TipoEstudio.Plantilla
     nombre_doc=str(plantilla.NombreDoc)
     campo_viejo=str(plantilla.Campo)
-    print (campo_viejo)
 
     pedido=historia.Pedido 
     nombre_paciente=str(pedido.Paciente.Nombre) +' '+ str(pedido.Paciente.Apellido)
@@ -172,7 +174,7 @@ def DescargarDoc(request,historia_id):
     edad_paciente=get_edad(pedido.Paciente.Fecha_nacimiento)
     tipo_estudio=historia.TipoEstudio
 
-    document=filler.reemplaza(campo_viejo,campo_nuevo,nombre_paciente,edad_paciente,medico_solicitante,
+    document=filler.reemplaza(campo_viejo,campo_nuevo,conclusion,nombre_paciente,edad_paciente,medico_solicitante,
         fecha,nombre_doc )
     nombre_fichero=str(nombre_paciente) + ' '+ str(tipo_estudio)
 
@@ -189,8 +191,6 @@ def DescargarDoc(request,historia_id):
 
 def validar_cedula(value):
     cedula = verificar(str(value))
-    print("valor")
-    print(value)
     if not cedula: 
         raise ValidationError('Cédula incorrecta') 
 
@@ -270,7 +270,7 @@ def CrearPedido1(request):
             else:
                 request.session['medico']=MedicoSolicitante.objects.get(pk=1)
             estudio_obj= TipoEstudio.objects.get(Nombre=estudio)
-            plantilla=m.Plantilla.objects.get(TipoEstudio=estudio_obj)
+            plantilla=estudio_obj.Plantilla
             campo=plantilla.Campo
             conclusion=plantilla.Conclusion
             data={'Campo':campo, 'Conclusion':conclusion}
@@ -299,7 +299,8 @@ def GuardarHistoria(request):
             pedido = Pedido(Paciente= Paciente.objects.get(Cedula=request.session['paciente']), Medico= MedicoSolicitante.objects.get(pk=request.session['medico']),
             Diagnostico_presuntivo= request.session['diagnostico'], Fecha_pedido=request.session['fecha'], Cortecia=request.session['cortecia'])
             pedido.save()
-            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)
+            tipo_estudio=TipoEstudio.objects.get(Nombre=request.session['estudio'])
+            historia= m.Historia(TipoEstudio=tipo_estudio, Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)
             
 
             if request.POST.get("boton_guardarysalir"):
@@ -312,9 +313,11 @@ def GuardarHistoria(request):
                 request.session['pedido']=pedido.pk
                 nform= NombreEstudioForm(request.POST)
                 estudio=request.POST.get('Estudio')
+
                 
-                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
-                    plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
+                if nform.is_valid() and TipoEstudio.objects.filter(Nombre=estudio).exists():
+                    request.session['estudio']=estudio
+                    plantilla = TipoEstudio.objects.get(Nombre=estudio).Plantilla
                     campo = plantilla.Campo
                     conclusion = plantilla.Conclusion
                     data={'Campo':campo, 'Conclusion':conclusion}
@@ -337,7 +340,8 @@ def GuardarOtraHistoria(request):
         form = EstudioForm(request.POST)
         if form.is_valid():
             pedido= Pedido.objects.get(pk=request.session['pedido'])
-            historia= m.Historia(TipoEstudio=request.session['estudio'], Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)       
+            tipo_estudio=TipoEstudio.objects.get(Nombre=request.session['estudio'])            
+            historia= m.Historia(TipoEstudio=tipo_estudio, Campo=form.cleaned_data['Campo'], Conclusion=form.cleaned_data['Conclusion'],Pedido=pedido)       
             
             if request.POST.get("boton_guardarysalir"):
                 historia.save()
@@ -349,8 +353,9 @@ def GuardarOtraHistoria(request):
                 nform= NombreEstudioForm(request.POST)            
                 estudio=request.POST.get('Estudio')
                 
-                if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
-                    plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
+                if nform.is_valid() and TipoEstudio.objects.filter(Nombre=estudio).exists():
+                    request.session['estudio']=estudio
+                    plantilla = TipoEstudio.objects.get(Nombre=estudio).Plantilla
                     campo = plantilla.Campo
                     conclusion = plantilla.Conclusion
                     data={'Campo':campo, 'Conclusion':conclusion}
@@ -368,8 +373,9 @@ def GuardarOtraHistoria(request):
 def CasoErrorNestudio(request):
     nform=NombreEstudioForm(request.POST)
     estudio=request.POST.get('Estudio')
-    if nform.is_valid() and m.Plantilla.objects.filter(TipoEstudio= TipoEstudio.objects.filter(Nombre=estudio)).exists():
-        plantilla = m.Plantilla.objects.get(TipoEstudio=TipoEstudio.objects.get(Nombre=estudio))
+    if nform.is_valid() and TipoEstudio.objects.filter(Nombre=estudio).exists():
+        request.session['estudio']=estudio
+        plantilla = TipoEstudio.objects.get(Nombre=estudio).Plantilla
         campo = plantilla.Campo
         conclusion = plantilla.Conclusion
         data={'Campo':campo, 'Conclusion':conclusion}
@@ -381,17 +387,10 @@ def CasoErrorNestudio(request):
     return render(request, "hcapp/error_estudio.html", {'nombre_estudio_form':nform})
 
 
-class DetallePedido(generic.DetailView):
-    model=Pedido
-    template_name = 'hcapp/detalle_pedido.html'
-
-class ListaPedidos(generic.ListView):
-    template_name = 'hcapp/pedidos.html'
-    context_object_name='pedidos'
-
-    # @Override devuelve los objetos que serán renderizados
-    def get_queryset(self):
-        return Pedido.objects.all().order_by('-Fecha')
+class ListaPlantillas(generic.ListView):
+    template_name = 'hcapp/plantillas.html'
+    context_object_name='plantillas'
+    model=m.Plantilla
 
 
 class FactoryHistoria():
@@ -424,13 +423,11 @@ from django.http import JsonResponse
 def AutocompletarCedulaToPaciente(request):
     if request.is_ajax():
         cedula = request.GET.get('cedula')
-        print (cedula)
         paciente = Paciente.objects.get(Cedula=cedula)
         data = {'nombre_paciente':str(paciente.Nombre) +" " +str(paciente.Apellido)}
     else:
         data = 'fail'
     mimetype = 'application/json'
-    print (data)
     #return HttpResponse(data, mimetype)
     return JsonResponse(data)
 
@@ -501,45 +498,6 @@ def ReportesHome(request):
 
 from django.contrib.messages.views import SuccessMessageMixin
 
-class RegistrarPlaca(SuccessMessageMixin, generic.CreateView):
-    model = m.Placa
-    fields = '__all__'
-    template_name_suffix ='_form'
-    success_url =reverse_lazy('hcapp:Registrar-Placa')
-    success_message = 'Se ha registrado una placa dañada'
-    
-    
-
-
-    
-
-
-
-def ReporteCortecias(request):
-    today = date.today()
-    form=RangoFechasForm(request.POST)
-    if request.POST:    
-        if form.is_valid():
-            f_ini=form.cleaned_data['Fecha_inicial']
-            f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
-
-            if (f_ini != None) and (f_fin != None):
-                a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin), Cortecia=True)
-                print("ambas")
-            elif (f_ini != None):
-                a = Pedido.objects.filter(Fecha__range=(f_ini, today), Cortecia=True)
-                f_fin=today
-                print("inicial")
-            else:
-                a = Pedido.objects.filter(Cortecia=True)
-                print("ninguna")
-                
-            return render(request,'hcapp/reportes.html', {'pedidos':a,'fechainicial':f_ini, 'fechafinal': f_fin})
-    return redirect (reverse_lazy("hcapp:Home-Reportes"))
-
-
-
 class Reporte(View):
     today = date.today()
     model=Pedido
@@ -553,7 +511,6 @@ class Reporte(View):
         if form.is_valid():
             f_ini=form.cleaned_data['Fecha_inicial']
             f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
 
             if (f_ini != None) and (f_fin != None):
                 
@@ -571,6 +528,40 @@ class Reporte(View):
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
 
 
+class RegistrarPlaca(SuccessMessageMixin, generic.CreateView):
+    model = m.Placa
+    fields = '__all__'
+    template_name_suffix ='_form'
+    success_url =reverse_lazy('hcapp:Registrar-Placa')
+    success_message = 'Se ha registrado una placa dañada'
+    
+
+def ReporteCortecias(request):
+    today = date.today()
+    form=RangoFechasForm(request.POST)
+    if request.POST:    
+        if form.is_valid():
+            f_ini=form.cleaned_data['Fecha_inicial']
+            f_fin=form.cleaned_data['Fecha_final']
+
+            if (f_ini != None) and (f_fin != None):
+                a = Pedido.objects.filter(Fecha__range=(f_ini, f_fin), Cortecia=True)
+                print("ambas")
+            elif (f_ini != None):
+                a = Pedido.objects.filter(Fecha__range=(f_ini, today), Cortecia=True)
+                f_fin=today
+                print("inicial")
+            else:
+                a = Pedido.objects.filter(Cortecia=True)
+                print("ninguna")
+                
+            return render(request,'hcapp/reportes.html', {'pedidos':a,'fechainicial':f_ini, 'fechafinal': f_fin})
+    return redirect (reverse_lazy("hcapp:Home-Reportes"))
+
+
+
+
+
 class ReportePacientes(View):
     today = date.today()
     context_name='pacientes'
@@ -582,7 +573,6 @@ class ReportePacientes(View):
         if form.is_valid():
             f_ini=form.cleaned_data['Fecha_inicial']
             f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
 
             if (f_ini != None) and (f_fin != None):
                 
@@ -607,7 +597,7 @@ class ReportePacientes(View):
                     contexto[get_edad(x.Paciente.Fecha_nacimiento)]+=1
                 else:
                     contexto[get_edad(x.Paciente.Fecha_nacimiento)]=1
-            print(contexto)
+
 
 
             for x, y in contexto.items():
@@ -628,8 +618,6 @@ class ReportePlacas(View):
         if form.is_valid():
             f_ini=form.cleaned_data['Fecha_inicial']
             f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
-
             if (f_ini != None) and (f_fin != None):
                 
                 placas =m.Placa.objects.filter(Fecha__range=(f_ini,f_fin)) 
@@ -662,7 +650,6 @@ class ReporteEstudios(View):
         if form.is_valid():
             f_ini=form.cleaned_data['Fecha_inicial']
             f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
 
             if (f_ini != None) and (f_fin != None):
                 
@@ -676,7 +663,7 @@ class ReporteEstudios(View):
                 historias = Historia.objects.all()
                 print("ninguna")
 
-            contexto= historias.values('TipoEstudio').annotate(cantidad=Count('TipoEstudio'))
+            contexto= historias.values('TipoEstudio__Nombre').annotate(cantidad=Count('TipoEstudio'))
 
             return render(request,self.template, {self.context_name:contexto,'fechainicial':f_ini, 'fechafinal': f_fin})
         return redirect (reverse_lazy("hcapp:Home-Reportes"))
@@ -692,7 +679,6 @@ class ReporteMedicos(View):
         if form.is_valid():
             f_ini=form.cleaned_data['Fecha_inicial']
             f_fin=form.cleaned_data['Fecha_final']
-            print(form.cleaned_data)
 
             if (f_ini != None) and (f_fin != None):
                 
@@ -706,7 +692,10 @@ class ReporteMedicos(View):
                 pedidos = Pedido.objects.all()
                 print("ninguna")
 
-            contexto= pedidos.values('Medico__Nombre','Medico__Apellido').annotate(cantidad=Count('Medico'))
+
+            historias= Historia.objects.filter(Pedido__in=pedidos)
+
+            contexto= historias.values('Pedido__Medico__Nombre','Pedido__Medico__Apellido').annotate(cantidad=Count('id'))
             #print( 'cantidad:'+str(contexto) )
 
 
@@ -730,10 +719,6 @@ class CrearMedico(generic.CreateView):
         ctx['medicos'] = medicos
         return ctx
 
-
-class DetalleMedico(generic.DetailView):
-    model=MedicoSolicitante
-    template_name = 'hcapp/detalle_medico.html'
 
 
 class ListaMedico(generic.ListView):

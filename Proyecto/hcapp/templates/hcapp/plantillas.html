@@ -1,0 +1,41 @@
+{% extends "hcapp/index.html" %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+<div class="col-md-9 col-xs-8 col-sm-6">
+        <div class="table-responsive" align="center">
+          <table class="table Contextual Classes" >
+                          <thead>
+                              <tr colspan="6" align="center"><center><h2><i class="fa fa-hospital-o" style="font-size:40px;color: red"></i> Registro plantillas</h2></center></tr>                       
+                            <tr>
+                                <th align="center"> id </th>
+                                <th align="center"> Nombre </th>
+                                <th align="center"> Fecha de creación </th>
+                                
+                            </tr>
+                          </thead>
+                              {% for plantilla in plantillas %}
+                          <tbody>
+                           <tr>                  
+                                <td class="success">
+                                   {{plantilla.pk}} 
+                                </td>
+
+                                <td class="info">
+                                   {{plantilla.NombreDoc}} 
+                                </td>
+
+                                <td class="danger">
+                                    {{plantilla.Fecha_creacion}} 
+                                </td>
+                                
+                                
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                    </table>                   
+                </div>
+            </div>
+
+{% endblock contenido %}
