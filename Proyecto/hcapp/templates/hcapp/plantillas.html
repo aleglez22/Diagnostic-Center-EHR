@@ -3,8 +3,44 @@
 
 {% block contenido %}
 
-<div class="col-md-9 col-xs-8 col-sm-6">
-        <div class="table-responsive" align="center">
+<div class="col-md-10 col-xs-8 col-sm-6">
+        
+            </div>
+
+            <div class="col-md-10 col-xs-8 col-sm-6">
+        
+            </div>
+
+            <span class="glyphicon glyphicon-question-sign" title="En esta página se pueden ver las plantillas creadas en el sistema y los nombres de los archivos actualmente disponibles en el servidor." > Ayuda</span>
+
+
+
+
+<div class="container">
+  <div class="col-md-5">
+   <div class="table-responsive" align="center">
+          <table class="table Contextual Classes" >
+                          <thead>
+                              <tr colspan="6" align="center"><center><h2><i class="glyphicon glyphicon-floppy-disk" style="font-size:40px;color: black"></i> Archivos</h2></center></tr>                       
+                            <tr>
+                                <th align="center"> Archivos .docx en servidor</th>
+                            </tr>
+                          </thead>
+                              {% for archivo in archivos %}
+                          <tbody>
+                           <tr>                  
+                                <td class="success">
+                                   {{archivo}} 
+                                </td>
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                    </table>                   
+                </div>
+    </form>
+  </div>
+  <div class="col-md-7">
+    <div class="table-responsive" align="center">
           <table class="table Contextual Classes" >
                           <thead>
                               <tr colspan="6" align="center"><center><h2><i class="fa fa-hospital-o" style="font-size:40px;color: red"></i> Registro plantillas</h2></center></tr>                       
@@ -36,6 +72,7 @@
                             {% endfor %}
                     </table>                   
                 </div>
-            </div>
+  </div>
+
 
 {% endblock contenido %}

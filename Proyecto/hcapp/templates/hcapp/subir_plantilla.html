@@ -5,26 +5,40 @@
 
 
 
-  
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 col-xs-4 col-sm-6" align="center">
+<div class="col-md-4">
+<div align="center">
+    <span class="glyphicon glyphicon-question-sign" title="En esta página se pueden subir archivos de plantillas(.docx). Para actualizar una plantilla ya subida, cerciórese de que existe en la lista de plantillas y suba nuevamente el archivo .docx actualizado con el nombre exactamente como se encuentra en la lista de archivos; el archivo será reemplazado en el servidor." > Ayuda</span>
+    <br><br><br>
+    
+  </div>
 
-        <form method="post" enctype="multipart/form-data">
+
+  <div align="center">
+    <button type="submit" class="btn btn-default " onclick="window.open ('{% url 'hcapp:Plantillas' %}')"> lista de plantillas </button>
+  </div>
+  
+
+</div>
+
+<div class="col-md-8">
+  
+    
+    <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="myfile" >
     <br>
     <button type="submit" class="btn btn-success btn-lg" >Subir</button>
   </form>
   <br>
-
   {% if uploaded_file_url %}
     <h5><p>Archivo subido en: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p></h5>
   {% endif %}
 
-        </div>
-        </div>
-        <button type="submit" class="btn btn-success btn-lg " onclick="window.open ('{% url 'hcapp:Plantillas' %}')"> lista de plantillas </button>
-        </div>
+
+
+</div>
+        
+
+  
 
 {% endblock contenido %}

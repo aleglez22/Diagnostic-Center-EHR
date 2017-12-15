@@ -391,6 +391,19 @@ class ListaPlantillas(generic.ListView):
     template_name = 'hcapp/plantillas.html'
     context_object_name='plantillas'
     model=m.Plantilla
+    archivos=[]
+    os.listdir
+    for archivo in os.listdir(settings.MEDIA_ROOT):
+        if archivo.endswith(".docx"):
+            archivos.append(archivo)
+    print (archivos)
+
+
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ListaPlantillas, self).get_context_data(**kwargs)
+        ctx['archivos'] = self.archivos
+        return ctx
 
 
 class FactoryHistoria():
