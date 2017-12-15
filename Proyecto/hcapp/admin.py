@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Paciente, Categoria, TipoEstudio, MedicoSolicitante, Pedido, Subcategoria
+from django.contrib.auth.admin import UserAdmin
 from. import models
 
 admin.site.register(models.Categoria)
@@ -12,8 +13,9 @@ admin.site.register(models.MedicoSolicitante)
 class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
     # Other stuff here
     #admin.site.register(models.Historia)
+    exclude= ('Permissions',)
 
-    def get_actions(self, request):
+    def get_actions(self, request) :
         #Disable delete
         actions = super(DeleteNotAllowedModelAdmin, self).get_actions(request)
         del actions['delete_selected']
@@ -76,3 +78,6 @@ admin.site.register(models.Historia, HistoriaModelAdmin)
 admin.site.register(models.Paciente, PacienteModelAdmin)
 admin.site.register(models.Pedido, PedidoModelAdmin)
 admin.site.register(models.Placa, PlacaModelAdmin)
+
+
+

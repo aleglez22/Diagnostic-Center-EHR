@@ -6,10 +6,7 @@ def verificar(cedulaRuc):
      num=len(cedulaRuc)
   array=cedulaRuc
 
-  ciudad = int(array[9]+array[8])*1
-
-
-
+  ciudad = int(array[0]+array[1])*1
   if (ciudad > 0 and ciudad<= 24):
     if (num==10 and cedulaRuc != 0000000000 and cedulaRuc != 2222222222 and cedulaRuc != 9999999999 ):
       total = 0
