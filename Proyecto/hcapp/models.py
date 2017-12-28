@@ -46,7 +46,7 @@ class MedicoSolicitante (models.Model):
 class Plantilla(models.Model):
     Fecha_creacion = models.DateField(auto_now=True)
     Campo = models.TextField()
-    Conclusion = models.CharField(max_length=200)
+    Conclusion = models.CharField(max_length=200, default="lo descrito")
     NombreDoc= models.CharField(max_length=200)
 
     def __str__(self):
@@ -98,7 +98,7 @@ class Historia(models.Model):
     Conclusion = models.CharField(max_length=200)  # charfield
 
     def __str__(self):
-        return ("hist: "+str(self.TipoEstudio))
+        return ("hist: "+str(self.pk)+" "+str(self.TipoEstudio))
 
 
 class Placa(models.Model):
