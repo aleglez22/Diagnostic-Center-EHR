@@ -48,7 +48,7 @@ class MyFileSystemStorage(FileSystemStorage):
         return name
 
 def UploadPlantilla(request):
-    if request.method == 'POST' and request.FILES['myfile']:
+    if request.method == 'POST' and request.FILES.get('myfile'):
         myfile = request.FILES['myfile']
         fs = MyFileSystemStorage()
         filename = fs.save(myfile.name, myfile)
