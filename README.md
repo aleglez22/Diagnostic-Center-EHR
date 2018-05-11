@@ -3,6 +3,7 @@
 An Electronic Health Record System for a Medical Diagnostic Center
 
 
+
 Functionalities:
 
 Record, retrieves, updates and deletes: patients, physicians, orders, medical histories, medical x-rays.
